@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "Lootly";
 	    config.width = 800;
 	    config.height = 480;
+	    config.samples = 8;
 		new LwjglApplication(new Lootly(), config);
 	}
 }

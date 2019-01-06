@@ -16,6 +16,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		this.game = game;
 		
 		//image loading
+		menuImage = new Texture(Gdx.files.internal("gui/main_menu_complete.png"));
 		
 		//audio loading
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
@@ -30,14 +31,19 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-
+		game.batch.begin();
+		game.batch.draw(menuImage, Math.round(Gdx.graphics.getHeight()/2 - menuImage.getHeight()/2), Math.round(Gdx.graphics.getHeight()/2 - menuImage.getHeight()/2));
+		game.batch.end();
+		
+		if (!menuMusic.isPlaying()) {
+			menuMusic.play();
+		}
+		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		game.viewport.update(width, height);
 	}
 
 	@Override
