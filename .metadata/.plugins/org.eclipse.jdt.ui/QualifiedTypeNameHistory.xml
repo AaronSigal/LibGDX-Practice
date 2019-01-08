@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.BitmapFont"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Color"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.utils.Array"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.Sprite"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.TextureAtlas"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.OrthographicCamera"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.physics.box2d.World"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.physics.box2d.Box2D"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.math.Vector2"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.math.Rectangle"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.utils.Scaling"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.Input.Keys"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.math.Vector3"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.audio.Sound"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.utils.TimeUtils"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.math.MathUtils"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.ApplicationListener"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.Game"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.InputProcessor"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.audio.Music"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Texture"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.Gdx"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.utils.viewport.Viewport"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Camera"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Texture.TextureFilter"/>
+</qualifiedTypeNameHistroy>

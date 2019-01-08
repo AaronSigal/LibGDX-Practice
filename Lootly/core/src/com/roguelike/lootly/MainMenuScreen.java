@@ -5,12 +5,15 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
 public class MainMenuScreen implements Screen, InputProcessor {	
 	final Lootly game;
 	
 	Music menuMusic;  //background music: http://freemusicarchive.org/music/Rolemusic/The_Black_Dot/The_Black_Kitty
 	Texture menuImage;//image for the class selection
+	float tw;
+	float th;
 	
 	public MainMenuScreen(final Lootly game) {
 		this.game = game;
@@ -20,19 +23,23 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		//audio loading
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
+		
+		tw = menuImage.getWidth();
+        th = menuImage.getHeight();
 	}
 
 	@Override
 	public void show() {
 		
 		menuMusic.play();
-
+		menuImage.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 	}
 
 	@Override
 	public void render(float delta) {
+		game.batch.setProjectionMatrix(game.camera.combined);
 		game.batch.begin();
-		game.batch.draw(menuImage, Math.round(Gdx.graphics.getHeight()/2 - menuImage.getHeight()/2), Math.round(Gdx.graphics.getHeight()/2 - menuImage.getHeight()/2));
+		game.batch.draw(menuImage, game.camera.position.x - (tw / 2), game.camera.position.y - (th / 2));
 		game.batch.end();
 		
 		if (!menuMusic.isPlaying()) {

@@ -43,8 +43,8 @@ public class Lootly extends Game {
 		
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		camera = new OrthographicCamera(800,480);
-		viewport = new ExtendViewport(800, 480, camera);
+		camera = new OrthographicCamera(1920,1080);
+		viewport = new ExtendViewport(1920,1080, camera);
 		this.setScreen(new MainMenuScreen(this));
 	}
 	
