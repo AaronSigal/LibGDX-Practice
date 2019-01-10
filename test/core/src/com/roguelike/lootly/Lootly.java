@@ -131,12 +131,15 @@ public class Lootly extends ApplicationAdapter {
         stepWorld();
         drawSprite("Fireball1", 0, 0);
         drawSprite("Fireball3", 100, 100);
-        //batch.draw(currentFrame, 100,100);
+        batch.draw(currentFrame, 100,100);
         batch.end();
         
         spriteBatch.begin();
-        spriteBatch.draw(currentFrame, posX,posY,
-        		posX,posY,posX,posY,1,1,orient);
+        spriteBatch.draw(currentFrame, posX,posY, //TextureRegion & X&Y coordinates
+        		0,0,	//Amount of texture drawn: X&Y start-points from bottom left
+        		16,16,	//Amount of texture drawn: Width & Height of texture amount drawn
+        		5,5,	//times scaled
+        		orient);//amount rotated from base (degrees)
         spriteBatch.end();
     }
 
