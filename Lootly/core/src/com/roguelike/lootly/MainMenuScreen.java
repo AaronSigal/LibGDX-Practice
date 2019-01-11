@@ -24,29 +24,57 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		stage = new Stage(game.viewport);
 		
-		//image loading
-		background = new Texture("gui/background.png");
 		
-		//audio loading
-		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
+		
+		
+		
+		
 	}
 
 	@Override
 	public void show() {
+		//audio loading
+		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
 		
+		Gdx.input.setInputProcessor(stage);
 		menuMusic.play();
+		
+		//image loading
+		background = new Texture("gui/background.png");
+		
+		classSpheres = new ActorClassSphere[10];
+		
+		//Actor instantiation
+		menuFrame = new ActorMainMenuFrame();
+		menuFrame.setScale(3f);
+		menuFrame.spritePos((stage.getWidth()/2 - menuFrame.getWidth()/2), (stage.getHeight()/2 - menuFrame.getHeight()/2));
+		
+		classSpheres[0] = new ActorClassSphere(Classes.ARCHER);
+		classSpheres[0].setScale(3f);
+		classSpheres[0].spritePos((stage.getWidth()/2 - menuFrame.getWidth()/2), (stage.getHeight()/2 - menuFrame.getHeight()/2));
+		
+		//Actor staging
+		stage.addActor(menuFrame);
+		stage.addActor(classSpheres[0]);
+		
+		System.out.println("Stage height: " + stage.getHeight() + "Stage width: " + stage.getWidth());
+		
 	}
 
 	@Override
 	public void render(float delta) {
+		game.batch.begin();
+		game.batch.draw(background, 0, 0); //background texture, native 1080p
+		
+		game.batch.end();
+		
 		stage.act(delta);
 		stage.draw();
 		
 		game.batch.setProjectionMatrix(game.camera.combined);
-		game.batch.begin();
-		game.batch.draw(background, 0, 0); //background texture, native 1080p
-		game.batch.end();
 		
+		
+		//if music isn't playing, start it.
 		if (!menuMusic.isPlaying()) {
 			menuMusic.play();
 		}
