@@ -5,18 +5,18 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.roguelike.lootly.gui.mainmenu.ActorClassSphere;
+import com.roguelike.lootly.gui.mainmenu.ActorMainMenuFrame;
 
 public class MainMenuScreen implements Screen, InputProcessor {	
 	final Lootly game;
 	private Stage stage;
+	private Texture background;
+	ActorMainMenuFrame menuFrame; //the image the spheres for class selection are superimposed upon
+	ActorClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
 	
 	Music menuMusic;  //background music: http://freemusicarchive.org/music/Rolemusic/The_Black_Dot/The_Black_Kitty
-	
-	float tw;
-	float th;
 	
 	//takes place of "void create()"
 	public MainMenuScreen(final Lootly game) {
@@ -25,7 +25,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		stage = new Stage(game.viewport);
 		
 		//image loading
-		
+		background = new Texture("gui/background.png");
 		
 		//audio loading
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
@@ -44,6 +44,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		game.batch.setProjectionMatrix(game.camera.combined);
 		game.batch.begin();
+		game.batch.draw(background, 0, 0); //background texture, native 1080p
 		game.batch.end();
 		
 		if (!menuMusic.isPlaying()) {
