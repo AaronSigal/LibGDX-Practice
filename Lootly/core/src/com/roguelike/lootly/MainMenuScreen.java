@@ -25,7 +25,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		stage = new Stage(game.viewport);
 	}
 	
-	public void initSpheres() {
+	public zvoid initSpheres() {
 		
 	}
 
