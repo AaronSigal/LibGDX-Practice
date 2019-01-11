@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Array;
 import com.roguelike.lootly.Classes;
 
 public class ActorClassSphere extends Actor {
@@ -21,6 +21,8 @@ public class ActorClassSphere extends Actor {
 		//the container for the current texture
 		Sprite sprite;
 		
+		static int clickX = 0, clickY = 0;
+		
 		// constructor
 		public ActorClassSphere(final Classes playerClass) {
 			// texture/sprite for the actor
@@ -31,11 +33,26 @@ public class ActorClassSphere extends Actor {
 			 
 			 //handle hover and click events
 			 addListener(new InputListener() {
-				  @Override
-				  public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-					Gdx.app.log("Class selection: ", playerClass.toString());
-					return true;
-				  }
+				 @Override
+				 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					 Gdx.app.log("Class selection: ", playerClass.toString());
+					 clickX = (int) getX();
+					 clickY = (int) getY();
+					 
+					 Array<Actor> actors = getStage().getActors();
+					 
+					 //for each actor in the current actor's stage
+					 for (Actor actor : actors) {
+						 
+						 //if the current actor being iterated over is an ActorClassSphere
+						 if (actor instanceof ActorClassSphere) {
+							 System.out.println("Clearing other selections");
+							 ((ActorClassSphere) actor).setGreenSprite();
+						 }
+					 }
+					 
+					 return true;
+				 }
 				  
 				  @Override
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -44,7 +61,8 @@ public class ActorClassSphere extends Actor {
 				  
 				  @Override
 				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  setGreenSprite();
+					 
+						  setGreenSprite();
 				  }
 				});
 			 

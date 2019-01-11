@@ -23,11 +23,9 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		this.game = game;
 		
 		stage = new Stage(game.viewport);
-		
-		
-		
-		
-		
+	}
+	
+	public void initSpheres() {
 		
 	}
 
@@ -47,16 +45,19 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		//Actor instantiation
 		menuFrame = new ActorMainMenuFrame();
 		menuFrame.setScale(3f);
-		menuFrame.spritePos((stage.getWidth()/2 - menuFrame.getWidth()/2), (stage.getHeight()/2 - menuFrame.getHeight()/2));
+		menuFrame.setOrigin(menuFrame.getWidth()/2, menuFrame.getHeight()/2);
+		menuFrame.spritePos(Gdx.graphics.getWidth()/2 - menuFrame.getWidth()/2, 
+				Gdx.graphics.getHeight()/2 - menuFrame.getHeight()/2);
 		
 		classSpheres[0] = new ActorClassSphere(Classes.ARCHER);
 		classSpheres[0].setScale(3f);
-		classSpheres[0].spritePos((stage.getWidth()/2 - menuFrame.getWidth()/2), (stage.getHeight()/2 - menuFrame.getHeight()/2));
+		classSpheres[0].setOrigin(classSpheres[0].getWidth()/2, classSpheres[0].getHeight()/2);
+		classSpheres[0].spritePos(Gdx.graphics.getWidth()/2 - classSpheres[0].getWidth()/2, 
+				Gdx.graphics.getHeight()/2 - classSpheres[0].getHeight()/2);
 		
 		//Actor staging
 		stage.addActor(menuFrame);
 		stage.addActor(classSpheres[0]);
-		
 		System.out.println("Stage height: " + stage.getHeight() + "Stage width: " + stage.getWidth());
 		
 	}
@@ -65,7 +66,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public void render(float delta) {
 		game.batch.begin();
 		game.batch.draw(background, 0, 0); //background texture, native 1080p
-		
 		game.batch.end();
 		
 		stage.act(delta);
