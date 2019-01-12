@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Array;
 import com.roguelike.lootly.Classes;
 
 public class ActorClassSphere extends Actor {
+	
+		Classes playerClass = Classes.ROGUE;
 		
 		//Textures
 		final Texture orangeBall = new Texture("gui/ball_orange.png");
@@ -23,8 +25,55 @@ public class ActorClassSphere extends Actor {
 		
 		static int clickX = 0, clickY = 0;
 		
+		public ActorClassSphere() {
+			// texture/sprite for the actor
+			sprite = new Sprite(greenBall);
+			
+			//sets the bounds of the actor to enable hit detection.
+			 setBounds(sprite.getRegionX(), sprite.getRegionY(), sprite.getRegionWidth(), sprite.getRegionHeight());
+			 
+			 //handle hover and click events
+			 addListener(new InputListener() {
+				 @Override
+				 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					 //Gdx.app.log("Class selection: ", playerClass.toString());
+					 clickX = (int) getX();
+					 clickY = (int) getY();
+					 
+					 Array<Actor> actors = getStage().getActors();
+					 
+					 //for each actor in the current actor's stage
+					 for (Actor actor : actors) {
+						 
+						 //if the current actor being iterated over is an ActorClassSphere
+						 if (actor instanceof ActorClassSphere) {
+							 System.out.println("Clearing other selections");
+							 ((ActorClassSphere) actor).setGreenSprite();
+						 }
+					 }
+					 
+					 return true;
+				 }
+				  
+				  @Override
+				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					  setOrangeSprite();
+				  }
+				  
+				  @Override
+				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					 setGreenSprite();
+				  }
+				});
+			 
+			 //make sure it is touchable
+			 setTouchable(Touchable.enabled);
+		}
+		
 		// constructor
 		public ActorClassSphere(final Classes playerClass) {
+			this.playerClass = playerClass;
+			
 			// texture/sprite for the actor
 			sprite = new Sprite(greenBall);
 			
@@ -51,18 +100,20 @@ public class ActorClassSphere extends Actor {
 						 }
 					 }
 					 
+					 setOrangeSprite();
+					 
 					 return true;
 				 }
 				  
 				  @Override
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  setOrangeSprite();
+					  
 				  }
 				  
 				  @Override
 				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					 
-						  setGreenSprite();
+						  //setGreenSprite();
 				  }
 				});
 			 
@@ -93,7 +144,25 @@ public class ActorClassSphere extends Actor {
 		public void spritePos(float x, float y){
 			sprite.setPosition(x, y);
 			setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
-		  }
+		}
+
+		public Classes getPlayerClass() {
+			return playerClass;
+		}
+
+		public void setPlayerClass(Classes playerClass) {
+			this.playerClass = playerClass;
+		}
+
+		public Sprite getSprite() {
+			return sprite;
+		}
+
+		public void setSprite(Sprite sprite) {
+			this.sprite = sprite;
+		}
+		
+		
 		
 		
 }

@@ -25,12 +25,20 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		stage = new Stage(game.viewport);
 	}
 	
-	public zvoid initSpheres() {
+	public void initSpheres() {
+		classSpheres = new ActorClassSphere[10];
 		
+		for (ActorClassSphere classSphere : classSpheres) {
+			classSphere = new ActorClassSphere(Classes.MAGE);
+		}
 	}
 
 	@Override
 	public void show() {
+		
+		//initialize spheres to avoid a null-pointer. By default they all select mage.
+		initSpheres();
+		
 		//audio loading
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
 		
@@ -39,8 +47,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		//image loading
 		background = new Texture("gui/background.png");
-		
-		classSpheres = new ActorClassSphere[10];
 		
 		//Actor instantiation
 		menuFrame = new ActorMainMenuFrame();
@@ -55,9 +61,15 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		classSpheres[0].spritePos(Gdx.graphics.getWidth()/2 - classSpheres[0].getWidth()/2, 
 				Gdx.graphics.getHeight()/2 - classSpheres[0].getHeight()/2);
 		
+		classSpheres[1] = new ActorClassSphere(Classes.WARRIOR);
+		classSpheres[1].setScale(3f);
+		classSpheres[1].setOrigin(classSpheres[1].getWidth()/2, classSpheres[1].getHeight()/2);
+		classSpheres[1].spritePos(300,300);
+		
 		//Actor staging
 		stage.addActor(menuFrame);
 		stage.addActor(classSpheres[0]);
+		stage.addActor(classSpheres[1]);
 		System.out.println("Stage height: " + stage.getHeight() + "Stage width: " + stage.getWidth());
 		
 	}
