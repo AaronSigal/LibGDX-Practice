@@ -56,13 +56,13 @@ public class MainMenuScreen implements Screen, InputProcessor {
 				Gdx.graphics.getHeight()/2 - menuFrame.getHeight()/2);
 		
 		classSpheres[0] = new ActorClassSphere(Classes.ARCHER);
-		classSpheres[0].setScale(3f);
+		//classSpheres[0].setScale(3f);
 		classSpheres[0].setOrigin(classSpheres[0].getWidth()/2, classSpheres[0].getHeight()/2);
 		classSpheres[0].spritePos(Gdx.graphics.getWidth()/2 - classSpheres[0].getWidth()/2, 
 				Gdx.graphics.getHeight()/2 - classSpheres[0].getHeight()/2);
 		
 		classSpheres[1] = new ActorClassSphere(Classes.WARRIOR);
-		classSpheres[1].setScale(3f);
+		//classSpheres[1].setScale(3f);
 		classSpheres[1].setOrigin(classSpheres[1].getWidth()/2, classSpheres[1].getHeight()/2);
 		classSpheres[1].spritePos(300,300);
 		

@@ -23,52 +23,6 @@ public class ActorClassSphere extends Actor {
 		//the container for the current texture
 		Sprite sprite;
 		
-		static int clickX = 0, clickY = 0;
-		
-		public ActorClassSphere() {
-			// texture/sprite for the actor
-			sprite = new Sprite(greenBall);
-			
-			//sets the bounds of the actor to enable hit detection.
-			 setBounds(sprite.getRegionX(), sprite.getRegionY(), sprite.getRegionWidth(), sprite.getRegionHeight());
-			 
-			 //handle hover and click events
-			 addListener(new InputListener() {
-				 @Override
-				 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-					 //Gdx.app.log("Class selection: ", playerClass.toString());
-					 clickX = (int) getX();
-					 clickY = (int) getY();
-					 
-					 Array<Actor> actors = getStage().getActors();
-					 
-					 //for each actor in the current actor's stage
-					 for (Actor actor : actors) {
-						 
-						 //if the current actor being iterated over is an ActorClassSphere
-						 if (actor instanceof ActorClassSphere) {
-							 System.out.println("Clearing other selections");
-							 ((ActorClassSphere) actor).setGreenSprite();
-						 }
-					 }
-					 
-					 return true;
-				 }
-				  
-				  @Override
-				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  setOrangeSprite();
-				  }
-				  
-				  @Override
-				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					 setGreenSprite();
-				  }
-				});
-			 
-			 //make sure it is touchable
-			 setTouchable(Touchable.enabled);
-		}
 		
 		// constructor
 		public ActorClassSphere(final Classes playerClass) {
@@ -85,8 +39,8 @@ public class ActorClassSphere extends Actor {
 				 @Override
 				 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					 Gdx.app.log("Class selection: ", playerClass.toString());
-					 clickX = (int) getX();
-					 clickY = (int) getY();
+					 
+					 setScale(3f);
 					 
 					 Array<Actor> actors = getStage().getActors();
 					 
@@ -107,13 +61,13 @@ public class ActorClassSphere extends Actor {
 				  
 				  @Override
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  
+					  setScale((5f));
 				  }
 				  
 				  @Override
 				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					 
-						  //setGreenSprite();
+						 setScale(3f);
+					  
 				  }
 				});
 			 
