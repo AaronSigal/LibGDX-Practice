@@ -14,11 +14,19 @@ import com.roguelike.lootly.Classes;
 
 public class ActorClassSphere extends Actor {
 	
+	/* TODO:
+	 * Make the sprite stay inflated when clicked
+	 */
+	
 		Classes playerClass = Classes.ROGUE;
 		
 		//Textures
 		final Texture orangeBall = new Texture("gui/ball_orange.png");
 		final Texture greenBall = new Texture("gui/ball_green.png");
+		final float originalScale = 3f; // the original scale that the sprite should be set to
+		final float largeScale = 8f; //    the scale that the sprite should inflate to when hovered over
+		
+		boolean isClicked = false;
 		
 		//the container for the current texture
 		Sprite sprite;
@@ -28,8 +36,13 @@ public class ActorClassSphere extends Actor {
 		public ActorClassSphere(final Classes playerClass) {
 			this.playerClass = playerClass;
 			
+			
+			
 			// texture/sprite for the actor
 			sprite = new Sprite(greenBall);
+			
+			//base scale. Setting the scale in the constructor is fine since this element will likely not be re-used. 
+			 this.setScale(originalScale);
 			
 			//sets the bounds of the actor to enable hit detection.
 			 setBounds(sprite.getRegionX(), sprite.getRegionY(), sprite.getRegionWidth(), sprite.getRegionHeight());
@@ -40,8 +53,7 @@ public class ActorClassSphere extends Actor {
 				 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					 Gdx.app.log("Class selection: ", playerClass.toString());
 					 
-					 setScale(3f);
-					 
+					 //fetch all the other actors in this actor's stage
 					 Array<Actor> actors = getStage().getActors();
 					 
 					 //for each actor in the current actor's stage
@@ -50,23 +62,30 @@ public class ActorClassSphere extends Actor {
 						 //if the current actor being iterated over is an ActorClassSphere
 						 if (actor instanceof ActorClassSphere) {
 							 System.out.println("Clearing other selections");
-							 ((ActorClassSphere) actor).setGreenSprite();
+							 ((ActorClassSphere) actor).setClicked(false);
 						 }
 					 }
 					 
-					 setOrangeSprite();
+					 
+					 setClicked(true);
 					 
 					 return true;
 				 }
 				  
 				  @Override
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  setScale((5f));
+					  setScale((largeScale));
 				  }
 				  
 				  @Override
 				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-						 setScale(3f);
+					  if (isClicked) {
+						  setScale(largeScale);
+					  } else {
+						  setScale(originalScale);
+					  }
+					  
+						 
 					  
 				  }
 				});
@@ -90,6 +109,9 @@ public class ActorClassSphere extends Actor {
 		@Override
 		public void draw (Batch batch, float parentAlpha) {
 			Color color = getColor();
+			if (isClicked()) {
+				setScale(largeScale);
+			}
 			batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 			batch.draw(sprite, getX(), getY(), getOriginX(), getOriginY(),
 				getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
@@ -115,6 +137,26 @@ public class ActorClassSphere extends Actor {
 		public void setSprite(Sprite sprite) {
 			this.sprite = sprite;
 		}
+
+		public boolean isClicked() {
+			return isClicked;
+		}
+
+		//when the button is set to unclicked, automatically change back to a green sprite. When clicked, automatically change to clicked.
+		public void setClicked(boolean isClicked) {
+			if (isClicked) {
+				this.isClicked = isClicked;
+				setOrangeSprite();
+				setScale(largeScale);
+			} else {
+				this.isClicked = isClicked;
+				setGreenSprite();
+				setScale(originalScale);
+			}
+			
+			
+		}
+		
 		
 		
 		
