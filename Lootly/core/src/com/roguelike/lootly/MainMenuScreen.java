@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.roguelike.lootly.gui.mainmenu.ActorClassSphere;
 import com.roguelike.lootly.gui.mainmenu.ActorMainMenuFrame;
@@ -40,17 +41,25 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	
 	//Sphere coordinates: (127,18) (191, 39) (234, 102) (234, 154) (191, 217) (127, 238) (63, 217) (20, 154) (20, 102) (63, 39) (127, 128)
 	public void setSphereLocations() {
-		classSpheres[0].spritePos((127 * mainMenuScale), (18 * mainMenuScale));
-		classSpheres[1].spritePos(191 * mainMenuScale, 39 * mainMenuScale);
-		classSpheres[2].spritePos(234 * mainMenuScale, 102 * mainMenuScale);
-		classSpheres[3].spritePos(234 * mainMenuScale, 154 * mainMenuScale);
-		classSpheres[4].spritePos(191 * mainMenuScale, 217 * mainMenuScale);
-		classSpheres[5].spritePos(127 * mainMenuScale, 238 * mainMenuScale);
-		classSpheres[6].spritePos(63 * mainMenuScale, 217 * mainMenuScale);
-		classSpheres[7].spritePos(20 * mainMenuScale, 154 * mainMenuScale);
-		classSpheres[8].spritePos(20 * mainMenuScale, 102 * mainMenuScale);
-		classSpheres[9].spritePos(63 * mainMenuScale, 39 * mainMenuScale);
-		classSpheres[10].spritePos(127 * mainMenuScale, 128 * mainMenuScale);
+		
+		Vector2[] sphereCoords = new Vector2[classSpheres.length];
+		
+		sphereCoords[0] = menuFrame.localToScreenCoordinates(new Vector2(127, 18));
+		sphereCoords[1] = menuFrame.localToScreenCoordinates(new Vector2(191, 39));
+		sphereCoords[2] = menuFrame.localToScreenCoordinates(new Vector2(234, 102));
+		sphereCoords[3] = menuFrame.localToScreenCoordinates(new Vector2(234, 154));
+		sphereCoords[4] = menuFrame.localToScreenCoordinates(new Vector2(191, 217));
+		sphereCoords[5] = menuFrame.localToScreenCoordinates(new Vector2(127, 238));
+		sphereCoords[6] = menuFrame.localToScreenCoordinates(new Vector2(63, 217));
+		sphereCoords[7] = menuFrame.localToScreenCoordinates(new Vector2(20, 154));
+		sphereCoords[8] = menuFrame.localToScreenCoordinates(new Vector2(20, 102));
+		sphereCoords[9] = menuFrame.localToScreenCoordinates(new Vector2(63, 39));
+		sphereCoords[10] = menuFrame.localToScreenCoordinates(new Vector2(127, 128));
+		
+		for (int i = 0; i < sphereCoords.length; i++) {
+			classSpheres[i].spritePos(sphereCoords[i].x, sphereCoords[i].y);
+		}
+		
 	}
 
 	@Override
@@ -82,9 +91,9 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		stage.addActor(menuFrame);
 		
+		//add all the spheres to the stage
 		for (int i = 0; i < classSpheres.length; i++) {
 			stage.addActor(classSpheres[i]);
-
 		}
 	
 		setSphereLocations();

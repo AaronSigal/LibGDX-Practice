@@ -13,15 +13,15 @@ public class ActorMainMenuFrame extends Actor {
 			
 			
 			//the container for the current texture
-			Sprite sprite;
+			private Sprite sprite;
 			
 			// constructor
 			public ActorMainMenuFrame() {
 				// texture/sprite for the actor
-				sprite = new Sprite(menuFrame);
+				setSprite(new Sprite(menuFrame));
 				
 				//sets the bounds of the actor to enable hit detection.
-				 setBounds(sprite.getRegionX(), sprite.getRegionY(), sprite.getRegionWidth(), sprite.getRegionHeight());	
+				 setBounds(getSprite().getRegionX(), getSprite().getRegionY(), getSprite().getRegionWidth(), getSprite().getRegionHeight());	
 			}
 			
 			//method that draws the actor
@@ -29,12 +29,20 @@ public class ActorMainMenuFrame extends Actor {
 			public void draw (Batch batch, float parentAlpha) {
 				Color color = getColor();
 				batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-				batch.draw(sprite, getX(), getY(), getOriginX(), getOriginY(),
+				batch.draw(getSprite(), getX(), getY(), getOriginX(), getOriginY(),
 					getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 			}
 			
 			public void spritePos(float x, float y){
-				sprite.setPosition(x, y);
-				setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+				getSprite().setPosition(x, y);
+				setBounds(getSprite().getX(), getSprite().getY(), getSprite().getWidth(), getSprite().getHeight());
 			  }
+
+			public Sprite getSprite() {
+				return sprite;
+			}
+
+			public void setSprite(Sprite sprite) {
+				this.sprite = sprite;
+			}
 }
