@@ -16,6 +16,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	ActorMainMenuFrame menuFrame; //the image the spheres for class selection are superimposed upon
 	ActorClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
 	
+	final float mainMenuScale = 3f;
+	
 	Music menuMusic;  //background music: http://freemusicarchive.org/music/Rolemusic/The_Black_Dot/The_Black_Kitty
 	
 	//takes place of "void create()"
@@ -25,19 +27,18 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		stage = new Stage(game.viewport);
 	}
 	
+	//initializes all the class spheres.
 	public void initSpheres() {
-		classSpheres = new ActorClassSphere[10];
 		
-		for (ActorClassSphere classSphere : classSpheres) {
-			classSphere = new ActorClassSphere(Classes.MAGE);
+		classSpheres = new ActorClassSphere[11];
+		
+		for (int i = 0; i < classSpheres.length; i++) {
+			classSpheres[i] = new ActorClassSphere(Classes.values()[i]);
 		}
 	}
 
 	@Override
 	public void show() {
-		
-		//initialize spheres to avoid a null-pointer. By default they all select mage.
-		initSpheres();
 		
 		//audio loading
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
@@ -49,25 +50,25 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		background = new Texture("gui/background.png");
 		
 		//Actor instantiation
-		menuFrame = new ActorMainMenuFrame();
-		menuFrame.setScale(3f);
-		menuFrame.setOrigin(menuFrame.getWidth()/2, menuFrame.getHeight()/2);
-		menuFrame.spritePos(Gdx.graphics.getWidth()/2 - menuFrame.getWidth()/2, 
-				Gdx.graphics.getHeight()/2 - menuFrame.getHeight()/2);
 		
-		classSpheres[0] = new ActorClassSphere(Classes.ARCHER);
-		classSpheres[0].setOrigin(classSpheres[0].getWidth()/2, classSpheres[0].getHeight()/2);
-		classSpheres[0].spritePos(Gdx.graphics.getWidth()/2 - classSpheres[0].getWidth()/2, 
-				Gdx.graphics.getHeight()/2 - classSpheres[0].getHeight()/2);
+		//******************************** menu frame ****************************
+		menuFrame = new ActorMainMenuFrame();                                  //*
+		menuFrame.setScale(mainMenuScale);	                                               //*
+		menuFrame.setOrigin(menuFrame.getWidth()/2, menuFrame.getHeight()/2);  //*
+		menuFrame.spritePos(Gdx.graphics.getWidth()/2 - menuFrame.getWidth()/2,/**/ 
+				Gdx.graphics.getHeight()/2 - menuFrame.getHeight()/2);         //*
+		//************************************************************************
 		
-		classSpheres[1] = new ActorClassSphere(Classes.WARRIOR);
-		classSpheres[1].setOrigin(classSpheres[1].getWidth()/2, classSpheres[1].getHeight()/2);
-		classSpheres[1].spritePos(300,300);
+		initSpheres();
+		
 		
 		//Actor staging
+		
+		//Sphere coordinates: (127,18) (191, 39) (234, 102) (234, 154) (191, 217) (127, 238) (63, 217) (20, 154) (20, 102) (63, 39) (127, 128)
+		
 		stage.addActor(menuFrame);
 		stage.addActor(classSpheres[0]);
-		stage.addActor(classSpheres[1]);
+		//stage.addActor(classSpheres[1]);
 		System.out.println("Stage height: " + stage.getHeight() + "Stage width: " + stage.getWidth());
 		
 	}

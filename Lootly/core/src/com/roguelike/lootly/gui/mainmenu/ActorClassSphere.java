@@ -18,7 +18,7 @@ public class ActorClassSphere extends Actor {
 	 * Make the sprite stay inflated when clicked
 	 */
 	
-		Classes playerClass = Classes.ROGUE;
+		Classes playerClass = Classes.values()[0];
 		
 		//Textures
 		final Texture orangeBall = new Texture("gui/ball_orange.png");
@@ -34,9 +34,12 @@ public class ActorClassSphere extends Actor {
 		
 		// constructor
 		public ActorClassSphere(final Classes playerClass) {
-			this.playerClass = playerClass;
 			
-			
+			if (playerClass != null) {
+				this.playerClass = playerClass;
+			} else {
+				System.out.println("Class sphere was created with NULL as its class. Defaulting to " + this.playerClass.toString());
+			}
 			
 			// texture/sprite for the actor
 			sprite = new Sprite(greenBall);
@@ -142,7 +145,7 @@ public class ActorClassSphere extends Actor {
 			return isClicked;
 		}
 
-		//when the button is set to unclicked, automatically change back to a green sprite. When clicked, automatically change to clicked.
+		//when the button is set to un-clicked, automatically change back to a green sprite at original scale. When clicked, automatically change to orange at expanded scale.
 		public void setClicked(boolean isClicked) {
 			if (isClicked) {
 				this.isClicked = isClicked;
@@ -153,8 +156,6 @@ public class ActorClassSphere extends Actor {
 				setGreenSprite();
 				setScale(originalScale);
 			}
-			
-			
 		}
 		
 		
