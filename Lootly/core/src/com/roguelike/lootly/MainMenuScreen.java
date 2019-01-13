@@ -34,7 +34,23 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		for (int i = 0; i < classSpheres.length; i++) {
 			classSpheres[i] = new ActorClassSphere(Classes.values()[i]);
+			classSpheres[i].setOrigin(classSpheres[i].getWidth()/2, classSpheres[i].getHeight()/2);
 		}
+	}
+	
+	//Sphere coordinates: (127,18) (191, 39) (234, 102) (234, 154) (191, 217) (127, 238) (63, 217) (20, 154) (20, 102) (63, 39) (127, 128)
+	public void setSphereLocations() {
+		classSpheres[0].spritePos((127 * mainMenuScale), (18 * mainMenuScale));
+		classSpheres[1].spritePos(191 * mainMenuScale, 39 * mainMenuScale);
+		classSpheres[2].spritePos(234 * mainMenuScale, 102 * mainMenuScale);
+		classSpheres[3].spritePos(234 * mainMenuScale, 154 * mainMenuScale);
+		classSpheres[4].spritePos(191 * mainMenuScale, 217 * mainMenuScale);
+		classSpheres[5].spritePos(127 * mainMenuScale, 238 * mainMenuScale);
+		classSpheres[6].spritePos(63 * mainMenuScale, 217 * mainMenuScale);
+		classSpheres[7].spritePos(20 * mainMenuScale, 154 * mainMenuScale);
+		classSpheres[8].spritePos(20 * mainMenuScale, 102 * mainMenuScale);
+		classSpheres[9].spritePos(63 * mainMenuScale, 39 * mainMenuScale);
+		classSpheres[10].spritePos(127 * mainMenuScale, 128 * mainMenuScale);
 	}
 
 	@Override
@@ -64,12 +80,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		//Actor staging
 		
-		//Sphere coordinates: (127,18) (191, 39) (234, 102) (234, 154) (191, 217) (127, 238) (63, 217) (20, 154) (20, 102) (63, 39) (127, 128)
-		
 		stage.addActor(menuFrame);
-		stage.addActor(classSpheres[0]);
-		//stage.addActor(classSpheres[1]);
-		System.out.println("Stage height: " + stage.getHeight() + "Stage width: " + stage.getWidth());
+		
+		for (int i = 0; i < classSpheres.length; i++) {
+			stage.addActor(classSpheres[i]);
+
+		}
+	
+		setSphereLocations();
 		
 	}
 
