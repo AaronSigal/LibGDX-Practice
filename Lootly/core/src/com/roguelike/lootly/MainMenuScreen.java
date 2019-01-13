@@ -37,6 +37,9 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		for (int i = 0; i < classSpheres.length; i++) {
 			classSpheres[i] = new ActorClassSphere(Classes.values()[i]);
 			classSpheres[i].setOrigin(classSpheres[i].getWidth()/2, classSpheres[i].getHeight()/2);
+			if (i % 2 == 0) {
+				classSpheres[i].setEnabled(false);
+			}
 		}
 	}
 	
