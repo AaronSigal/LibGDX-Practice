@@ -64,7 +64,7 @@ public class ActorClassSphere extends Actor {
 						 
 						 //if the current actor being iterated over is an ActorClassSphere
 						 if (actor instanceof ActorClassSphere) {
-							 System.out.println("Clearing other selections");
+							 //System.out.println("Clearing other selections");
 							 ((ActorClassSphere) actor).setClicked(false);
 						 }
 					 }
