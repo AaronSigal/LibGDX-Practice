@@ -1,5 +1,6 @@
 package com.roguelike.lootly;
 
+//enum for character classes.
 public enum Classes {
 	PH5,
 	WARRIOR,

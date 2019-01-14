@@ -3,9 +3,10 @@ package com.roguelike.lootly;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class CharacterClass {
+//For handling all the character-class specific functions that will likely need to be called in more than one class, and for more than one reason.
+public class CharacterClassManager {
 	
-	
+	//returns the sprite for a specific class. Will be expanded upon later as the design specs for character sprites are finalized.
 	public static Sprite getClassSprite(Classes characterClass) {
 		Sprite sprite = null;
 		
@@ -16,6 +17,7 @@ public class CharacterClass {
 			break;
 			case ROGUE:
 				sprite = new Sprite(new Texture("character/rogue/rogue_idle_down.png"));
+				break;
 			default:
 				sprite = new Sprite(new Texture("character/crusader/crusader_idle_down.png"));
 				break;

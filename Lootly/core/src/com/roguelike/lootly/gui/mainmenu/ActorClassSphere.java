@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
-import com.roguelike.lootly.CharacterClass;
+import com.roguelike.lootly.CharacterClassManager;
 import com.roguelike.lootly.Classes;
 
 public class ActorClassSphere extends Actor {
@@ -44,7 +44,7 @@ public class ActorClassSphere extends Actor {
 			}
 			
 			//fetch the sprite for the character that the sphere represents
-			classSprite = CharacterClass.getClassSprite(playerClass);
+			classSprite = CharacterClassManager.getClassSprite(playerClass);
 			
 			
 			//base scale. Setting the scale in the constructor is fine since this element will likely not be re-used. 
