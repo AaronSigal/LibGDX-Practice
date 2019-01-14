@@ -14,20 +14,22 @@ import com.roguelike.lootly.Classes;
 
 public class ActorClassSphere extends Actor {
 	
+		//default character class.
 		Classes playerClass = Classes.values()[0];
 		
 		//Textures
 		final Texture orangeBall = new Texture("gui/ball_orange.png");
 		final Texture greenBall = new Texture("gui/ball_green.png");
 		final Texture greyBall = new Texture("gui/ball_grey.png");
-		final float originalScale = 3f; // the original scale that the sprite should be set to
-		final float largeScale = 8f; //    the scale that the sprite should inflate to when hovered over
+		final float originalScale = 3f; // the original scale that the sphereSprite should be set to
+		final float largeScale = 8f; //    the scale that the sphereSprite should inflate to when hovered over
 		
 		private boolean clicked = false;
 		private boolean enabled = true;
 		
-		//the container for the current texture
-		Sprite sprite = new Sprite(greenBall);
+		//the container for the current textures
+		Sprite sphereSprite = new Sprite(greenBall);
+		Sprite classSprite;
 		
 		
 		// constructor
@@ -44,14 +46,14 @@ public class ActorClassSphere extends Actor {
 			 this.setScale(originalScale);
 			
 			//sets the bounds of the actor to enable hit detection.
-			 setBounds(sprite.getRegionX(), sprite.getRegionY(), sprite.getRegionWidth(), sprite.getRegionHeight());
+			 setBounds(sphereSprite.getRegionX(), sphereSprite.getRegionY(), sphereSprite.getRegionWidth(), sphereSprite.getRegionHeight());
 			 
 			 //handle hover and click events
 			 addListener(new InputListener() {
 				 @Override
 				 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					 
-					 if (enabled == true) {
+					 if (enabled) {
 						 Gdx.app.log("Class selection: ", playerClass.toString());
 						 
 						 //fetch all the other actors in this actor's stage
@@ -62,6 +64,7 @@ public class ActorClassSphere extends Actor {
 							 
 							 //if the current actor being iterated over is an ActorClassSphere
 							 if (actor instanceof ActorClassSphere) {
+								 if (((ActorClassSphere) actor).isEnabled())
 								 //System.out.println("Clearing other selections");
 								 ((ActorClassSphere) actor).setClicked(false);
 							 }
@@ -69,8 +72,6 @@ public class ActorClassSphere extends Actor {
 						 
 						 
 						 setClicked(true); 
-					 } else {
-						 setGreySprite();
 					 }
 					 
 					 
@@ -80,7 +81,7 @@ public class ActorClassSphere extends Actor {
 				  
 				  @Override
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  if (enabled == true) {
+					  if (enabled) {
 						  setScale((largeScale)); 
 					  } else {
 						  setScale(originalScale);
@@ -90,7 +91,7 @@ public class ActorClassSphere extends Actor {
 				  
 				  @Override
 				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  if (enabled == true) {
+					  if (enabled) {
 						  if (clicked) {
 							  setScale(largeScale);
 						  } else {
@@ -109,18 +110,18 @@ public class ActorClassSphere extends Actor {
 			
 		}
 		
-		//change the actor to show an orange sprite
-		public void setOrangeSprite() {
-			sprite = new Sprite(orangeBall);
+		//change the actor to show an orange sphereSprite
+		public void setOrangesphereSprite() {
+			sphereSprite = new Sprite(orangeBall);
 		}
 		
-		//change the actor to show a green sprite
-		public void setGreenSprite() {
-			sprite  = new Sprite(greenBall);
+		//change the actor to show a green sphereSprite
+		public void setGreensphereSprite() {
+			sphereSprite  = new Sprite(greenBall);
 		}
 		
-		public void setGreySprite() {
-			sprite = new Sprite(greyBall);
+		public void setGreysphereSprite() {
+			sphereSprite = new Sprite(greyBall);
 		}
 		
 		//method that draws the actor
@@ -128,13 +129,13 @@ public class ActorClassSphere extends Actor {
 		public void draw (Batch batch, float parentAlpha) {
 			Color color = getColor();
 			batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-			batch.draw(sprite, getX(), getY(), getOriginX(), getOriginY(),
+			batch.draw(sphereSprite, getX(), getY(), getOriginX(), getOriginY(),
 				getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 		}
 		
-		public void spritePos(float x, float y){
-			sprite.setPosition(x, y);
-			setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
+		public void sphereSpritePos(float x, float y){
+			sphereSprite.setPosition(x, y);
+			setBounds(sphereSprite.getX(), sphereSprite.getY(), sphereSprite.getWidth(), sphereSprite.getHeight());
 		}
 
 		public Classes getPlayerClass() {
@@ -145,32 +146,32 @@ public class ActorClassSphere extends Actor {
 			this.playerClass = playerClass;
 		}
 
-		public Sprite getSprite() {
-			return sprite;
+		public Sprite getsphereSprite() {
+			return sphereSprite;
 		}
 
-		public void setSprite(Sprite sprite) {
-			this.sprite = sprite;
+		public void setsphereSprite(Sprite sphereSprite) {
+			this.sphereSprite = sphereSprite;
 		}
 
 		public boolean isClicked() {
 			return clicked;
 		}
 
-		//when the button is set to un-clicked, automatically change back to a green sprite at original scale. When clicked, automatically change to orange at expanded scale.
+		//when the button is set to un-clicked, automatically change back to a green sphereSprite at original scale. When clicked, automatically change to orange at expanded scale.
 		public void setClicked(boolean clicked) {
 			if (enabled) {
 				if (clicked) {
 					this.clicked = clicked;
-					setOrangeSprite();
+					setOrangesphereSprite();
 					setScale(largeScale);
 				} else {
 					this.clicked = clicked;
-					setGreenSprite();
+					setGreensphereSprite();
 					setScale(originalScale);
 				}
 			} else {
-				setGreySprite();
+				setGreysphereSprite();
 			}
 		}
 
@@ -178,20 +179,38 @@ public class ActorClassSphere extends Actor {
 			return enabled;
 		}
 
+		//CLEAR
 		public void setEnabled(boolean enabled) {
-			if (enabled == true) {
-				setGreenSprite();
+			if (enabled) {
+				setGreensphereSprite();
 				setTouchable(Touchable.enabled);
+				this.enabled = enabled;
 			} else {
-				setGreySprite();
+				setGreysphereSprite();
 				setTouchable(Touchable.disabled);
+				this.enabled = enabled;
 			}
 		}
 		
-		
-		
-		
-		
-		
+		public Sprite getClassSprite() {
+			return classSprite;
+		}
+
+		public void setClassSprite(Sprite classSprite) {
+			this.classSprite = classSprite;
+		}
+
+		public float getOriginalScale() {
+			return originalScale;
+		}
+
+		public float getLargeScale() {
+			return largeScale;
+		}
+
+		// display name of the class held in the sphere centered below the sphere when "isEnabled()" is true and either "isClicked()" is true of the mouse is hovering.
+		public void displayClassName() {
+			
+		}
 		
 }

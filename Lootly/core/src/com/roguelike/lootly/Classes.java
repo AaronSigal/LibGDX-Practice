@@ -1,6 +1,7 @@
 package com.roguelike.lootly;
 
 public enum Classes {
+	PH5,
 	WARRIOR,
 	CRUSADER,
 	PRIEST,
@@ -10,6 +11,5 @@ public enum Classes {
 	ROGUE,
 	PH3,
 	MAGE,
-	PH4,
-	PH5;
+	PH4;
 }

@@ -37,6 +37,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		for (int i = 0; i < classSpheres.length; i++) {
 			classSpheres[i] = new ActorClassSphere(Classes.values()[i]);
 			classSpheres[i].setOrigin(classSpheres[i].getWidth()/2, classSpheres[i].getHeight()/2);
+			
+			//by default, disable all the hybrid classes and the "final" class. This should eventually be replaced with a proper save file. TODO: replace with save functionality
 			if (i % 2 == 0) {
 				classSpheres[i].setEnabled(false);
 			}
@@ -62,7 +64,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		for (int i = 0; i < sphereCoords.length; i++) {
 			classSpheres[i].setOrigin(Align.center);
-			classSpheres[i].spritePos(sphereCoords[i].x, sphereCoords[i].y);
+			classSpheres[i].sphereSpritePos(sphereCoords[i].x, sphereCoords[i].y);
 		}
 		
 	}
