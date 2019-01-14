@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.roguelike.lootly.CharacterClassManager;
 import com.roguelike.lootly.Classes;
+import com.roguelike.lootly.Utils;
 
 public class ActorClassSphere extends Actor {
 	
@@ -19,8 +22,8 @@ public class ActorClassSphere extends Actor {
 		Classes playerClass = Classes.values()[0];
 		
 		//Textures
-		final Texture orangeBall = new Texture("gui/ball_orange.png");
-		final Texture greenBall = new Texture("gui/ball_green.png");
+		final Texture blueBall = new Texture("gui/ball_blue.png");
+		final Texture lightBlueBall = new Texture("gui/ball_light_blue.png");
 		final Texture greyBall = new Texture("gui/ball_grey.png");
 		final float originalScale = 3f; // the original scale that the sphereSprite should be set to
 		final float largeScale = 8f; //    the scale that the sphereSprite should inflate to when hovered over
@@ -30,8 +33,10 @@ public class ActorClassSphere extends Actor {
 		private boolean hovered = false;
 		
 		
-		Sprite sphereSprite = new Sprite(greenBall); //the container for the current sphere texture
+		Sprite sphereSprite = new Sprite(lightBlueBall); //the container for the current sphere texture
 		Sprite classSprite; //the container for the character sprite of the class the sphere is set to
+		
+		BitmapFont font = Utils.getFont(36);
 		
 		
 		// constructor
@@ -123,12 +128,12 @@ public class ActorClassSphere extends Actor {
 		
 		//change the actor to show an orange sphereSprite
 		public void setOrangesphereSprite() {
-			sphereSprite = new Sprite(orangeBall);
+			sphereSprite = new Sprite(blueBall);
 		}
 		
 		//change the actor to show a green sphereSprite
 		public void setGreensphereSprite() {
-			sphereSprite  = new Sprite(greenBall);
+			sphereSprite  = new Sprite(lightBlueBall);
 		}
 		
 		public void setGreysphereSprite() {
@@ -146,10 +151,21 @@ public class ActorClassSphere extends Actor {
 			batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 			batch.draw(sphereSprite, getX(), getY(), getOriginX(), getOriginY(),
 				getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+			
+			//handle displaying class sprite and class name text
 			if (enabled && ( clicked || hovered)) {
 				batch.draw(classSprite, getX(), getY(), getOriginX(), getOriginY(),
 						getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+				
+				
 			}
+			
+			if (enabled && clicked) {
+				font.draw(batch, playerClass.toString(), 
+						getPositionOffset(font, playerClass.toString()), 
+						Gdx.graphics.getHeight() - ((Gdx.graphics.getHeight()/10)));
+			}
+			
 		}
 		
 		public void sphereSpritePos(float x, float y){
@@ -230,6 +246,12 @@ public class ActorClassSphere extends Actor {
 		// display name of the class held in the sphere centered below the sphere when "isEnabled()" is true and either "isClicked()" is true of the mouse is hovering.
 		public void displayClassName() {
 			
+		}
+		
+		private float getPositionOffset(BitmapFont bitmapFont, String value) {
+		    GlyphLayout glyphLayout = new GlyphLayout();
+		    glyphLayout.setText(bitmapFont, value);
+		    return (Gdx.graphics.getWidth()/2) - glyphLayout.width/2;
 		}
 		
 }
