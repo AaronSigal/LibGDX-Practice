@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
+import com.roguelike.lootly.CharacterClass;
 import com.roguelike.lootly.Classes;
 
 public class ActorClassSphere extends Actor {
@@ -26,10 +27,11 @@ public class ActorClassSphere extends Actor {
 		
 		private boolean clicked = false;
 		private boolean enabled = true;
+		private boolean hovered = false;
 		
-		//the container for the current textures
-		Sprite sphereSprite = new Sprite(greenBall);
-		Sprite classSprite;
+		
+		Sprite sphereSprite = new Sprite(greenBall); //the container for the current sphere texture
+		Sprite classSprite; //the container for the character sprite of the class the sphere is set to
 		
 		
 		// constructor
@@ -40,6 +42,9 @@ public class ActorClassSphere extends Actor {
 			} else {
 				System.out.println("Class sphere was created with NULL as its class. Defaulting to " + this.playerClass.toString());
 			}
+			
+			//fetch the sprite for the character that the sphere represents
+			classSprite = CharacterClass.getClassSprite(playerClass);
 			
 			
 			//base scale. Setting the scale in the constructor is fine since this element will likely not be re-used. 
@@ -81,27 +86,33 @@ public class ActorClassSphere extends Actor {
 				  
 				  @Override
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					  
+					  hovered = true;
+					  
 					  if (enabled) {
-						  setScale((largeScale)); 
+						  setScale((largeScale));
+						  setClassSpriteVisible(true);
 					  } else {
 						  setScale(originalScale);
 					  }
 					  
 				  }
 				  
-				  @Override
+				
+
+				@Override
 				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					
+					hovered = false;
+					
 					  if (enabled) {
 						  if (clicked) {
 							  setScale(largeScale);
 						  } else {
 							  setScale(originalScale);
+							  setClassSpriteVisible(false);
 						  } 
-					  } else {
-						  setScale(originalScale);
 					  }
-					  
-					  
 				  }
 				});
 			 
@@ -124,6 +135,10 @@ public class ActorClassSphere extends Actor {
 			sphereSprite = new Sprite(greyBall);
 		}
 		
+		private void setClassSpriteVisible(boolean b) {
+			
+		}
+		
 		//method that draws the actor
 		@Override
 		public void draw (Batch batch, float parentAlpha) {
@@ -131,6 +146,10 @@ public class ActorClassSphere extends Actor {
 			batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 			batch.draw(sphereSprite, getX(), getY(), getOriginX(), getOriginY(),
 				getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+			if (enabled && ( clicked || hovered)) {
+				batch.draw(classSprite, getX(), getY(), getOriginX(), getOriginY(),
+						getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+			}
 		}
 		
 		public void sphereSpritePos(float x, float y){

@@ -13,3 +13,5 @@ public enum Classes {
 	MAGE,
 	PH4;
 }
+
+
