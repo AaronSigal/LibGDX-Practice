@@ -18,10 +18,12 @@ public class CharacterClassManager {
 			case ROGUE:
 				sprite = new Sprite(new Texture("character/rogue/rogue_idle_down.png"));
 				break;
+			case MAGE:
+				sprite = new Sprite(new Texture("character/mage/mage_idle_down.png"));
+				break;
 			default:
 				sprite = new Sprite(new Texture("character/crusader/crusader_idle_down.png"));
 				break;
-		
 		}
 		
 		return sprite;
