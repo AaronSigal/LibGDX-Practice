@@ -155,7 +155,7 @@ public class ActorClassSphere extends Actor {
 			//handle displaying class sprite and class name text
 			if (enabled && ( clicked || hovered)) {
 				batch.draw(classSprite, getX(), getY(), getOriginX(), getOriginY(),
-						getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+						getWidth(), getHeight(), largeScale * 0.8f, largeScale * 0.8f, getRotation());
 				
 				
 			}
