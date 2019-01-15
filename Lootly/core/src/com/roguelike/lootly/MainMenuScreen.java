@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
@@ -15,6 +16,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	final Lootly game;
 	private Stage stage;
 	private Texture background;
+	private Texture titleTexture;
+	private Sprite titleSprite;
 	ActorMainMenuFrame menuFrame; //the image the spheres for class selection are superimposed upon
 	ActorClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
 	
@@ -80,12 +83,15 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		//image loading
 		background = new Texture("gui/background.png");
+		titleTexture = new Texture("gui/title.png");
+		titleSprite = new Sprite(titleTexture);
+		
 		
 		//Actor instantiation
 		
 		//******************************** menu frame ****************************
 		menuFrame = new ActorMainMenuFrame();                                  //*
-		menuFrame.setScale(mainMenuScale);	                                               //*
+		menuFrame.setScale(mainMenuScale);	                                   //*
 		menuFrame.setOrigin(menuFrame.getWidth()/2, menuFrame.getHeight()/2);  //*
 		menuFrame.spritePos(Gdx.graphics.getWidth()/2 - menuFrame.getWidth()/2,/**/ 
 				Gdx.graphics.getHeight()/2 - menuFrame.getHeight()/2);         //*
@@ -111,10 +117,19 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public void render(float delta) {
 		game.batch.begin();
 		game.batch.draw(background, 0, 0); //background texture, native 1080p
+		
+		titleSprite.setScale(10f);
+		titleSprite.setX(Gdx.graphics.getWidth()/2 - titleSprite.getWidth()/2);
+		titleSprite.setY(Gdx.graphics.getHeight() * 0.9f);
+		titleSprite.draw(game.batch);
 		game.batch.end();
+		
+		
 		
 		stage.act(delta);
 		stage.draw();
+		
+		
 		
 		game.batch.setProjectionMatrix(game.camera.combined);
 		
@@ -130,6 +145,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public void resize(int width, int height) {
 		//update the size of the viewport upon resize
 		stage.getViewport().update(width, height, true);
+		titleSprite.setX(Gdx.graphics.getWidth()/2 - titleSprite.getWidth()/2);
+		titleSprite.setY(Gdx.graphics.getHeight() * 0.9f);
 	}
 
 	@Override
@@ -154,6 +171,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public void dispose() {
 		stage.dispose();
 		menuMusic.dispose();
+		background.dispose();;
+		titleTexture.dispose();;
 	}
 
 	@Override

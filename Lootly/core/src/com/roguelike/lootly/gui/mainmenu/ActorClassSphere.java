@@ -163,7 +163,7 @@ public class ActorClassSphere extends Actor {
 			if (enabled && clicked) {
 				font.draw(batch, playerClass.toString(), 
 						getPositionOffset(font, playerClass.toString()), 
-						Gdx.graphics.getHeight() - ((Gdx.graphics.getHeight()/10)));
+						Gdx.graphics.getHeight() - ((Gdx.graphics.getHeight() * .9f)));
 			}
 			
 		}
