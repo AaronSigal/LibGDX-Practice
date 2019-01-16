@@ -18,9 +18,12 @@ public class GameScreen implements Screen, InputProcessor {
 	//simple animation initial
 	private static final int FRAME_COLS = 3;
 	private static final float ATTACK_RATE = 0.15f;
+	private static final float PROJECTILE_SPEED = 5f;
+	
     Animation<TextureRegion> animation;
     Texture sheet;
-    TextureRegion[] frames;
+    TextureRegion[] frames;    
+    TextureRegion currentFrame;
     SpriteBatch batch;
     float stateTime;
     float posX = 75.0F;
@@ -33,7 +36,10 @@ public class GameScreen implements Screen, InputProcessor {
     boolean mouseIsPressed = false;
 	float mouseX = 0.0f;
 	float mouseY = 0.0f;
-    
+	float distToTravelX = 0.0f;
+	float distToTravelY = 0.0f;
+    TextureRegion frame;
+
     
 	public GameScreen(final Lootly game) {
 		this.game = game;
@@ -43,22 +49,30 @@ public class GameScreen implements Screen, InputProcessor {
 
 	public void createAnimation() {
 		//seperate linear texture into texureregions
-		this.sheet = new Texture(Gdx.files.internal("character/rogue/rogue_strike.png"));
+		sheet = new Texture(Gdx.files.internal("character/rogue/rogue_strike.png"));
         TextureRegion[][] tmp = TextureRegion.split(this.sheet, this.sheet.getWidth() / FRAME_COLS, this.sheet.getHeight());
         frames = new TextureRegion[FRAME_COLS];
         for(int i = 0; i < FRAME_COLS; ++i) {
             frames[i] = tmp[0][i];
         }
+        currentFrame = frames[0];
         //generate animation from textureregions
 		this.animation = new Animation<TextureRegion>(ATTACK_RATE, frames);
         this.batch = new SpriteBatch();
         this.stateTime = 0.0F;
 	}
 	
+	public void createSprite(){
+		sheet = new Texture(Gdx.files.internal("character/rogue/rogue_projectile.png"));
+        TextureRegion[][] tmp = TextureRegion.split(this.sheet, this.sheet.getWidth(), this.sheet.getHeight());
+        frame = tmp[0][0];
+	}
+	
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 		createAnimation();
+		createSprite();
 	}
 
 	@Override
@@ -69,11 +83,25 @@ public class GameScreen implements Screen, InputProcessor {
 		Gdx.gl.glClearColor(0.57F, 0.77F, 0.85F, 1.0F);
         Gdx.gl.glClear(16384);
         
+        //update animation frame if left mouse down or animation has not completed cycle;
         mouseIsPressed = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
-        
         if(mouseIsPressed)
-        	this.stateTime += Gdx.graphics.getDeltaTime();
+        	if(currentFrame!=frames[0]) 
+        		stateTime += Gdx.graphics.getDeltaTime();
+        	else if(distToTravelX >= 0.0 || distToTravelY >= 0.0) {//calculate attack direction
+        		distToTravelX -= PROJECTILE_SPEED;
+        		distToTravelY -= PROJECTILE_SPEED;
+        	}
+        	else{
+        		distToTravelX = Gdx.input.getX() - posX;
+        		distToTravelY = Gdx.input.getY() - posY;        		
+        	}
         
+        //set animation frame
+        currentFrame = animation.getKeyFrame(stateTime, true);
+        
+        
+        //reposition animation
         wIsPressed = Gdx.input.isKeyPressed(51);
         aIsPressed = Gdx.input.isKeyPressed(29);
         sIsPressed = Gdx.input.isKeyPressed(47);
@@ -85,13 +113,13 @@ public class GameScreen implements Screen, InputProcessor {
         if(dIsPressed) posX += 1.5f;
         
         
-        //set animation frame
-        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+        
         
         //draw animation
-        this.batch.begin();
-        this.batch.draw(currentFrame, posX, posY, 0.0F, 0.0F, 16.0F, 16.0F, 5.0F, 5.0F, 0);
-        this.batch.end();
+        batch.begin();
+        batch.draw(frame, posX + 500, posY + 500, 0.0F, 0.0F, 16.0F, 16.0F, 5.0F, 5.0F, 0);
+        batch.draw(currentFrame, posX, posY, 0.0F, 0.0F, 16.0F, 16.0F, 5.0F, 5.0F, 0);
+        batch.end();
         
 	}
 
