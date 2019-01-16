@@ -21,16 +21,20 @@ import java.util.HashMap;
 
 public class Lootly extends ApplicationAdapter {
     
-	private static final int FRAME_COLS = 15, FRAME_ROWS = 1;
+	//Declarations for an animation
+	private static final int FRAME_COLS = 15, FRAME_ROWS = 1;//number of sprites in sheet
     Animation<TextureRegion> soarAnimation;
     Texture soarSheet;
     SpriteBatch spriteBatch;
     float stateTime;
+    
+    //inessential Animation vars
     float posX = 75;
     float posY = 75;
     boolean move = false;
     int orient = 0;
     
+    //Declarations for Hashmap
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
     
     TextureAtlas textureAtlas;
@@ -41,6 +45,7 @@ public class Lootly extends ApplicationAdapter {
 
     ExtendViewport viewport;
 
+    //Declarations of world basis
     World world;
     static final float STEP_TIME = 1f / 60f;
     static final int VELOCITY_ITERATIONS = 6;
@@ -62,6 +67,7 @@ public class Lootly extends ApplicationAdapter {
     
     @Override
     public void create() {
+    	
     	soarSheet = new Texture(Gdx.files.internal("Fireball.png"));
     	TextureRegion[][] tmp = TextureRegion.split(soarSheet, 
 				soarSheet.getWidth() / FRAME_COLS,
@@ -77,6 +83,7 @@ public class Lootly extends ApplicationAdapter {
 		spriteBatch = new SpriteBatch();
 		stateTime = 0f;
 		
+		//initializing required vars to display a simple sprite
         Box2D.init();
         world = new World(new Vector2(0, 0), true);
         batch = new SpriteBatch();
@@ -112,21 +119,25 @@ public class Lootly extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        
+        //detect wasd inputs
 		boolean wIsPressed = Gdx.input.isKeyPressed(Keys.W);
 		boolean aIsPressed = Gdx.input.isKeyPressed(Keys.A);
 		boolean sIsPressed = Gdx.input.isKeyPressed(Keys.S);
 		boolean dIsPressed = Gdx.input.isKeyPressed(Keys.D);
+		//set fireball rotation and enable movement if wasd key pressed
 		if(wIsPressed) {	posY+=1.5;	move = true;	orient = 90;}
 		if(aIsPressed) {	posX-=1.5;	move = true;	orient = 180;}
 		if(sIsPressed) {	posY-=1.5;	move = true;	orient = 270;}
 		if(dIsPressed) {	posX+=1.5;	move = true;	orient = 0;}
 		if(wIsPressed&&aIsPressed) {	posX+=.43;	posY-=.43;	move = true;	orient = 135;}
-        if(move) {
+        //
+		if(move) {
         	stateTime += Gdx.graphics.getDeltaTime();
         	move = false;
         }
+		//update Animation frame to frame corresponding to amount of time passed
         TextureRegion currentFrame = soarAnimation.getKeyFrame(stateTime, true);
+        
 		batch.begin();
         stepWorld();
         drawSprite("Fireball1", 0, 0);
