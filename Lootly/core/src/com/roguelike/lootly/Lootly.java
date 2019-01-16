@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.Gdx;
 
 public class Lootly extends Game {
 	
@@ -27,6 +29,8 @@ public class Lootly extends Game {
 		camera = new OrthographicCamera(RENDER_WIDTH, RENDER_HEIGHT);
 		viewport = new FitViewport(RENDER_WIDTH, RENDER_HEIGHT, camera);
 		this.setScreen(new MainMenuScreen(this));
+		
+		newCursor("Cursor (2).png");//calls new cursor looking for this 32x32 png
 	}
 
 	public void render() {
@@ -37,7 +41,11 @@ public class Lootly extends Game {
 		this.setScreen(new GameScreen(this));
 	}
 
-	
+	public void newCursor(String path) {//create and set new cursor from assets
+		Pixmap pm = new Pixmap(Gdx.files.internal(path));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, pm.getWidth() / 2, pm.getHeight() / 2));
+		pm.dispose();
+	}
 	
 	
 }
