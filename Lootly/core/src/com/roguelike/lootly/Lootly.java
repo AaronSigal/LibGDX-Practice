@@ -28,8 +28,8 @@ public class Lootly extends Game {
 		font = new BitmapFont();
 		camera = new OrthographicCamera(RENDER_WIDTH, RENDER_HEIGHT);
 		viewport = new FitViewport(RENDER_WIDTH, RENDER_HEIGHT, camera);
-		this.setScreen(new MainMenuScreen(this));
-		
+		//this.setScreen(new MainMenuScreen(this));
+		startGameScreen();
 		newCursor("Cursor (2).png");//calls new cursor looking for this 32x32 png
 	}
 
