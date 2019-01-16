@@ -12,9 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
-import com.roguelike.lootly.CharacterClassManager;
-import com.roguelike.lootly.Classes;
 import com.roguelike.lootly.Utils;
+import com.roguelike.lootly.character.CharacterClassManager;
+import com.roguelike.lootly.character.Classes;
 
 public class ActorClassSphere extends Actor {
 	
@@ -79,19 +79,13 @@ public class ActorClassSphere extends Actor {
 								 ((ActorClassSphere) actor).setClicked(false);
 							 }
 						 }
-						 
-						 
 						 setClicked(true); 
 					 }
-					 
-					 
-					 
 					 return true;
 				 }
 				  
 				  @Override
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					  
 					  hovered = true;
 					  
 					  if (enabled) {
@@ -99,17 +93,12 @@ public class ActorClassSphere extends Actor {
 						  setClassSpriteVisible(true);
 					  } else {
 						  setScale(originalScale);
-					  }
-					  
+					  }					 
 				  }
 				  
-				
-
 				@Override
 				  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					
 					hovered = false;
-					
 					  if (enabled) {
 						  if (clicked) {
 							  setScale(largeScale);

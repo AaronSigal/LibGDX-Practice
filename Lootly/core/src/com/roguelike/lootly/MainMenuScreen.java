@@ -5,10 +5,14 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.roguelike.lootly.character.Classes;
 import com.roguelike.lootly.gui.mainmenu.ActorClassSphere;
 import com.roguelike.lootly.gui.mainmenu.ActorMainMenuFrame;
 
@@ -20,6 +24,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	private Sprite titleSprite;
 	ActorMainMenuFrame menuFrame; //the image the spheres for class selection are superimposed upon
 	ActorClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
+	Button playButton;
+	BitmapFont font = Utils.getFont(36);
 	
 	final float mainMenuScale = 3f;
 	
@@ -30,11 +36,11 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		this.game = game;
 		
 		stage = new Stage(game.viewport);
+		playButton = new Button(new TextureRegionDrawable(new Texture("gui/button.png")), new TextureRegionDrawable(new Texture("gui/button_pressed.png")));
 	}
 	
 	//initializes all the class spheres.
 	public void initSpheres() {
-		
 		classSpheres = new ActorClassSphere[11];
 		
 		for (int i = 0; i < classSpheres.length; i++) {
@@ -101,35 +107,38 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		
 		//Actor staging
-		
 		stage.addActor(menuFrame);
+		playButton.setTransform(true);
+		playButton.setOrigin(playButton.getWidth()/2, playButton.getHeight()/2);
+		playButton.setScale(4f);
+		stage.addActor(playButton);
 		
 		//add all the spheres to the stage
 		for (int i = 0; i < classSpheres.length; i++) {
 			stage.addActor(classSpheres[i]);
 		}
-	
-		setSphereLocations();
 		
-	}
-
-	@Override
-	public void render(float delta) {
-		game.batch.begin();
-		game.batch.draw(background, 0, 0); //background texture, native 1080p
+		playButton.setX(Gdx.graphics.getWidth()/2 - playButton.getWidth()/2);
+		playButton.setY(Gdx.graphics.getHeight() * 0.08f);
+		setSphereLocations();
 		
 		titleSprite.setScale(10f);
 		titleSprite.setX(Gdx.graphics.getWidth()/2 - titleSprite.getWidth()/2);
 		titleSprite.setY(Gdx.graphics.getHeight() * 0.9f);
+	}
+
+	@Override
+	public void render(float delta) {
+		game.batch.setProjectionMatrix(game.camera.combined);
+		
+		game.batch.begin();
+		game.batch.draw(background, 0, 0); //background texture, native 1080p
+		
 		titleSprite.draw(game.batch);
 		game.batch.end();
 		
-		
-		
 		stage.act(delta);
 		stage.draw();
-		
-		
 		
 		game.batch.setProjectionMatrix(game.camera.combined);
 		
@@ -145,8 +154,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public void resize(int width, int height) {
 		//update the size of the viewport upon resize
 		stage.getViewport().update(width, height, true);
-		titleSprite.setX(Gdx.graphics.getWidth()/2 - titleSprite.getWidth()/2);
-		titleSprite.setY(Gdx.graphics.getHeight() * 0.9f);
 	}
 
 	@Override
@@ -172,7 +179,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		stage.dispose();
 		menuMusic.dispose();
 		background.dispose();;
-		titleTexture.dispose();;
+		titleTexture.dispose();
 	}
 
 	@Override
