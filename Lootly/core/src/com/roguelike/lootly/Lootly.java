@@ -23,14 +23,13 @@ public class Lootly extends Game {
 
 	@Override
 	public void create() {
-		
+		Gdx.graphics.setResizable(false);
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		camera = new OrthographicCamera(RENDER_WIDTH, RENDER_HEIGHT);
 		viewport = new FitViewport(RENDER_WIDTH, RENDER_HEIGHT, camera);
-		this.setScreen(new MainMenuScreen(this));
-		
 		newCursor("Cursor (2).png");//calls new cursor looking for this 32x32 png
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	public void render() {
@@ -38,7 +37,8 @@ public class Lootly extends Game {
 	}
 	
 	public void startGameScreen() {
-		this.setScreen(new GameScreen(this));
+		setScreen(new GameScreen(this));
+		System.out.println("Switched to gamescreen");
 	}
 
 	public void newCursor(String path) {//create and set new cursor from assets

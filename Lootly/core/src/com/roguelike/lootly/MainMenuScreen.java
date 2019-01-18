@@ -8,8 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.roguelike.lootly.character.Classes;
@@ -36,7 +40,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		this.game = game;
 		
 		stage = new Stage(game.viewport);
+		
 		playButton = new Button(new TextureRegionDrawable(new Texture("gui/button.png")), new TextureRegionDrawable(new Texture("gui/button_pressed.png")));
+		playButton.addListener(new ChangeListener() {
+	        @Override
+	        public void changed (ChangeEvent event, Actor actor) {
+	            game.startGameScreen();
+	        }
+	    });
 	}
 	
 	//initializes all the class spheres.
@@ -56,7 +67,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	
 	//Sphere coordinates: (127,18) (191, 39) (234, 102) (234, 154) (191, 217) (127, 238) (63, 217) (20, 154) (20, 102) (63, 39) (127, 128)
 	public void setSphereLocations() {
-		
 		Vector2[] sphereCoords = new Vector2[classSpheres.length];
 		
 		sphereCoords[0] = menuFrame.localToScreenCoordinates(new Vector2(125, 18));
@@ -170,7 +180,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		menuMusic.stop();
 
 	}
 
