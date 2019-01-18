@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,6 +30,7 @@ public class ActorClassSphere extends Actor {
 		private boolean clicked = false;
 		private boolean enabled = true;
 		private boolean hovered = false;
+		private boolean fixed = false; //if true, the states of the sphere cannot be changed.
 		
 		
 		Sprite sphereSprite = new Sprite(lightBlueBall); //the container for the current sphere texture
@@ -63,7 +63,7 @@ public class ActorClassSphere extends Actor {
 				 @Override
 				 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					 
-					 if (enabled) {
+					 if (enabled && !fixed) {
 						 Gdx.app.log("Class selection: ", playerClass.toString());
 						 
 						 //fetch all the other actors in this actor's stage
@@ -74,12 +74,13 @@ public class ActorClassSphere extends Actor {
 							 
 							 //if the current actor being iterated over is an ActorClassSphere
 							 if (actor instanceof ActorClassSphere) {
-								 if (((ActorClassSphere) actor).isEnabled())
+								 if (((ActorClassSphere) actor).isEnabled() && !fixed)
 								 //System.out.println("Clearing other selections");
 								 ((ActorClassSphere) actor).setClicked(false);
 							 }
 						 }
 						 setClicked(true); 
+						 // TODO: search all other actors for the left-side gui, set the correct text for "class"
 					 }
 					 return true;
 				 }
@@ -88,7 +89,7 @@ public class ActorClassSphere extends Actor {
 				  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					  hovered = true;
 					  
-					  if (enabled) {
+					  if (enabled && !fixed) {
 						  setScale((largeScale));
 						  setClassSpriteVisible(true);
 					  } else {
@@ -148,13 +149,6 @@ public class ActorClassSphere extends Actor {
 				
 				
 			}
-			
-			if (enabled && clicked) {
-				font.draw(batch, playerClass.toString(), 
-						getPositionOffset(font, playerClass.toString()), 
-						Gdx.graphics.getHeight() - ((Gdx.graphics.getHeight() * .9f)));
-			}
-			
 		}
 		
 		public void sphereSpritePos(float x, float y){
@@ -236,11 +230,14 @@ public class ActorClassSphere extends Actor {
 		public void displayClassName() {
 			
 		}
-		
-		private float getPositionOffset(BitmapFont bitmapFont, String value) {
-		    GlyphLayout glyphLayout = new GlyphLayout();
-		    glyphLayout.setText(bitmapFont, value);
-		    return (Gdx.graphics.getWidth()/2) - glyphLayout.width/2;
+
+		public boolean isFixed() {
+			return fixed;
 		}
+
+		public void setFixed(boolean fixed) {
+			this.fixed = fixed;
+		}
+		
 		
 }

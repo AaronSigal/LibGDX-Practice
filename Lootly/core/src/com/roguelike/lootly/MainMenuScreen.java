@@ -9,11 +9,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.roguelike.lootly.character.Classes;
@@ -30,6 +28,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	ActorClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
 	Button playButton;
 	BitmapFont font = Utils.getFont(36);
+	Classes playerClass;
 	
 	final float mainMenuScale = 3f;
 	
@@ -48,44 +47,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	            game.startGameScreen();
 	        }
 	    });
-	}
-	
-	//initializes all the class spheres.
-	public void initSpheres() {
-		classSpheres = new ActorClassSphere[11];
-		
-		for (int i = 0; i < classSpheres.length; i++) {
-			classSpheres[i] = new ActorClassSphere(Classes.values()[i]);
-			classSpheres[i].setOrigin(classSpheres[i].getWidth()/2, classSpheres[i].getHeight()/2);
-			
-			//by default, disable all the hybrid classes and the "final" class. This should eventually be replaced with a proper save file. TODO: replace with save functionality
-			if (i % 2 == 0) {
-				classSpheres[i].setEnabled(false);
-			}
-		}
-	}
-	
-	//Sphere coordinates: (127,18) (191, 39) (234, 102) (234, 154) (191, 217) (127, 238) (63, 217) (20, 154) (20, 102) (63, 39) (127, 128)
-	public void setSphereLocations() {
-		Vector2[] sphereCoords = new Vector2[classSpheres.length];
-		
-		sphereCoords[0] = menuFrame.localToScreenCoordinates(new Vector2(125, 18));
-		sphereCoords[1] = menuFrame.localToScreenCoordinates(new Vector2(198, 43));
-		sphereCoords[2] = menuFrame.localToScreenCoordinates(new Vector2(234, 102));
-		sphereCoords[3] = menuFrame.localToScreenCoordinates(new Vector2(230, 166));
-		sphereCoords[4] = menuFrame.localToScreenCoordinates(new Vector2(188, 214));
-		sphereCoords[5] = menuFrame.localToScreenCoordinates(new Vector2(125, 238));
-		sphereCoords[6] = menuFrame.localToScreenCoordinates(new Vector2(61, 215));
-		sphereCoords[7] = menuFrame.localToScreenCoordinates(new Vector2(25, 167));
-		sphereCoords[8] = menuFrame.localToScreenCoordinates(new Vector2(17, 102));
-		sphereCoords[9] = menuFrame.localToScreenCoordinates(new Vector2(56, 44));
-		sphereCoords[10] = menuFrame.localToScreenCoordinates(new Vector2(124, 127));
-		
-		for (int i = 0; i < sphereCoords.length; i++) {
-			classSpheres[i].setOrigin(Align.center);
-			classSpheres[i].sphereSpritePos(sphereCoords[i].x, sphereCoords[i].y);
-		}
-		
 	}
 
 	@Override
@@ -165,6 +126,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		//update the size of the viewport upon resize
 		stage.getViewport().update(width, height, true);
 	}
+	
+	@Override
+	public void dispose() {
+		stage.dispose();
+		menuMusic.dispose();
+		background.dispose();;
+		titleTexture.dispose();
+	}
 
 	@Override
 	public void pause() {
@@ -182,14 +151,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public void hide() {
 		menuMusic.stop();
 
-	}
-
-	@Override
-	public void dispose() {
-		stage.dispose();
-		menuMusic.dispose();
-		background.dispose();;
-		titleTexture.dispose();
 	}
 
 	@Override
@@ -238,6 +199,44 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	//initializes all the class spheres.
+	public void initSpheres() {
+		classSpheres = new ActorClassSphere[11];
+		
+		for (int i = 0; i < classSpheres.length; i++) {
+			classSpheres[i] = new ActorClassSphere(Classes.values()[i]);
+			classSpheres[i].setOrigin(classSpheres[i].getWidth()/2, classSpheres[i].getHeight()/2);
+			
+			//by default, disable all the hybrid classes and the "final" class. This should eventually be replaced with a proper save file. TODO: replace with save functionality
+			if (i % 2 == 0) {
+				classSpheres[i].setEnabled(false);
+			}
+		}
+	}
+	
+	//Sphere coordinates: (127,18) (191, 39) (234, 102) (234, 154) (191, 217) (127, 238) (63, 217) (20, 154) (20, 102) (63, 39) (127, 128)
+	public void setSphereLocations() {
+		Vector2[] sphereCoords = new Vector2[classSpheres.length];
+		
+		sphereCoords[0] = menuFrame.localToScreenCoordinates(new Vector2(125, 18));
+		sphereCoords[1] = menuFrame.localToScreenCoordinates(new Vector2(198, 43));
+		sphereCoords[2] = menuFrame.localToScreenCoordinates(new Vector2(234, 102));
+		sphereCoords[3] = menuFrame.localToScreenCoordinates(new Vector2(230, 166));
+		sphereCoords[4] = menuFrame.localToScreenCoordinates(new Vector2(188, 214));
+		sphereCoords[5] = menuFrame.localToScreenCoordinates(new Vector2(125, 238));
+		sphereCoords[6] = menuFrame.localToScreenCoordinates(new Vector2(61, 215));
+		sphereCoords[7] = menuFrame.localToScreenCoordinates(new Vector2(25, 167));
+		sphereCoords[8] = menuFrame.localToScreenCoordinates(new Vector2(17, 102));
+		sphereCoords[9] = menuFrame.localToScreenCoordinates(new Vector2(56, 44));
+		sphereCoords[10] = menuFrame.localToScreenCoordinates(new Vector2(124, 127));
+		
+		for (int i = 0; i < sphereCoords.length; i++) {
+			classSpheres[i].setOrigin(Align.center);
+			classSpheres[i].sphereSpritePos(sphereCoords[i].x, sphereCoords[i].y);
+		}
+		
 	}
 
 }
