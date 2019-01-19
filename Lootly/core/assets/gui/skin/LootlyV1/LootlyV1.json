@@ -1,0 +1,54 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	FutilePro: {
+		file: FutilePro.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	Black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	DarkGrey: {
+		r: 0.4833335
+		g: 0.4833335
+		b: 0.4833335
+		a: 1
+	}
+	White: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: Button
+		down: Button_Pressed
+		over: Button
+		focused: Button
+		disabled: Button_Disabled
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+	default: {
+		font: FutilePro
+		fontColor: White
+		downFontColor: DarkGrey
+		disabledFontColor: Black
+		up: Button
+		down: Button_Pressed
+		disabled: Button_Disabled
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: FutilePro
+		fontColor: White
+		disabledFontColor: Black
+	}
+}
+}

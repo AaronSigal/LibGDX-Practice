@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -29,6 +30,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	Button playButton;
 	BitmapFont font = Utils.getFont(36);
 	Classes playerClass;
+	Skin skin = new Skin(Gdx.files.internal("gui/skin/LootlyV1/LootlyV1.json"));
 	
 	final float mainMenuScale = 3f;
 	
@@ -40,11 +42,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		stage = new Stage(game.viewport);
 		
-		playButton = new Button(new TextureRegionDrawable(new Texture("gui/button.png")), new TextureRegionDrawable(new Texture("gui/button_pressed.png")));
+		//*********** Play Button Instantiation *****************
+		playButton = new Button(skin);
 		playButton.addListener(new ChangeListener() {
 	        @Override
 	        public void changed (ChangeEvent event, Actor actor) {
-	            game.startGameScreen();
+	            //game.startGameScreen();
 	        }
 	    });
 	}
@@ -201,7 +204,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		return false;
 	}
 	
-	//initializes all the class spheres.
+	//initializes all the class spheres. TODO: add support for loading class unlocks from a save files
 	public void initSpheres() {
 		classSpheres = new ActorClassSphere[11];
 		
@@ -238,5 +241,4 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		}
 		
 	}
-
 }
