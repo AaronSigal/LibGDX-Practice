@@ -91,7 +91,6 @@ public class ActorClassSphere extends Actor {
 					  
 					  if (enabled && !fixed) {
 						  setScale((largeScale));
-						  setClassSpriteVisible(true);
 					  } else {
 						  setScale(originalScale);
 					  }					 
@@ -105,7 +104,6 @@ public class ActorClassSphere extends Actor {
 							  setScale(largeScale);
 						  } else {
 							  setScale(originalScale);
-							  setClassSpriteVisible(false);
 						  } 
 					  }
 				  }
@@ -113,24 +111,6 @@ public class ActorClassSphere extends Actor {
 			 
 			 //make sure it is touchable
 			 setTouchable(Touchable.enabled);
-			
-		}
-		
-		//change the actor to show an orange sphereSprite
-		public void setOrangesphereSprite() {
-			sphereSprite = new Sprite(blueBall);
-		}
-		
-		//change the actor to show a green sphereSprite
-		public void setGreensphereSprite() {
-			sphereSprite  = new Sprite(lightBlueBall);
-		}
-		
-		public void setGreysphereSprite() {
-			sphereSprite = new Sprite(greyBall);
-		}
-		
-		private void setClassSpriteVisible(boolean b) {
 			
 		}
 		
@@ -146,48 +126,28 @@ public class ActorClassSphere extends Actor {
 			if (enabled && ( clicked || hovered)) {
 				batch.draw(classSprite, getX(), getY(), getOriginX(), getOriginY(),
 						getWidth(), getHeight(), largeScale * 0.8f, largeScale * 0.8f, getRotation());
-				
-				
 			}
 		}
 		
+		//Moves the sprite of the sphere to (x,y) then updates the bound of the sphere actor to reflect the moved-sprite. This is necessary to make sure that the sphere is correctly clickable
 		public void sphereSpritePos(float x, float y){
 			sphereSprite.setPosition(x, y);
 			setBounds(sphereSprite.getX(), sphereSprite.getY(), sphereSprite.getWidth(), sphereSprite.getHeight());
-		}
-
-		public Classes getPlayerClass() {
-			return playerClass;
-		}
-
-		public void setPlayerClass(Classes playerClass) {
-			this.playerClass = playerClass;
-		}
-
-		public Sprite getsphereSprite() {
-			return sphereSprite;
-		}
-
-		public void setsphereSprite(Sprite sphereSprite) {
-			this.sphereSprite = sphereSprite;
-		}
-
-		public boolean isClicked() {
-			return clicked;
 		}
 
 		//when the button is set to un-clicked, automatically change back to a green sphereSprite at original scale. When clicked, automatically change to orange at expanded scale.
 		public void setClicked(boolean clicked) {
 			if (enabled) {
 				if (clicked) {
-					this.clicked = clicked;
 					setOrangesphereSprite();
 					setScale(largeScale);
 				} else {
-					this.clicked = clicked;
 					setGreensphereSprite();
 					setScale(originalScale);
 				}
+				
+				this.clicked = clicked;
+				
 			} else {
 				setGreysphereSprite();
 			}
@@ -210,6 +170,20 @@ public class ActorClassSphere extends Actor {
 			}
 		}
 		
+		//change the actor to show an orange sphereSprite
+		public void setOrangesphereSprite() {
+			sphereSprite = new Sprite(blueBall);
+		}
+		
+		//change the actor to show a green sphereSprite
+		public void setGreensphereSprite() {
+			sphereSprite  = new Sprite(lightBlueBall);
+		}
+		
+		public void setGreysphereSprite() {
+			sphereSprite = new Sprite(greyBall);
+		}
+		
 		public Sprite getClassSprite() {
 			return classSprite;
 		}
@@ -226,17 +200,32 @@ public class ActorClassSphere extends Actor {
 			return largeScale;
 		}
 
-		// display name of the class held in the sphere centered below the sphere when "isEnabled()" is true and either "isClicked()" is true of the mouse is hovering.
-		public void displayClassName() {
-			
-		}
-
 		public boolean isFixed() {
 			return fixed;
 		}
 
 		public void setFixed(boolean fixed) {
 			this.fixed = fixed;
+		}
+		
+		public Classes getPlayerClass() {
+			return playerClass;
+		}
+
+		public void setPlayerClass(Classes playerClass) {
+			this.playerClass = playerClass;
+		}
+
+		public Sprite getsphereSprite() {
+			return sphereSprite;
+		}
+
+		public void setsphereSprite(Sprite sphereSprite) {
+			this.sphereSprite = sphereSprite;
+		}
+
+		public boolean isClicked() {
+			return clicked;
 		}
 		
 		
