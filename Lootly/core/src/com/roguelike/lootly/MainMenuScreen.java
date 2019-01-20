@@ -47,7 +47,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		playButton.addListener(new ChangeListener() {
 	        @Override
 	        public void changed (ChangeEvent event, Actor actor) {
-	            //game.startGameScreen();
+	            game.startGameScreen();
 	        }
 	    });
 	}
