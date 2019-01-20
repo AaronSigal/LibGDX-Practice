@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 //For handling all the character-class specific functions that will likely need to be called in more than one class, and for more than one reason.
 public class CharacterClassManager {
 	
+	static list<>;
+	
 	//returns the sprite for a specific class. Will be expanded upon later as the design specs for character sprites are finalized.
 	public static Sprite getClassSprite(Classes characterClass) {
 		Sprite sprite = null;
@@ -28,5 +30,7 @@ public class CharacterClassManager {
 		
 		return sprite;
 	}
+	
+	public static void 
 	
 }
