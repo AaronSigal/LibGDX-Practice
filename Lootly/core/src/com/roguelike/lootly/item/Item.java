@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Item {
 	Sprite sprite; //sprite to be displayed
 	String name; //name for item
+	String flavorText; //flavor text to be shown when applicable. Limit to 120 characters or fewer.
 	int id;// id of the item to be used for index and lookup purposes internally
 	
 	
@@ -44,4 +45,13 @@ public class Item {
 		this.id = id;
 	}
 
+	public String getFlavorText() {
+		return flavorText;
+	}
+
+	public void setFlavorText(String flavorText) {
+		this.flavorText = flavorText;
+	}
+
+	
 }
