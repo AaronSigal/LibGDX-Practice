@@ -13,7 +13,7 @@ import com.roguelike.lootly.item.Item;
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
 	private Stage stage;
-	ItemDisplayBox itemBox = new ItemDisplayBox(new Item("Weird", -1, new Sprite(new Texture("gui/ball_blue.png")))); //TODO: DEBUG
+	ItemDisplayBox itemBox = new ItemDisplayBox(new Item("Weird", "A test phrase", -1, new Sprite(new Texture("gui/ball_blue.png")))); //TODO: DEBUG
 
 	
 	public GameScreen(Lootly game) {

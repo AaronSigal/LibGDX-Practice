@@ -15,10 +15,11 @@ public class Item {
 	}
 	
 	//Main constructor, intended to be used most often.
-	public Item(String name, int id, Sprite sprite) {
+	public Item(String name, String flavorText, int id, Sprite sprite) {
 		this.name = name;
 		this.id = id;
 		this.sprite = sprite;
+		this.flavorText = flavorText;
 	}
 
 	public Sprite getSprite() {
