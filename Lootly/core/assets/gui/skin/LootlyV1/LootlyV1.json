@@ -44,11 +44,23 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 		disabled: Button_Disabled
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: FutilePro
+		fontColor: White
+		background: Button
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: FutilePro
 		fontColor: White
 		disabledFontColor: Black
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
 	}
 }
 }

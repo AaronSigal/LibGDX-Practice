@@ -785,21 +785,21 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: FutilePro
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: true
-						value: null
+						value: White
 					}
 					background: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: null
+						value: Button
 					}
 				}
 				deletable: false
@@ -1724,5 +1724,5 @@ preferences: {
 		value: false
 	}
 }
-saveFile: C:/Dev/LibGDX Project - Lootly/LibGDX-Practice/raw-assets/skin/Lootly V1.scmp
+saveFile: C:/Dev/LibGDX Project - Lootly/LibGDX-Practice/raw-assets/skin/LootlyV1/Lootly V1.scmp
 }
