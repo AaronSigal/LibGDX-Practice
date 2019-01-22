@@ -3,7 +3,7 @@ package com.roguelike.lootly.item;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Item {
+public class Item implements Cloneable{
 	Sprite sprite;
 	String spritePath; //spritePath to be displayed
 	String name; //name for item
@@ -56,5 +56,14 @@ public class Item {
 		this.flavorText = flavorText;
 	}
 
+	public Item clone() {
+		Item clone = null;
+		try {
+			clone = (Item)super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return clone;
+	}
 	
 }

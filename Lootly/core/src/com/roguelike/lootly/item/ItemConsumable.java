@@ -1,58 +1,59 @@
 package com.roguelike.lootly.item;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import java.util.ArrayList;
 
 public class ItemConsumable extends Item {
 	
-	int quantity; //quantity of the item
-	int maxQuantity; //the maximum quantity of an item that can be held in one slot
+	int uses; //uses of the item
+	int maxUses; //the maximum uses of an item that can be held in one slot
 	int cooldown; //the time the user must wait between consecutive item uses
 	long lastUse; //the last time the item was used. Ideally taken from a remote clock to prevent exploitations.
-	boolean full; //indicates that the item cannot hold any more (quantity = maxQuantity)
+	boolean full; //indicates that the item cannot hold any more (uses = maxUses)
 	boolean empty = false; //a flag that will cause the game to delete the object from whatever inventory it is placed inside of if set to true
+	ArrayList<ConfigurableEffect> effects;
 
 	//Should rarely be used. Only for testing and quickly instantiating a basic ItemConsumable
 	public ItemConsumable() {
+		effects = new ArrayList<ConfigurableEffect>();
 	}
 	
 	
 	public ItemConsumable(String name, String flavorText, int id, String spritePath) {
 		super(name, flavorText, id, spritePath);
-		
-		this.maxQuantity = 1;
+		effects = new ArrayList<ConfigurableEffect>();
+		this.maxUses = 1;
 		this.cooldown = 0;
 	}
 	
 	//should be used most often, as it offers the largest degree of control on instantiation
-	public ItemConsumable(String name, String flavorText, int id, String spritePath, int quantity, int maxQuantity, int cooldown) {
+	public ItemConsumable(String name, String flavorText, int id, String spritePath, int uses, int maxUses, int cooldown) {
 		super(name, flavorText, id, spritePath);
-		this.quantity = quantity;
-		this.maxQuantity = maxQuantity;
+		effects = new ArrayList<ConfigurableEffect>();
+		this.uses = uses;
+		this.maxUses = maxUses;
 		this.cooldown = cooldown;
 	}
 	
-	
-	
-	public int getQuantity() {
-		return quantity;
+	public int getUses() {
+		return uses;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setUses(int uses) {
 		
-		//check for if the item's quantity drops to, or below, zero
-		if (quantity <= 0) {
+		//check for if the item's uses drops to, or below, zero
+		if (uses <= 0) {
 			setEmpty(true);
 		}
 		
-		this.quantity = quantity;
+		this.uses = uses;
 	}
 
-	public int getMaxQuantity() {
-		return maxQuantity;
+	public int getMaxUses() {
+		return maxUses;
 	}
 
-	public void setMaxQuantity(int maxQuantity) {
-		this.maxQuantity = maxQuantity;
+	public void setMaxUses(int maxUses) {
+		this.maxUses = maxUses;
 	}
 
 	public int getCooldown() {
@@ -91,19 +92,18 @@ public class ItemConsumable extends Item {
 				e.printStackTrace();
 			}
 			
-			setQuantity(getQuantity() - 1); //decrement the item's quantity
+			setUses(getUses() - 1); //decrement the item's uses
 		}
 		
 	}
 	
-	//MEANT TO BE OVERRIDDEN. Executes the effects of the item upon consumption
 	public void execute() throws Exception {
-		throw new Exception("Need to override @execute for" + getName() + "'s class!");
+		
 	}
 	
 	//retrieves the current time. Should get time via a remote clock, but can default to using local time.
 	public long getCurrentTime() {
-		return 0; //TODO: Compelte getCurrentTime function.
+		return 0; //TODO: Complete getCurrentTime function.
 	}
 
 }

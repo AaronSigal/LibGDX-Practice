@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import com.roguelike.lootly.Lootly;
 import com.roguelike.lootly.item.Item;
 
+//Loads items into the itemList HashMap by parsing them out of .xml files located within /assets/config/. For formatting, see "exampleItemManifest.xml"
 public class StrategyLoadItems implements LoadStrategy {
 
 	@Override
@@ -37,10 +38,14 @@ public class StrategyLoadItems implements LoadStrategy {
 		        NodeList nList = doc.getElementsByTagName("item"); //get a list of nodes with the name "item
 		         
 		        for (int temp = 0; temp < nList.getLength(); temp++) {
-		        	Node nNode = nList.item(temp);
-		            System.out.println("\nCurrent Element :" + nNode.getNodeName());
-		            System.out.println("\nItem format type: " + ((Element) nNode.getParentNode()).getAttribute("format"));
+		        	Node nNode = nList.item(temp); //the current node being worked-on
+		        	
+		        	int format = Integer.parseInt(((Element) nNode.getParentNode()).getAttribute("format"));
+		        	
+		            System.out.println("\nCurrent Element: " + nNode.getNodeName());
+		            System.out.println("\nItem format type: " + format);
 		            
+		            //TODO: Remove debugging statements
 		            Element eElement = (Element) nNode;
 		            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 		                eElement = (Element) nNode;
@@ -48,9 +53,12 @@ public class StrategyLoadItems implements LoadStrategy {
 		                System.out.println("Name: " + eElement.getElementsByTagName("name").item(0).getTextContent());
 		                System.out.println("flavor text: " + eElement.getElementsByTagName("flavor").item(0).getTextContent());
 		                System.out.println("sprite: " + eElement.getElementsByTagName("sprite").item(0).getTextContent());
-		            }
+		            } //end of debugging statements
 		            
-		            Lootly.itemList.put(Integer.parseInt(eElement.getAttribute("id")), new Item(eElement.getElementsByTagName("name").item(0).getTextContent(), eElement.getElementsByTagName("flavor").item(0).getTextContent(), Integer.parseInt(eElement.getAttribute("id")), eElement.getElementsByTagName("sprite").item(0).getTextContent()));
+		            
+		            if (format == 0) { //if the item being loaded has a generic base-item structure (as defined by its item_set in its .xml definition)
+		            	Lootly.itemList.put(Integer.parseInt(eElement.getAttribute("id")), new Item(eElement.getElementsByTagName("name").item(0).getTextContent(), eElement.getElementsByTagName("flavor").item(0).getTextContent(), Integer.parseInt(eElement.getAttribute("id")), eElement.getElementsByTagName("sprite").item(0).getTextContent()));
+		            }
 		        }
 			}  
 		} catch (Exception e) {
