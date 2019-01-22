@@ -1,5 +1,7 @@
 package com.roguelike.lootly;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -7,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.roguelike.lootly.io.LoadContext;
+import com.roguelike.lootly.io.StrategyLoadItems;
+import com.roguelike.lootly.item.Item;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.Gdx;
 
@@ -16,6 +21,7 @@ public class Lootly extends Game {
 	public BitmapFont font;
 	public Viewport viewport;
 	public Camera camera;
+	public static HashMap<Integer, Item> itemList = new HashMap();
 	
 	final static float RENDER_WIDTH = 1920;
 	final static float RENDER_HEIGHT = 1080;
@@ -44,6 +50,12 @@ public class Lootly extends Game {
 		Pixmap pm = new Pixmap(Gdx.files.internal(path));
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, pm.getWidth() / 2, pm.getHeight() / 2));
 		pm.dispose();
+	}
+	
+	public void init() {
+		LoadContext loadManager = new LoadContext(new StrategyLoadItems());
+		
+		
 	}
 	
 	
