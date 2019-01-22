@@ -8,11 +8,16 @@ Sprite elements contain the path to the sprite for the item. The relative root i
 give the path from that folder inwards. Don't forget the file extension of the sprite. 
 -->
 <item_sets>
-	<item_set format=0>
-		<item id = 0>
+	<item_set format="0">
+		<item id = "0">
 			<name>Slow Child</name>
 			<flavor>A test item taking after its creator</flavor>
 			<sprite>item/helmet_01e.png</sprite>
+		</item>
+		<item id = "1">
+			<name>Raw Chicken Breast</name>
+			<flavor>Did I ever take it out of the freezer?</flavor>
+			<sprite>item/candy_01g.png</sprite>
 		</item>
 	</item_set>
 </item_sets>

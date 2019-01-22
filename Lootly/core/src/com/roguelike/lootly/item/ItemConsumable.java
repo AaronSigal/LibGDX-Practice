@@ -16,16 +16,16 @@ public class ItemConsumable extends Item {
 	}
 	
 	
-	public ItemConsumable(String name, String flavorText, int id, Sprite sprite) {
-		super(name, flavorText, id, sprite);
+	public ItemConsumable(String name, String flavorText, int id, String spritePath) {
+		super(name, flavorText, id, spritePath);
 		
 		this.maxQuantity = 1;
 		this.cooldown = 0;
 	}
 	
 	//should be used most often, as it offers the largest degree of control on instantiation
-	public ItemConsumable(String name, String flavorText, int id, Sprite sprite, int quantity, int maxQuantity, int cooldown) {
-		super(name, flavorText, id, sprite);
+	public ItemConsumable(String name, String flavorText, int id, String spritePath, int quantity, int maxQuantity, int cooldown) {
+		super(name, flavorText, id, spritePath);
 		this.quantity = quantity;
 		this.maxQuantity = maxQuantity;
 		this.cooldown = cooldown;

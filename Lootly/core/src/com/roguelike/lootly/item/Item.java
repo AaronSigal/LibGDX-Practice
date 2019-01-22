@@ -1,9 +1,11 @@
 package com.roguelike.lootly.item;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Item {
-	Sprite sprite; //sprite to be displayed
+	Sprite sprite;
+	String spritePath; //spritePath to be displayed
 	String name; //name for item
 	String flavorText; //flavor text to be shown when applicable. Limit to 120 characters or fewer.
 	int id;// id of the item to be used for index and lookup purposes internally
@@ -15,10 +17,10 @@ public class Item {
 	}
 	
 	//Main constructor, intended to be used most often.
-	public Item(String name, String flavorText, int id, Sprite sprite) {
+	public Item(String name, String flavorText, int id, String spritePath) {
 		this.name = name;
 		this.id = id;
-		this.sprite = sprite;
+		this.sprite = new Sprite(new Texture(spritePath));
 		this.flavorText = flavorText;
 	}
 
