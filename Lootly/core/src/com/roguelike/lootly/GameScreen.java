@@ -13,11 +13,12 @@ import com.roguelike.lootly.item.Item;
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
 	private Stage stage;
-	ItemDisplayBox itemBox = new ItemDisplayBox(new Item("Weird", -1, new Sprite(new Texture("item/helmet_01e.png")))); //TODO: DEBUG
+	ItemDisplayBox itemBox = new ItemDisplayBox(new Item("Weird", -1, new Sprite(new Texture("gui/ball_blue.png")))); //TODO: DEBUG
 
 	
 	public GameScreen(Lootly game) {
 		this.game = game;
+		stage = new Stage(game.viewport);
 	}
 
 	@Override
@@ -25,7 +26,8 @@ public class GameScreen implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(stage);
 		
 		//Actor instantiation
-		
+		itemBox.setX(Gdx.graphics.getWidth()/2);
+		itemBox.setY(Gdx.graphics.getHeight()/2);
 		
 		//Actor staging
 		stage.addActor(itemBox);
@@ -34,7 +36,6 @@ public class GameScreen implements Screen, InputProcessor {
 	@Override
 	public void render(float delta) {
 		game.batch.setProjectionMatrix(game.camera.combined);
-		game.batch.begin();
 		
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -121,5 +122,7 @@ public class GameScreen implements Screen, InputProcessor {
 		
 		return false;
 	}
+	
+	
 
 }

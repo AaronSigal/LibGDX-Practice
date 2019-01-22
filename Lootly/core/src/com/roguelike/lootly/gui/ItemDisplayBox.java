@@ -27,5 +27,8 @@ public class ItemDisplayBox extends VerticalGroup {
 		
 	}
 	
-	//method that draws the actor
+	public void spritePos(float x, float y){
+		setPosition(x, y);
+		setBounds(getX(), getY(), getWidth(), getHeight());
+	}
 }
