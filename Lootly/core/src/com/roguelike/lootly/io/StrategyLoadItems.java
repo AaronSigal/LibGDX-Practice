@@ -19,7 +19,7 @@ public class StrategyLoadItems implements LoadStrategy {
 	@Override
 	public void load() {
 		
-		File[] itemManifests = finder("config/"); //initialize the array to hold all the .xml files found within the config folder inside /assets
+		File[] itemManifests = finder("assets/config/"); //initialize the array to hold all the .xml files found within the config folder inside /assets
 		
 		//TODO: Remove debugging statement
 		System.out.println("Item manifests found: " + itemManifests.length);
@@ -68,9 +68,11 @@ public class StrategyLoadItems implements LoadStrategy {
 		
 	}
 	
-	//From  Stackoverflow. //TODO: Rewrite to be original code
+	//From Stackoverflow. //TODO: Rewrite to be original code
 	 public File[] finder( String dirName){
 	        File dir = new File(dirName);
+	        
+	        System.out.println(dir.getAbsolutePath()); //TODO: remove debugging statement
 
 	        return dir.listFiles(new FilenameFilter() { 
 	                 public boolean accept(File dir, String filename)
