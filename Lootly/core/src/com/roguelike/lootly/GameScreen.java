@@ -13,8 +13,8 @@ import com.roguelike.lootly.item.Item;
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
 	private Stage stage;
-	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.itemList.get(1)); //TODO: Remove debugging object
-	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.itemList.get(1).clone()); //TODO: Remove debugging object
+	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(0))); //TODO: Remove debugging object
+	
 
 	
 	public GameScreen(Lootly game) {
@@ -30,13 +30,17 @@ public class GameScreen implements Screen, InputProcessor {
 		itemBox.setX(Gdx.graphics.getWidth()/2);
 		itemBox.setY(Gdx.graphics.getHeight()/2);
 		
+		itemBox.getItem().setSprite(new Sprite(new Texture("item/candy_01g.png")));
+		itemBox.updateImage();
+		
+		ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(0)));
+		
 		itemBoxClone.setX(Gdx.graphics.getWidth()/2 + 300);
 		itemBoxClone.setY(Gdx.graphics.getHeight()/2);
 		
 		//Actor staging
 		stage.addActor(itemBox);
 		stage.addActor(itemBoxClone);
-		itemBoxClone.getItem().setSprite(new Sprite(new Texture("item/candy_01g.png")));
 	}
 
 	@Override

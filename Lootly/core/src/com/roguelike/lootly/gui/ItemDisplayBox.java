@@ -27,6 +27,11 @@ public class ItemDisplayBox extends VerticalGroup {
 		
 	}
 	
+	//updates the image
+	public void updateImage() {
+		this.itemImage = new Image(item.getSprite());
+	}
+	
 	public void spritePos(float x, float y){
 		setPosition(x, y);
 		setBounds(getX(), getY(), getWidth(), getHeight());

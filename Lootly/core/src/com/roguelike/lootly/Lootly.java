@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.rits.cloning.Cloner;
 import com.roguelike.lootly.io.LoadContext;
 import com.roguelike.lootly.io.StrategyLoadItems;
 import com.roguelike.lootly.item.Item;
@@ -22,6 +23,7 @@ public class Lootly extends Game {
 	public Viewport viewport;
 	public Camera camera;
 	public static HashMap<Integer, Item> itemList = new HashMap();
+	public static Cloner cloner = new Cloner();
 	
 	final static float RENDER_WIDTH = 1920;
 	final static float RENDER_HEIGHT = 1080;

@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1546893175297
+Build-Jdk: 1.8.0_181
+Built-By: ariskk
+Bundle-Description: The cloning library is a small, open source (Apache 
+                licensed) Java library which deep-clones objects. The   
+              objects do not have to implement the Cloneable            
+     interface. Effectively, this library can clone ANY                J
+ ava object. It can be used i.e. in cache                implementations
+ , if you don't want the cached object                to be modified or 
+ whenever you want to create a deep                copy of an object.
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0
+Bundle-ManifestVersion: 2
+Bundle-Name: cloning
+Bundle-SymbolicName: uk.com.robust-it.cloning
+Bundle-Version: 1.9.11
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.rits.cloning;version="1.9.10",com.rits.perspectives;
+ version="1.9.10";uses:="com.rits.cloning"
+Import-Package: org.objenesis;version="[2.6,3)"
+Tool: Bnd-2.1.0.20130426-122213
