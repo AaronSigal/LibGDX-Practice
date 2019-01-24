@@ -1,0 +1,26 @@
+rogue_attacking.png
+size: 48, 16
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+rogue1
+  rotate: false
+  xy: 0, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+rogue2
+  rotate: false
+  xy: 16, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+rogue3
+  rotate: false
+  xy: 32, 0
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
