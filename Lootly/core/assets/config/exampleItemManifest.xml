@@ -15,9 +15,9 @@ give the path from that folder inwards. Don't forget the file extension of the s
 			<sprite>item/helmet_01e.png</sprite>
 		</item>
 		<item id = "1">
-			<name>Raw Chicken Breast</name>
-			<flavor>Did I ever take it out of the freezer?</flavor>
-			<sprite>item/candy_01g.png</sprite>
+			<name>Chiken LehG</name>
+			<flavor>Tastes like chicken!</flavor>
+			<sprite>item/chicken_leg_01.png</sprite>
 		</item>
 	</item_set>
 </item_sets>

@@ -1,10 +1,13 @@
 package com.roguelike.lootly.gui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.roguelike.lootly.item.Item;
 
 public class ItemDisplayBox extends VerticalGroup {
@@ -20,16 +23,30 @@ public class ItemDisplayBox extends VerticalGroup {
 		nameLabel = new Label(item.getName(), skin);
 		flavorLabel = new Label(item.getFlavorText(), skin);
 		
+		//******* scale adjustments ********//
+		itemImage.setScale(4f);
+		nameLabel.setFontScale(1f);
+		flavorLabel.setFontScale(0.5f);
+		
+		
+		
+		//****** origin adjustments *******//
+		itemImage.setOrigin(Align.bottom);
+		nameLabel.setOrigin(Align.bottom);
+		flavorLabel.setOrigin(Align.bottom);
+		
+		//****** actor adding *************//
 		addActor(itemImage);
 		addActor(nameLabel);
 		addActor(flavorLabel);
 		center();
-		
 	}
 	
 	//updates the image
-	public void updateImage() {
-		this.itemImage = new Image(item.getSprite());
+	public void update() {
+		nameLabel.setText(item.getName());
+		flavorLabel.setText(item.getFlavorText());
+		itemImage.setDrawable(new TextureRegionDrawable(new TextureRegion(item.getSprite().getTexture())));
 	}
 	
 	public void spritePos(float x, float y){
