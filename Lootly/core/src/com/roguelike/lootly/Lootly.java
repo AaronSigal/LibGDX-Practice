@@ -35,7 +35,7 @@ public class Lootly extends Game {
 		font = new BitmapFont();
 		camera = new OrthographicCamera(RENDER_WIDTH, RENDER_HEIGHT);
 		viewport = new FitViewport(RENDER_WIDTH, RENDER_HEIGHT, camera);
-		newCursor("Cursor (2).png");//calls new cursor looking for this 32x32 png
+		newCursor("gui/cursor.png");//calls new cursor looking for this 32x32 png
 		
 		init();
 		
