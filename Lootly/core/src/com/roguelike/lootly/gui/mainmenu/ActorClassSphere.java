@@ -21,9 +21,9 @@ public class ActorClassSphere extends Actor {
 		Classes playerClass = Classes.values()[0];
 		
 		//Textures
-		final Texture blueBall = new Texture("gui/ball_blue.png");
-		final Texture lightBlueBall = new Texture("gui/ball_light_blue.png");
-		final Texture greyBall = new Texture("gui/ball_grey.png");
+		final Texture blueBall = new Texture("data/gui/ball_blue.png");
+		final Texture lightBlueBall = new Texture("data/gui/ball_light_blue.png");
+		final Texture greyBall = new Texture("data/gui/ball_grey.png");
 		final float originalScale = 3f; // the original scale that the sphereSprite should be set to
 		final float largeScale = 8f; //    the scale that the sphereSprite should inflate to when hovered over
 		

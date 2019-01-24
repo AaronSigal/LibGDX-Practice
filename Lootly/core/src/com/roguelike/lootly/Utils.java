@@ -10,7 +10,7 @@ public class Utils {
 	
 	//Generates and returns an instance of the game font at the specified size.
 	public static BitmapFont getFont(int size) {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/FutilePro.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("data/font/FutilePro.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size;
 		BitmapFont font = generator.generateFont(parameter);

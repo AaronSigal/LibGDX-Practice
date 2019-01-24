@@ -12,12 +12,12 @@ give the path from that folder inwards. Don't forget the file extension of the s
 		<item id = "0">
 			<name>Slow Child</name>
 			<flavor>A test item taking after its creator</flavor>
-			<sprite>item/helmet_01e.png</sprite>
+			<sprite>data/item/helmet_01e.png</sprite>
 		</item>
 		<item id = "1">
 			<name>Chiken LehG</name>
 			<flavor>Tastes like chicken!</flavor>
-			<sprite>item/chicken_leg_01.png</sprite>
+			<sprite>data/item/chicken_leg_01.png</sprite>
 		</item>
 	</item_set>
 </item_sets>

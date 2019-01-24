@@ -18,16 +18,16 @@ public class CharacterClassManager {
 		switch (characterClass) {
 		
 			case CRUSADER:
-				sprite = new Sprite(new Texture("character/crusader/crusader_idle_down.png"));
+				sprite = new Sprite(new Texture("data/character/crusader/crusader_idle_down.png"));
 			break;
 			case ROGUE:
-				sprite = new Sprite(new Texture("character/rogue/rogue_idle_down.png"));
+				sprite = new Sprite(new Texture("data/character/rogue/rogue_idle_down.png"));
 				break;
 			case MAGE:
-				sprite = new Sprite(new Texture("character/mage/mage_idle_down.png"));
+				sprite = new Sprite(new Texture("data/character/mage/mage_idle_down.png"));
 				break;
 			default:
-				sprite = new Sprite(new Texture("character/crusader/crusader_idle_down.png"));
+				sprite = new Sprite(new Texture("data/character/crusader/crusader_idle_down.png"));
 				break;
 		}
 		

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ActorMainMenuFrame extends Actor {
 	//Textures
-			final Texture menuFrame = new Texture("gui/main_menu_no_ball_alt.png");
+			final Texture menuFrame = new Texture("data/gui/main_menu_no_ball_alt.png");
 			
 			
 			//the container for the current texture

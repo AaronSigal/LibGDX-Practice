@@ -15,7 +15,7 @@ public class ItemDisplayBox extends VerticalGroup {
 	Label nameLabel;
 	Label flavorLabel;
 	Image itemImage;
-	Skin skin = new Skin(Gdx.files.internal("gui/skin/LootlyV1/LootlyV1.json"));
+	Skin skin = new Skin(Gdx.files.internal("data/gui/skin/LootlyV1/LootlyV1.json"));
 	
 	public ItemDisplayBox(Item item) {
 		this.item = item;

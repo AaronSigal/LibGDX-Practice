@@ -30,7 +30,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	Button playButton;
 	BitmapFont font = Utils.getFont(36);
 	Classes playerClass;
-	Skin skin = new Skin(Gdx.files.internal("gui/skin/LootlyV1/LootlyV1.json"));
+	Skin skin = new Skin(Gdx.files.internal("data/gui/skin/LootlyV1/LootlyV1.json"));
 	
 	final float mainMenuScale = 3f;
 	
@@ -56,14 +56,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public void show() {
 		
 		//audio loading
-		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
+		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("data/audio/music.mp3"));
 		
 		Gdx.input.setInputProcessor(stage);
 		menuMusic.play();
 		
 		//image loading
-		background = new Texture("gui/background.png");
-		titleTexture = new Texture("gui/title.png");
+		background = new Texture("data/gui/background.png");
+		titleTexture = new Texture("data/gui/title.png");
 		titleSprite = new Sprite(titleTexture);
 		
 		

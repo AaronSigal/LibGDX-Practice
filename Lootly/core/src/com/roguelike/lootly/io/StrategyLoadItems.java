@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import com.badlogic.gdx.Gdx;
 import com.roguelike.lootly.Lootly;
 import com.roguelike.lootly.item.Item;
 
@@ -18,14 +19,14 @@ public class StrategyLoadItems implements LoadStrategy {
 	@Override
 	public void load() {
 		
-		File[] itemManifests = finder("config/"); //initialize the array to hold all the .xml files found within the config folder inside /assets
+		File[] itemManifests = finder("data/config"); //initialize the array to hold all the .xml files found within the config folder inside /assets
 		
 		//TODO: Remove debugging statement
 		System.out.println("Item manifests found: " + itemManifests.length);
 		
 		try {
 			for (File file: itemManifests) {
-				File inputFile = new File("config/" + file.getName()); //appends config/ to the the name of the file to allow the program to correctly find it. Without config/, the program searches in /assets.
+				File inputFile = new File("data/config/" + file.getName()); //appends config/ to the the name of the file to allow the program to correctly find it. Without config/, the program searches in /assets.
 				
 				//Set up the file for xml parsing
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -68,7 +69,7 @@ public class StrategyLoadItems implements LoadStrategy {
 	}
 	
 	//From Stackoverflow. //TODO: Rewrite to be original code
-	 public File[] finder( String dirName){
+	 public File[] finder(String dirName){
 	        File dir = new File(dirName);
 	        
 	        System.out.println(dir.getAbsolutePath()); //TODO: remove debugging statement
