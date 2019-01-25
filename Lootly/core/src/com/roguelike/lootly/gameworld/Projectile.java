@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.roguelike.lootly.GameScreen;
+import com.roguelike.lootly.Lootly;
 
 public class Projectile {
 	Sprite sprite;
@@ -16,10 +17,13 @@ public class Projectile {
     Body body;
     Character player;
     final float SCALE = 3f;
+    float duration;
+    
     public Projectile(GameScreen screen, Character player) {
     	this.screen = screen;
     	this.player = player;
     	makeProjectile();
+    	duration = 1f;
     }
     
     private void makeProjectile(){
@@ -52,18 +56,17 @@ public class Projectile {
 	    //Fixture is assigned to body
 	    body.createFixture(fixtureDef);
 	    
-	    System.out.println(Gdx.input.getX());
-	    System.out.println(Gdx.input.getY());
-	    System.out.println(sprite.getX());
-	    System.out.println(sprite.getY());
+	    //projectile direction
+	    //world starts at bottom of screen and travels up
+	    //mouse in starts at middle of screen and travels down
+	    //this complicates mouse to world conversions subsequently involving render height
+	    Vector2 dir = new Vector2( (float)Gdx.input.getX() - (float)player.sprite.getX(),
+	    	Lootly.RENDER_HEIGHT - (float)Gdx.input.getY() - (float)player.sprite.getY());
 	    
-	    Vector2 dir = new Vector2(  Gdx.input.getX() - sprite.getX(),
-	    						  - Gdx.input.getY() + sprite.getY());
-	    dir.nor().scl(5.0f);
+	    dir.nor().scl(7.0f);//projectile speed
 	    
-	    System.out.println(dir);
-	    
-	    body.setTransform(sprite.getX()/screen.PIXELS_TO_METERS,sprite.getY()/screen.PIXELS_TO_METERS,dir.angleRad());
+	    //body.setTransform(sprite.getX()/screen.PIXELS_TO_METERS,sprite.getY()/screen.PIXELS_TO_METERS,dir.angleRad());//set rotation
+	    body.setTransform(body.getPosition().x,body.getPosition().y,dir.angleRad());//set rotation
 	    
 	    //rotate body to direction of projection and add velocity in that direction
 		body.setLinearVelocity(dir);
@@ -78,6 +81,13 @@ public class Projectile {
     	sprite.setPosition( (body.getPosition().x * screen.PIXELS_TO_METERS) - sprite.getWidth()/2 ,
     						(body.getPosition().y * screen.PIXELS_TO_METERS) -sprite.getHeight()/2 );//set sprite position to box postion
     	sprite.setRotation((float)Math.toDegrees(body.getAngle()));//set sprite rotation to box position
+    }
+    
+    public boolean getDuration() {
+    	duration--;
+    	if(duration>0)
+    		return true;
+    	return false;
     }
     
     public Sprite getSprite() {

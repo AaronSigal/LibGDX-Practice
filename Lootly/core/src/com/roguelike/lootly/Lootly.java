@@ -24,7 +24,7 @@ public class Lootly extends Game {
 	public static HashMap<Integer, Item> itemList = new HashMap();
 	
 	final static float RENDER_WIDTH = 1920;
-	final static float RENDER_HEIGHT = 1080;
+	public final static float RENDER_HEIGHT = 1080;
 
 	@Override
 	public void create() {

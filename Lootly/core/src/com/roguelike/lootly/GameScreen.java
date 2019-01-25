@@ -32,13 +32,17 @@ public class GameScreen implements Screen, InputProcessor {
     private int firecount = -1;
     private boolean fire = false;
     private int fireDelay = 0;
-    
+    private final int MAXFIRE = 2;
     
     public final float PIXELS_TO_METERS = 100f;//scale of movement speed
+    
     public final short PLAYER_ENTITY = 1;
     public final short PLAYER_PROJECTILE = 2;
     public final short CREEP_ENTITY = 3;
     public final short CREEP_PROJECTILE = 4;
+    public final short WORLD_STATIC = 5;
+    public final short WORLD_DESTRUCTABLE = 6;
+    public final short WORLD_INTERACTABLE = 7;
     
 	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.itemList.get(1)); //TODO: Remove debugging object
 	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.itemList.get(1).clone()); //TODO: Remove debugging object	
@@ -49,7 +53,7 @@ public class GameScreen implements Screen, InputProcessor {
         world = new World(new Vector2(), true);//create world w/o gravity
 		player = new Character(this, Classes.CRUSADER);
 		player2 = new Character(this, Classes.ROGUE);
-		proj = new Projectile[2];
+		proj = new Projectile[MAXFIRE];
 		createComplexColisions();
 	}
 
@@ -81,11 +85,11 @@ public class GameScreen implements Screen, InputProcessor {
 				fireDelay--;
 			}
 			else {
-				if(firecount == 1)
+				if(firecount == MAXFIRE - 1)
 					firecount = -1;
 				firecount++;
 				proj[firecount] = new Projectile(this,player);
-				fireDelay = 30;
+				fireDelay = 20;
 			}
 		}
 		
@@ -99,16 +103,16 @@ public class GameScreen implements Screen, InputProcessor {
 		stage.act(delta);
 		//stage.draw();
 		
-		player.posSpriteToWorld();//match sprite positioning with world positioning
-		player2.posSpriteToWorld();//match sprite positioning with world positioning
+		player.posSpriteToWorld();//update sprite positioning with world positioning
+		player2.posSpriteToWorld();//update sprite positioning with world positioning
 		
-		if(firecount!=-1)
-			proj[firecount].posSpriteToWorld();//match sprite positioning with world positioning
+		for(int i = firecount;i!=-1;i--) //update sprite positioning with world positioning
+			proj[firecount].posSpriteToWorld();//do so only if sprite exists
 		
 		game.batch.begin();
 		
-		if(firecount!=-1)
-			drawSprite(proj[firecount].getSprite());
+		for(int i = firecount;i!=-1;i--) 
+			drawSprite(proj[firecount].getSprite());//do so only if sprite exists
 		
 		drawSprite(player.getSprite());
 		drawSprite(player2.getSprite());
