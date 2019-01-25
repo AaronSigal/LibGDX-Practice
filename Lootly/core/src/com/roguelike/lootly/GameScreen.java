@@ -19,8 +19,6 @@ public class GameScreen implements Screen, InputProcessor {
 	//simple animation initial
 	private static final int FRAME_COLS = 3;
 	private static final float ATTACK_RATE = 0.15f;
-	private static final float PROJECTILE_SPEED = 5f;
-	private static final float PROJECTILE_DURATION = 1f;
 	
     Animation<TextureRegion> animation;
     Texture sheet;
@@ -69,40 +67,6 @@ public class GameScreen implements Screen, InputProcessor {
         this.stateTime = 0.0F;
 	}
 	
-	public void createProjectile(){
-		sheet = new Texture(Gdx.files.internal("character/rogue/rogue_projectile.png"));
-        TextureRegion[][] tmp = TextureRegion.split(this.sheet, this.sheet.getWidth(), this.sheet.getHeight());
-        frame = tmp[0][0];
-	}
-	
-	public void throwProjectile() {
-		if(currentFrame == frames[1]){
-			projNum++;
-			if(projNum==5)
-				return;
-			projectile[projNum][0] = new Vector2(posX, posY);
-			projectile[projNum][1] = (new Vector2(mouseX - posX, mouseY - posY )).setLength(PROJECTILE_SPEED);
-			lifespan[projNum] = PROJECTILE_DURATION;
-        }
-		if(lifespan[0] < 0.0F) {
-			projectile[0][0] = projectile[1][0]; projectile[0][1] = projectile[1][1]; lifespan[0] = lifespan[1];
-			projectile[1][0] = projectile[2][0]; projectile[1][1] = projectile[2][1]; lifespan[1] = lifespan[2];
-			projectile[2][0] = projectile[3][0]; projectile[2][1] = projectile[3][1]; lifespan[2] = lifespan[3];
-			projectile[3][0] = projectile[4][0]; projectile[3][1] = projectile[4][1]; lifespan[3] = lifespan[4];
-			projectile[4][0] = null; 			 projectile[4][1] = null;			  lifespan[4] = -1.0F;
-			projNum--;
-		}
-		System.out.println("here");
-		for(int j = 0; j != projNum + 1; j++) {
-			projectile[j][0].add(projectile[j][1]);
-			lifespan[j] -= .25F;
-		}
-	}
-	
-	public void drawProjectiles() {
-		for(int j = 0; j > projNum; j++)
-			batch.draw(frame, projectile[j][0].x, projectile[j][0].y, 0.0F, 0.0F, 16.0F, 16.0F, 5.0F, 5.0F, projectile[j][1].angle());
-	}
 	
 	@Override
 	public void show() {
@@ -112,8 +76,6 @@ public class GameScreen implements Screen, InputProcessor {
 		//set max number of assignable vector projectiles
         projectile = new Vector2[2][5];
         lifespan = new float[5];
-		
-        createProjectile();
 	}
 
 	@Override
@@ -126,9 +88,6 @@ public class GameScreen implements Screen, InputProcessor {
         mouseIsPressed = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
         if(mouseIsPressed||currentFrame!=frames[0]) 
         	stateTime += Gdx.graphics.getDeltaTime();
-        
-        //throw projectile on first frame of animation
-        throwProjectile();
         
         //set animation frame
         currentFrame = animation.getKeyFrame(stateTime, true);
