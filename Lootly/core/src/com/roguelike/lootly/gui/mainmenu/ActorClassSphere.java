@@ -227,6 +227,4 @@ public class ActorClassSphere extends Actor {
 		public boolean isClicked() {
 			return clicked;
 		}
-		
-		
 }

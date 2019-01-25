@@ -57,7 +57,7 @@ public class StrategyLoadItems implements LoadStrategy {
 		            
 		            
 		            if (format == 0) { //if the item being loaded has a generic base-item structure (as defined by its item_set in its .xml definition)
-		            	Lootly.itemList.put(Integer.parseInt(eElement.getAttribute("id")), new Item(eElement.getElementsByTagName("name").item(0).getTextContent(), eElement.getElementsByTagName("flavor").item(0).getTextContent(), Integer.parseInt(eElement.getAttribute("id")), eElement.getElementsByTagName("sprite").item(0).getTextContent()));
+		            	Lootly.itemList.put(Integer.parseInt(eElement.getAttribute("id")), new Item(eElement.getElementsByTagName("name").item(0).getTextContent(), eElement.getElementsByTagName("flavor").item(0).getTextContent(), eElement.getElementsByTagName("sprite").item(0).getTextContent(), Integer.parseInt(eElement.getAttribute("id")), Integer.parseInt(eElement.getAttribute("tier"))));
 		            }
 		        }
 			}  
@@ -71,9 +71,7 @@ public class StrategyLoadItems implements LoadStrategy {
 	//From Stackoverflow. //TODO: Rewrite to be original code
 	 public File[] finder(String dirName){
 	        File dir = new File(dirName);
-	        
-	        System.out.println(dir.getAbsolutePath()); //TODO: remove debugging statement
-
+	   
 	        return dir.listFiles(new FilenameFilter() { 
 	                 public boolean accept(File dir, String filename)
 	                      { return filename.endsWith(".xml"); }

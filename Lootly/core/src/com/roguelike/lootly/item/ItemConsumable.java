@@ -18,16 +18,16 @@ public class ItemConsumable extends Item {
 	}
 	
 	
-	public ItemConsumable(String name, String flavorText, int id, String spritePath) {
-		super(name, flavorText, id, spritePath);
+	public ItemConsumable(String name, String flavorText, String spritePath, int id, int tier) {
+		super(name, flavorText, spritePath, id, tier);
 		effects = new ArrayList<ConfigurableEffect>();
 		this.maxUses = 1;
 		this.cooldown = 0;
 	}
 	
 	//should be used most often, as it offers the largest degree of control on instantiation
-	public ItemConsumable(String name, String flavorText, int id, String spritePath, int uses, int maxUses, int cooldown) {
-		super(name, flavorText, id, spritePath);
+	public ItemConsumable(String name, String flavorText, String spritePath, int id, int tier, int uses, int maxUses, int cooldown) {
+		super(name, flavorText, spritePath, id, tier);
 		effects = new ArrayList<ConfigurableEffect>();
 		this.uses = uses;
 		this.maxUses = maxUses;

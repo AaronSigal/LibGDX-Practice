@@ -9,6 +9,7 @@ public class Item implements Cloneable{
 	String name; //name for item
 	String flavorText; //flavor text to be shown when applicable. Limit to 120 characters or fewer.
 	int id;// id of the item to be used for index and lookup purposes internally
+	int tier; //tier of the item. The higher the better. This value can be used for scaling effects according to item rarity
 	
 	
 	//Generic constructor for a quick instantiation
@@ -17,7 +18,7 @@ public class Item implements Cloneable{
 	}
 	
 	//Main constructor, intended to be used most often.
-	public Item(String name, String flavorText, int id, String spritePath) {
+	public Item(String name, String flavorText, String spritePath, int id, int tier) {
 		this.name = name;
 		this.id = id;
 		this.sprite = new Sprite(new Texture(spritePath));

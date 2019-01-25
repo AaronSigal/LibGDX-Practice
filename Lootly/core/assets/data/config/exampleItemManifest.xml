@@ -6,15 +6,16 @@ items are all a part of an item set, inside of which there can only be one type 
 Item types are denoted by the "format" attribute. 0 = item, 1 = itemConsumable, 2 = itemWearable.
 Sprite elements contain the path to the sprite for the item. The relative root is the assets folder of the project, so you only need to
 give the path from that folder inwards. Don't forget the file extension of the sprite. 
+The tier attribut is used to define an items "tier". This value is useful for many things, such as drop rates. The higher, the better/rarer the item.
 -->
 <item_sets>
 	<item_set format="0">
-		<item id = "0">
+		<item id = "0" tier = "0">
 			<name>Slow Child</name>
 			<flavor>A test item taking after its creator</flavor>
 			<sprite>data/item/helmet_01e.png</sprite>
 		</item>
-		<item id = "1">
+		<item id = "1" tier = "0">
 			<name>Chiken LehG</name>
 			<flavor>Tastes like chicken!</flavor>
 			<sprite>data/item/chicken_leg_01.png</sprite>
