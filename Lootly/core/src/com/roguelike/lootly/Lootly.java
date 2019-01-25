@@ -22,7 +22,7 @@ public class Lootly extends Game {
 	public BitmapFont font;
 	public Viewport viewport;
 	public Camera camera;
-	public static HashMap<Integer, Item> itemList = new HashMap();
+	public static HashMap<Integer, Item> itemList = new HashMap<Integer, Item>();
 	public static Cloner cloner = new Cloner();
 	
 	final static float RENDER_WIDTH = 1920;

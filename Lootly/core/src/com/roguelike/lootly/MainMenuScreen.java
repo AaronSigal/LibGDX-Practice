@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.roguelike.lootly.character.Classes;
 import com.roguelike.lootly.gui.mainmenu.ActorClassSphere;
@@ -32,7 +31,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	Classes playerClass;
 	Skin skin = new Skin(Gdx.files.internal("data/gui/skin/LootlyV1/LootlyV1.json"));
 	
-	final float mainMenuScale = 3f;
+	final float MAIN_MENU_SCALE = 3f;
 	
 	Music menuMusic;  //background music: http://freemusicarchive.org/music/Rolemusic/The_Black_Dot/The_Black_Kitty
 	
@@ -71,7 +70,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		//******************************** menu frame ****************************
 		menuFrame = new ActorMainMenuFrame();                                  //*
-		menuFrame.setScale(mainMenuScale);	                                   //*
+		menuFrame.setScale(MAIN_MENU_SCALE);	                                   //*
 		menuFrame.setOrigin(menuFrame.getWidth()/2, menuFrame.getHeight()/2);  //*
 		menuFrame.spritePos(Gdx.graphics.getWidth()/2 - menuFrame.getWidth()/2,/**/ 
 				Gdx.graphics.getHeight()/2 - menuFrame.getHeight()/2);         //*
