@@ -14,7 +14,7 @@ import com.roguelike.lootly.Lootly;
 import com.roguelike.lootly.item.Item;
 
 //Loads items into the itemList HashMap by parsing them out of .xml files located within /assets/config/. For formatting, see "exampleItemManifest.xml"
-public class StrategyLoadItems implements LoadStrategy {
+public class StrategyLoadItemList implements LoadStrategy {
 
 	@Override
 	public void load() {

@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 
-<!--
-An example XML file for storing items
-items are all a part of an item set, inside of which there can only be one type of item (Item, ItemWearable, ItemConsumable). 
-Item types are denoted by the "format" attribute. 0 = item, 1 = itemConsumable, 2 = itemWearable.
-Sprite elements contain the path to the sprite for the item. The relative root is the assets folder of the project, so you only need to
-give the path from that folder inwards. Don't forget the file extension of the sprite. 
-The tier attribut is used to define an items "tier". This value is useful for many things, such as drop rates. The higher, the better/rarer the item.
+<!-- General:
+	An example XML file for storing items
+	items are all a part of an item set, inside of which there can only be one type of item (Item, ItemWearable, ItemConsumable). 
+	Item types are denoted by the "format" attribute. 0 = item, 1 = itemConsumable, 2 = itemWearable.
+	Sprite elements contain the path to the sprite for the item. The relative root is the assets folder of the project, so you only need to
+	give the path from that folder inwards. Don't forget the file extension of the sprite. 
+	The tier attribut is used to define an items "tier". This value is useful for many things, such as drop rates. The higher, the better/rarer the item.
+	For each ID, there can only be one corresponding item. So be careful not to use an ID that's already been taken! 
 -->
 <item_sets>
 	<item_set format="0">
@@ -19,6 +20,25 @@ The tier attribut is used to define an items "tier". This value is useful for ma
 			<name>Chiken LehG</name>
 			<flavor>Tastes like chicken!</flavor>
 			<sprite>data/item/chicken_leg_01.png</sprite>
+		</item>
+	</item_set>
+	
+	
+	<!-- Consumables:
+		Consumable declerations are more complex than base item declerations. There's many more fields to manage, and more attributes to configure. The good news is that 
+		most of the time, these consumables *won't* be written by a person. They will be the product of a random generator. Still though, it may be useful to understand the
+		structure of the consumable xml decleration. By this point, a pattern should emerge: all int-values are delcared as attributes in the <item> tag, and all more complex
+		values are declared in their own tag within the <item>.
+	-->
+	<item_set format="1">
+		<item id = "2" tier = "1" uses = "0" maxUses = "10" cooldown = "15">
+			<name>Potion of Confusion</name>
+			<flavor>Jokes on you, I'm already confused!</flavor>
+			<sprite>data/item/potion_01a.png</sprite>
+			<effect_set>
+				<effect0 id = "0" arg0 = "100.5" arg1 = "50.1" arg2 = "15" arg3 = "20"/>
+				<effect1 id = "1" arg0 = "11.6" arg1 = "0.0" arg2 = "20" arg3 = "0"/>
+			</effect_set>
 		</item>
 	</item_set>
 </item_sets>

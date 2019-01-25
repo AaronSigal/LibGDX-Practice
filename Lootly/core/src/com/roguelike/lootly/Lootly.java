@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rits.cloning.Cloner;
 import com.roguelike.lootly.io.LoadContext;
-import com.roguelike.lootly.io.StrategyLoadItems;
+import com.roguelike.lootly.io.StrategyLoadItemList;
 import com.roguelike.lootly.item.Item;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.Gdx;
@@ -58,7 +58,7 @@ public class Lootly extends Game {
 	}
 	
 	public void init() {
-		LoadContext loadManager = new LoadContext(new StrategyLoadItems());
+		LoadContext loadManager = new LoadContext(new StrategyLoadItemList());
 		loadManager.execute();
 		
 	}
