@@ -5,43 +5,40 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.roguelike.lootly.character.CharacterClassManager;
 import com.roguelike.lootly.character.Classes;
+import com.roguelike.lootly.gameworld.Character;
+import com.roguelike.lootly.gameworld.Projectile;
 import com.roguelike.lootly.gui.ItemDisplayBox;
-import com.roguelike.lootly.item.Item;
 
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
 	private Stage stage;
-	
-    Sprite sprite;//rogue
-    Sprite sprite2;//mage
-    World world;
-    Body body;
-    Body body2;
-    Body bodyEdgeScreen;
-    final float PIXELS_TO_METERS = 100f;//scale of movement speed
-    final float SCALE = 3;
-    final float SCALE2 = .3f;
+    public World world;
+    
+    Character player;
+    Character player2;
+    Projectile proj[];
+    
+    private int firecount = -1;
+    private boolean fire = false;
+    private int fireDelay = 0;
+    
+    
+    public final float PIXELS_TO_METERS = 100f;//scale of movement speed
+    public final short PLAYER_ENTITY = 1;
+    public final short PLAYER_PROJECTILE = 2;
+    public final short CREEP_ENTITY = 3;
+    public final short CREEP_PROJECTILE = 4;
     
 	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.itemList.get(1)); //TODO: Remove debugging object
 	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.itemList.get(1).clone()); //TODO: Remove debugging object	
@@ -49,13 +46,16 @@ public class GameScreen implements Screen, InputProcessor {
 	public GameScreen(Lootly game) {
 		this.game = game;
 		stage = new Stage(game.viewport);
+        world = new World(new Vector2(), true);//create world w/o gravity
+		player = new Character(this, Classes.CRUSADER);
+		player2 = new Character(this, Classes.ROGUE);
+		proj = new Projectile[2];
+		createComplexColisions();
 	}
 
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
-		
-		newWorld();
         
 		//Actor instantiation
 		itemBox.setX(Gdx.graphics.getWidth()/2);
@@ -74,17 +74,23 @@ public class GameScreen implements Screen, InputProcessor {
 	@Override
 	public void render(float delta) {
 		
-		getMotionInput();//moves rogue sprite according to wasd and arrowkeys
-		world.step(1f/60f, 6, 2);//update world
+		fire = player.getMotionInput();//moves rogue sprite according to wasd and arrowkeys
 		
-		sprite.setPosition( (body.getPosition().x * PIXELS_TO_METERS) - sprite.getWidth()/2 ,
-							(body.getPosition().y * PIXELS_TO_METERS) -sprite.getHeight()/2 );//set sprite position to box postion
-		sprite.setRotation((float)Math.toDegrees(body.getAngle()));//set sprite rotation to box position
-        
-        sprite2.setPosition((body2.getPosition().x * PIXELS_TO_METERS) - sprite2.getWidth()/2 ,
-							(body2.getPosition().y * PIXELS_TO_METERS) -sprite2.getHeight()/2 );//set sprite position to box postion
-        sprite2.setRotation((float)Math.toDegrees(body2.getAngle()));//set sprite rotation to box position
-        
+		if(fire) {//Terrible attempt at recursive firing
+			if(fireDelay != 0){
+				fireDelay--;
+			}
+			else {
+				if(firecount == 1)
+					firecount = -1;
+				firecount++;
+				proj[firecount] = new Projectile(this,player);
+				fireDelay = 30;
+			}
+		}
+		
+		world.step(1f/60f, 6, 2);//update world 60 times per second
+		
 		game.batch.setProjectionMatrix(game.camera.combined);
 		
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
@@ -93,15 +99,19 @@ public class GameScreen implements Screen, InputProcessor {
 		stage.act(delta);
 		//stage.draw();
 		
+		player.posSpriteToWorld();//match sprite positioning with world positioning
+		player2.posSpriteToWorld();//match sprite positioning with world positioning
+		
+		if(firecount!=-1)
+			proj[firecount].posSpriteToWorld();//match sprite positioning with world positioning
+		
 		game.batch.begin();
-		game.batch.draw(sprite,    sprite.getX(), sprite.getY(),
-				sprite.getOriginX(),sprite.getOriginY(),
-				sprite.getWidth(),   sprite.getHeight(),
-				sprite.getScaleX(),  sprite.getScaleY(),sprite.getRotation());
-		game.batch.draw(sprite2,    sprite2.getX(), sprite2.getY(),
-						sprite2.getOriginX(),sprite2.getOriginY(),
-						sprite2.getWidth(),   sprite2.getHeight(),
-						sprite2.getScaleX(),  sprite2.getScaleY(),sprite2.getRotation());
+		
+		if(firecount!=-1)
+			drawSprite(proj[firecount].getSprite());
+		
+		drawSprite(player.getSprite());
+		drawSprite(player2.getSprite());
 		game.batch.end();
 		
 		
@@ -109,7 +119,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public void resize(int width, int height) {
-		// 
+		
 
 	}
 
@@ -185,90 +195,36 @@ public class GameScreen implements Screen, InputProcessor {
 		return false;
 	}
 	
-	public void newWorld() {     
-        world = new World(new Vector2(), true);//create world w/o gravity
-        
-        sprite = CharacterClassManager.getClassSprite(Classes.ROGUE);
-        sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
-                		   Gdx.graphics.getHeight() * .66f);
-        sprite.setScale(SCALE);
-        
-        BodyDef bodyDef = new BodyDef();//make body in world
-        bodyDef.type = BodyDef.BodyType.DynamicBody;//define body
-        bodyDef.position.set((sprite.getX() + sprite.getWidth() /2) / PIXELS_TO_METERS, 
-        					 (sprite.getY() + sprite.getHeight()/2) / PIXELS_TO_METERS);//set body position to match sprite adjusted position
-        body = world.createBody(bodyDef);//make body in world
-        PolygonShape shape = new PolygonShape();//make poly
-        shape.setAsBox(sprite.getWidth()/2  / PIXELS_TO_METERS * SCALE / 2, 
-        			   sprite.getHeight()/2 / PIXELS_TO_METERS * SCALE);//set poly dimension to sprite adjusted size
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;//define shape of body
-        fixtureDef.density = 1f;//define weight of body
-        body.createFixture(fixtureDef);
-        body.setFixedRotation(true);
-
-        
-        sprite2 = CharacterClassManager.getClassSprite(Classes.MAGE);
-        sprite2.setPosition(Gdx.graphics.getWidth() / 2 - sprite2.getWidth() / 2,
-                		    Gdx.graphics.getHeight() * .33f);
-        sprite2.setScale(SCALE2);
-        
-        BodyDef bodyDef2 = new BodyDef();//make body in world
-        bodyDef2.type = BodyDef.BodyType.DynamicBody;//define body
-        bodyDef2.position.set((sprite2.getX() + sprite2.getWidth() /2) / PIXELS_TO_METERS, 
-        					  (sprite2.getY() + sprite2.getHeight()/2) / PIXELS_TO_METERS);//set body position to match sprite adjusted position
-        body2 = world.createBody(bodyDef);//make body in world
-        shape = new PolygonShape();//make poly
-        shape.setAsBox(sprite2.getWidth()/2  / PIXELS_TO_METERS * SCALE2 / 2,
- 			   		   sprite2.getHeight()/2 / PIXELS_TO_METERS * SCALE2);//set poly dimension to sprite adjusted size
-        FixtureDef fixtureDef2 = new FixtureDef();
-        fixtureDef2.shape = shape;
-        fixtureDef2.density = 10f;
-        body2.createFixture(fixtureDef2);
-        body2.setFixedRotation(true);
-        
-        shape.dispose();
-        
-        world.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-                // Check to see if the collision is between the second sprite and the bottom of the screen
-                // If so apply a random amount of upward force to both objects... just because
-                if((contact.getFixtureA().getBody() == body &&
-                    contact.getFixtureB().getBody() == body2)||
-                   (contact.getFixtureA().getBody() == body2 &&
-                    contact.getFixtureB().getBody() == body)) {
-
-                	
-                }
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
-            }
-        });
+	private void createComplexColisions() {//handles world collisions according to various contact events
+		world.setContactListener(new ContactListener() {
+	        @Override
+	        public void beginContact(Contact contact) {
+	            // Check to see if collision involves player
+	        	Body body1 = contact.getFixtureA().getBody();
+	        	Body body2 = contact.getFixtureB().getBody();
+	        	if(player.hit(body1, body2))//if either body involved in collision are the player, performs function and returns true
+	        		return;
+	        }
+	
+	        @Override
+	        public void endContact(Contact contact) {
+	        }
+	
+	        @Override
+	        public void preSolve(Contact contact, Manifold oldManifold) {
+	        }
+	
+	        @Override
+	        public void postSolve(Contact contact, ContactImpulse impulse) {
+	        }
+	    });
 	}
 	
-	public void getMotionInput(){
-		float inpDirX = 0.0f;
-		float inpDirY = 0.0f;
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)||Gdx.input.isKeyPressed(Input.Keys.D))
-            inpDirX+=5f;
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)||Gdx.input.isKeyPressed(Input.Keys.A))
-            inpDirX-=5f;
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)||Gdx.input.isKeyPressed(Input.Keys.W))
-            inpDirY+=5f;
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)||Gdx.input.isKeyPressed(Input.Keys.S))
-            inpDirY-=5f;
-		body.setLinearVelocity(inpDirX, inpDirY);
+	private void drawSprite(Sprite sprite) {
+		game.batch.draw(sprite,    sprite.getX(), sprite.getY(),
+						sprite.getOriginX(),sprite.getOriginY(),
+						sprite.getWidth(),   sprite.getHeight(),
+						sprite.getScaleX(),  sprite.getScaleY(),sprite.getRotation());
 	}
 	
 
