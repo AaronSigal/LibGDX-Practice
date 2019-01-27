@@ -103,6 +103,18 @@ public class Character {
         }
         return false;
     }
+    public void setToEnemy() {//testing class which creates a new fixture of type enemy for the player to colide with
+    	PolygonShape shape = new PolygonShape();
+	    shape.setAsBox(sprite.getWidth()/2  / screen.PIXELS_TO_METERS * SCALE / 2, 
+	    			   sprite.getHeight()/2 / screen.PIXELS_TO_METERS * SCALE);
+    	FixtureDef fixtureDef = new FixtureDef();
+	    fixtureDef.shape = shape;
+	    fixtureDef.density = 10f;
+	    fixtureDef.filter.categoryBits = screen.CREEP_ENTITY;
+	    fixtureDef.filter.maskBits = screen.PLAYER_PROJECTILE;
+	    
+    	body.createFixture(fixtureDef);
+    }
     public Sprite getSprite() {
     	return sprite;
     }

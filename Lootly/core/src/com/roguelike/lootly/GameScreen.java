@@ -5,8 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -23,13 +28,20 @@ import com.roguelike.lootly.gui.ItemDisplayBox;
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
 	private Stage stage;
-    public World world;
+	
+    public World world;//physics world
+    
+    //TmxMapLoader 
+    //OrthographicCamera camera;
+    TiledMap tiledMap;
+    TiledMapRenderer tiledMapRenderer;
+    
     
     Character player;
     Character player2;
     Projectile proj[];
     
-    private int firecount = -1;
+    private int firecount = -1;//set of vars control projectile firerate
     private boolean fire = false;
     private int fireDelay = 0;
     private final int MAXFIRE = 2;
@@ -53,14 +65,18 @@ public class GameScreen implements Screen, InputProcessor {
         world = new World(new Vector2(), true);//create world w/o gravity
 		player = new Character(this, Classes.CRUSADER);
 		player2 = new Character(this, Classes.ROGUE);
+		player2.setToEnemy();//testing class to see how enemies work
 		proj = new Projectile[MAXFIRE];
-		createComplexColisions();
+		createComplexColisions();//makes collisions do more than just displacement
 	}
 
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
         
+		tiledMap = new TmxMapLoader().load("maps/Atempt2.tmx");//load in map and create rendered version
+		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		
 		//Actor instantiation
 		itemBox.setX(Gdx.graphics.getWidth()/2);
 		itemBox.setY(Gdx.graphics.getHeight()/2);
@@ -77,10 +93,11 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public void render(float delta) {
+		//moves player sprite according to wasd and arrow keys
+		fire = player.getMotionInput();//returns true if mouse is pressed
 		
-		fire = player.getMotionInput();//moves rogue sprite according to wasd and arrowkeys
-		
-		if(fire) {//Terrible attempt at recursive firing
+		//////////////////////////////Terrible attempt at recursive firing
+		if(fire) {//TODO: make recursive firing easier and less data consuming
 			if(fireDelay != 0){
 				fireDelay--;
 			}
@@ -92,22 +109,33 @@ public class GameScreen implements Screen, InputProcessor {
 				fireDelay = 20;
 			}
 		}
+		///////////////////////////
 		
-		world.step(1f/60f, 6, 2);//update world 60 times per second
+		//update world 60 times per second
+		world.step(1f/60f, 6, 2);
 		
 		game.batch.setProjectionMatrix(game.camera.combined);
 		
+		//Reset Screen
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		//Draws Map to Screen
+		tiledMapRenderer.setView((OrthographicCamera) game.camera);//sets the location to draw the map to the location of the camera
+		tiledMapRenderer.render();//draw map
+		
+		//Acts and draws scene
 		stage.act(delta);
-		//stage.draw();
+		stage.draw();
 		
-		player.posSpriteToWorld();//update sprite positioning with world positioning
-		player2.posSpriteToWorld();//update sprite positioning with world positioning
+		///////////////////////////////update sprite positioning with world positioning
+		player.posSpriteToWorld();
+		if(player2 != null)
+			player2.posSpriteToWorld();
 		
-		for(int i = firecount;i!=-1;i--) //update sprite positioning with world positioning
-			proj[firecount].posSpriteToWorld();//do so only if sprite exists
+		for(int i = firecount;i!=-1;i--)
+			proj[firecount].posSpriteToWorld();
+		///////////////////////////////
 		
 		game.batch.begin();
 		
@@ -115,7 +143,11 @@ public class GameScreen implements Screen, InputProcessor {
 			drawSprite(proj[firecount].getSprite());//do so only if sprite exists
 		
 		drawSprite(player.getSprite());
-		drawSprite(player2.getSprite());
+		
+		if(player2 != null)
+			drawSprite(player2.getSprite());
+		
+		
 		game.batch.end();
 		
 		
@@ -206,8 +238,9 @@ public class GameScreen implements Screen, InputProcessor {
 	            // Check to see if collision involves player
 	        	Body body1 = contact.getFixtureA().getBody();
 	        	Body body2 = contact.getFixtureB().getBody();
-	        	if(player.hit(body1, body2))//if either body involved in collision are the player, performs function and returns true
-	        		return;
+	        	if(player2.hit(body1, body2)) {//if either body involved in collision are player2, performs function and returns true
+	        		player2 = null;
+	        	}
 	        }
 	
 	        @Override
@@ -216,6 +249,7 @@ public class GameScreen implements Screen, InputProcessor {
 	
 	        @Override
 	        public void preSolve(Contact contact, Manifold oldManifold) {
+	        	
 	        }
 	
 	        @Override

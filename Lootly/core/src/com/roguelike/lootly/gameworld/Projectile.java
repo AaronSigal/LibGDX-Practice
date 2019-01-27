@@ -49,7 +49,7 @@ public class Projectile {
 	    //Note: more than one FixtureDef can be assigned to any body for more than one hitbox
 	    FixtureDef fixtureDef = new FixtureDef();
 	    fixtureDef.shape = shape;//define shape of body
-	    fixtureDef.density = .1f;//define weight of body
+	    //fixtureDef.density = .1f;//define weight of body
 	    fixtureDef.filter.categoryBits = screen.PLAYER_PROJECTILE;//set collision group
 	    fixtureDef.filter.maskBits = screen.CREEP_ENTITY;//set group to collide with
 	    
