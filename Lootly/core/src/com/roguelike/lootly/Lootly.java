@@ -21,7 +21,8 @@ public class Lootly extends Game {
 	
 	public SpriteBatch batch;
 	public BitmapFont font;
-	public Viewport viewport;
+	public Viewport viewport_game;
+	public Viewport viewport_ui;
 	public Camera camera;
 	public static HashMap<Integer, Item> itemList = new HashMap<Integer, Item>();
 	public static HashMap<Integer, ConfigurableEffect> effectList = new HashMap<Integer, ConfigurableEffect>();
@@ -35,8 +36,8 @@ public class Lootly extends Game {
 		Gdx.graphics.setResizable(false);
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		camera = new OrthographicCamera(RENDER_WIDTH, RENDER_HEIGHT);
-		viewport = new FitViewport(RENDER_WIDTH, RENDER_HEIGHT, camera);
+		viewport_game = new FitViewport(RENDER_WIDTH, RENDER_HEIGHT);
+		viewport_ui = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); viewport_ui.apply(true); // true = center camera
 		newCursor("data/gui/cursor.png");//calls new cursor looking for this 32x32 png
 		
 		init();

@@ -9,7 +9,8 @@ import com.roguelike.lootly.gui.ItemDisplayBox;
 
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
-	private Stage stage;
+	private Stage gameStage;//stage that contains all the game elements
+	private Stage uiStage;//stage that contains all the UI elements
 	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(0))); //TODO: Remove debugging object
 	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(1)));
 	
@@ -17,12 +18,12 @@ public class GameScreen implements Screen, InputProcessor {
 	
 	public GameScreen(Lootly game) {
 		this.game = game;
-		stage = new Stage(game.viewport);
+		gameStage = new Stage(game.viewport_game);
 	}
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(gameStage);
 		
 		//Actor instantiation
 		itemBox.setX(Gdx.graphics.getWidth()/2);
@@ -32,19 +33,19 @@ public class GameScreen implements Screen, InputProcessor {
 		itemBoxClone.setY(Gdx.graphics.getHeight()/2);
 		
 		//Actor staging
-		stage.addActor(itemBox);
-		stage.addActor(itemBoxClone);
+		gameStage.addActor(itemBox);
+		gameStage.addActor(itemBoxClone);
 	}
 
 	@Override
 	public void render(float delta) {
-		game.batch.setProjectionMatrix(game.camera.combined);
+		game.batch.setProjectionMatrix(game.viewport_game.getCamera().combined);
 		
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		stage.act(delta);
-		stage.draw();
+		gameStage.act(delta);
+		gameStage.draw();
 
 	}
 

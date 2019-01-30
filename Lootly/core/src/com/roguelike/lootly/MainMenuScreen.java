@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -41,7 +40,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	public MainMenuScreen(final Lootly game) {
 		this.game = game;
 		
-		stage = new Stage(game.viewport);
+		//Use the UI viewport
+		stage = new Stage(game.viewport_ui);
 		
 		//*********** Play Button Instantiation *****************
 		playButton = new TextButton(PLAY_BUTTON_TEXT, skin);
@@ -51,6 +51,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	            game.startGameScreen();
 	        }
 	    });
+		//*******************************************************
+		
+		//image loading
+		background = new Texture("data/gui/background.png");
+		titleTexture = new Texture("data/gui/title.png");
+		titleSprite = new Sprite(titleTexture);
 	}
 
 	@Override
@@ -62,10 +68,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(stage);
 		menuMusic.play();
 		
-		//image loading
-		background = new Texture("data/gui/background.png");
-		titleTexture = new Texture("data/gui/title.png");
-		titleSprite = new Sprite(titleTexture);
+		
 		
 		
 		//Actor instantiation
@@ -104,7 +107,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
 	@Override
 	public void render(float delta) {
-		game.batch.setProjectionMatrix(game.camera.combined);
+		game.batch.setProjectionMatrix(game.viewport_ui.getCamera().combined);
 		
 		game.batch.begin();
 		game.batch.draw(background, 0, 0); //background texture, native 1080p
@@ -114,9 +117,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		stage.act(delta);
 		stage.draw();
-		
-		game.batch.setProjectionMatrix(game.camera.combined);
-		
 		
 		//if music isn't playing, start it.
 		if (!menuMusic.isPlaying()) {
