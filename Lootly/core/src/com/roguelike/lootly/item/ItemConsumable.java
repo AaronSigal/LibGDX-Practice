@@ -34,6 +34,10 @@ public class ItemConsumable extends Item {
 		this.cooldown = cooldown;
 	}
 	
+	public void addEffect(ConfigurableEffect effect) {
+		effects.add(effect);
+	}
+	
 	public int getUses() {
 		return uses;
 	}

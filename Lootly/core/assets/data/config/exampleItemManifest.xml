@@ -36,8 +36,21 @@
 			<flavor>Jokes on you, I'm already confused!</flavor>
 			<sprite>data/item/potion_01a.png</sprite>
 			<effect_set>
-				<effect0 id = "0" arg0 = "100.5" arg1 = "50.1" arg2 = "15" arg3 = "20"/>
-				<effect1 id = "1" arg0 = "11.6" arg1 = "0.0" arg2 = "20" arg3 = "0"/>
+				<effect id = "0" arg0 = "100.5" arg1 = "50.1" arg2 = "15" arg3 = "20"/>
+				<effect id = "1" arg0 = "11.6" arg1 = "0.0" arg2 = "20" arg3 = "0"/>
+				<effect id = "1" arg0 = "11.6" arg1 = "0.0" arg2 = "20" arg3 = "0"/>
+				<effect id = "1" arg0 = "11.6" arg1 = "0.0" arg2 = "20" arg3 = "0"/>
+				
+			</effect_set>
+		</item>
+	</item_set>
+	<item_set format="1">
+		<item id = "3" tier = "1" uses = "0" maxUses = "10" cooldown = "15">
+			<name>Potion of Testing</name>
+			<flavor>Validate all the data structures!</flavor>
+			<sprite>data/item/potion_01a.png</sprite>
+			<effect_set>
+				<effect id = "0" arg0 = "100.5" arg1 = "50.1" arg2 = "15" arg3 = "20"/>
 			</effect_set>
 		</item>
 	</item_set>

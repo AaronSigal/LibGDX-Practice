@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
 import com.badlogic.gdx.Gdx;
 import com.roguelike.lootly.Lootly;
 import com.roguelike.lootly.item.Item;
+import com.roguelike.lootly.item.ItemConsumable;
 
 //Loads items into the itemList HashMap by parsing them out of .xml files located within /assets/config/. For formatting, see "exampleItemManifest.xml"
 public class StrategyLoadItemList implements LoadStrategy {
@@ -57,7 +58,39 @@ public class StrategyLoadItemList implements LoadStrategy {
 		            
 		            
 		            if (format == 0) { //if the item being loaded has a generic base-item structure (as defined by its item_set in its .xml definition)
-		            	Lootly.itemList.put(Integer.parseInt(eElement.getAttribute("id")), new Item(eElement.getElementsByTagName("name").item(0).getTextContent(), eElement.getElementsByTagName("flavor").item(0).getTextContent(), eElement.getElementsByTagName("sprite").item(0).getTextContent(), Integer.parseInt(eElement.getAttribute("id")), Integer.parseInt(eElement.getAttribute("tier"))));
+		            	Lootly.itemList.put(Integer.parseInt(eElement.getAttribute("id")), 
+		            						new Item(eElement.getElementsByTagName("name").item(0).getTextContent(), 
+		            								 eElement.getElementsByTagName("flavor").item(0).getTextContent(), 
+		            								 eElement.getElementsByTagName("sprite").item(0).getTextContent(), 
+		            								 Integer.parseInt(eElement.getAttribute("id")), 
+		            								 Integer.parseInt(eElement.getAttribute("tier"))));
+		            } else if (format == 1) {
+		            	
+		            	//generate the base consumable
+		            	ItemConsumable item = new ItemConsumable(eElement.getElementsByTagName("name").item(0).getTextContent(), 
+								 eElement.getElementsByTagName("flavor").item(0).getTextContent(), 
+								 eElement.getElementsByTagName("sprite").item(0).getTextContent(), 
+								 Integer.parseInt(eElement.getAttribute("id")), 
+								 Integer.parseInt(eElement.getAttribute("tier")),
+								 Integer.parseInt(eElement.getAttribute("uses")),
+								 Integer.parseInt(eElement.getAttribute("maxUses")),
+								 Integer.parseInt(eElement.getAttribute("cooldown")));
+		            	
+		            	//Iterate through effects
+		            	Node childNode = eElement.getElementsByTagName("effect_set").item(0).getFirstChild();    
+		                while( childNode.getNextSibling()!=null ){          
+		                    childNode = childNode.getNextSibling();         
+		                    if (childNode.getNodeType() == Node.ELEMENT_NODE) {         
+		                        Element childElement = (Element) childNode;
+		                        System.out.println("An effect has been found! Configuration:");
+		                        System.out.println("id = "   + childElement.getAttribute("id")
+		                        				+ "\narg0 = " + childElement.getAttribute("arg0")
+		                        				+ "\narg1 = " + childElement.getAttribute("arg1")
+		                        				+ "\narg2 = " + childElement.getAttribute("arg2")
+		                        				+ "\narg3 = " + childElement.getAttribute("arg3"));
+		                        item.addEffect(Lootly.effectList.get(Integer.parseInt(childElement.getAttribute("id"))));
+		                    }
+		                }
 		            }
 		        }
 			}  
