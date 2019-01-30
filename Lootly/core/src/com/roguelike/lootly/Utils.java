@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 // A collection of utility methods that will likely be used in multiple places throughout the code base. All inclusions into Utils should be generalized as much as possible to allow for maximum flexibility.
 public class Utils {
@@ -20,4 +21,9 @@ public class Utils {
 		return font;
 	}
 	
+	public static Skin getSkin() {
+		Skin skin = new Skin(Gdx.files.internal("data/gui/skin/LootlyV1/LootlyV1.json"));
+		skin.add("default-font", getFont(50), BitmapFont.class);
+		return skin;
+	}
 }

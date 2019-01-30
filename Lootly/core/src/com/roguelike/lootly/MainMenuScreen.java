@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.roguelike.lootly.character.Classes;
@@ -26,11 +27,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	private Sprite titleSprite;
 	ActorMainMenuFrame menuFrame; //the image the spheres for class selection are superimposed upon
 	ActorClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
-	Button playButton;
+	TextButton playButton;
 	BitmapFont font = Utils.getFont(36);
 	Classes playerClass;
-	Skin skin = new Skin(Gdx.files.internal("data/gui/skin/LootlyV1/LootlyV1.json"));
+	Skin skin = Utils.getSkin();
 	
+	final String PLAY_BUTTON_TEXT = "PLAY";
 	final float MAIN_MENU_SCALE = 3f;
 	
 	Music menuMusic;  //background music: http://freemusicarchive.org/music/Rolemusic/The_Black_Dot/The_Black_Kitty
@@ -42,7 +44,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		stage = new Stage(game.viewport);
 		
 		//*********** Play Button Instantiation *****************
-		playButton = new Button(skin);
+		playButton = new TextButton(PLAY_BUTTON_TEXT, skin);
 		playButton.addListener(new ChangeListener() {
 	        @Override
 	        public void changed (ChangeEvent event, Actor actor) {
