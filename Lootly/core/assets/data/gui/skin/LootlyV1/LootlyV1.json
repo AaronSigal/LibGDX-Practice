@@ -51,6 +51,15 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		background: Button
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: FutilePro
+		fontColor: White
+		downFontColor: DarkGrey
+		up: Button
+		down: Button_Pressed
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: FutilePro
