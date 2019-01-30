@@ -3,7 +3,7 @@ atlasData: {
 	atlasCurrent: true
 	drawables: [
 		{
-			file: C:/Dev/LibGDX Project - Lootly/LibGDX-Practice/raw-assets/sprites/Misc/Gui/Button.png
+			file: C:/Dev/LibGDX-Practice/raw-assets/sprites/Misc/Gui/Button.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -20,7 +20,7 @@ atlasData: {
 			customized: false
 		}
 		{
-			file: C:/Dev/LibGDX Project - Lootly/LibGDX-Practice/raw-assets/sprites/Misc/Gui/Button_Pressed.png
+			file: C:/Dev/LibGDX-Practice/raw-assets/sprites/Misc/Gui/Button_Pressed.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -37,7 +37,7 @@ atlasData: {
 			customized: false
 		}
 		{
-			file: C:/Dev/LibGDX Project - Lootly/LibGDX-Practice/raw-assets/sprites/Misc/Gui/Button_Disabled.png
+			file: C:/Dev/LibGDX-Practice/raw-assets/sprites/Misc/Gui/Button_Disabled.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1330,21 +1330,21 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: FutilePro
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: true
-						value: null
+						value: White
 					}
 					downFontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: downFontColor
 						optional: true
-						value: null
+						value: DarkGrey
 					}
 					overFontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1379,14 +1379,14 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: up
 						optional: true
-						value: null
+						value: Button
 					}
 					down: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: down
 						optional: true
-						value: null
+						value: Button_Pressed
 					}
 					over: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1724,5 +1724,5 @@ preferences: {
 		value: false
 	}
 }
-saveFile: C:/Dev/LibGDX Project - Lootly/LibGDX-Practice/raw-assets/skin/LootlyV1/Lootly V1.scmp
+saveFile: C:/Dev/LibGDX-Practice/raw-assets/skin/LootlyV1/Lootly V1.scmp
 }
