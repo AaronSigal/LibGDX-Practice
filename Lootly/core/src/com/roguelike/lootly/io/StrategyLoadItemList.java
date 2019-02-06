@@ -54,6 +54,12 @@ public class StrategyLoadItemList implements LoadStrategy {
 		                System.out.println("Name: " + eElement.getElementsByTagName("name").item(0).getTextContent());
 		                System.out.println("flavor text: " + eElement.getElementsByTagName("flavor").item(0).getTextContent());
 		                System.out.println("sprite: " + eElement.getElementsByTagName("sprite").item(0).getTextContent());
+		                
+		                if (Lootly.itemList.containsKey(Integer.parseInt(eElement.getAttribute("id")))) {
+			            	System.out.println("[ERROR]: An item already exists at this id!");
+			            	System.exit(-1);
+		                }
+		                
 		            } //end of debugging statements
 		            
 		            
@@ -92,6 +98,8 @@ public class StrategyLoadItemList implements LoadStrategy {
 		                    }
 		                }
 		            }
+		            
+		            
 		        }
 			}  
 		} catch (Exception e) {
