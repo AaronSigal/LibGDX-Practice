@@ -9,7 +9,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-import com.badlogic.gdx.Gdx;
 import com.roguelike.lootly.Lootly;
 import com.roguelike.lootly.item.Item;
 import com.roguelike.lootly.item.ItemConsumable;

@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -12,8 +11,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.rits.cloning.Cloner;
 import com.roguelike.lootly.io.LoadContext;
 import com.roguelike.lootly.io.StrategyLoadItemList;
-import com.roguelike.lootly.item.ConfigurableEffect;
 import com.roguelike.lootly.item.Item;
+import com.roguelike.lootly.item.ItemEffects.ConfigurableEffect;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.Gdx;
 

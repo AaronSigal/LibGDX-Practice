@@ -2,6 +2,8 @@ package com.roguelike.lootly.item;
 
 import java.util.ArrayList;
 
+import com.roguelike.lootly.item.ItemEffects.ConfigurableEffect;
+
 public class ItemConsumable extends Item {
 	
 	int uses; //uses of the item
