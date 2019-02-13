@@ -21,6 +21,7 @@ public class Utils {
 		return font;
 	}
 	
+	//@return returns a preformatted skin object.
 	public static Skin getSkin() {
 		Skin skin = new Skin(Gdx.files.internal("data/gui/skin/LootlyV1/LootlyV1.json"));
 		skin.add("default-font", getFont(100), BitmapFont.class);

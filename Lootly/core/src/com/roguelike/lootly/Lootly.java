@@ -23,7 +23,8 @@ public class Lootly extends Game {
 	public Viewport viewport_game;
 	public Viewport viewport_ui;
 	public Camera camera;
-	public static HashMap<Integer, Item> itemList = new HashMap<Integer, Item>();
+	public static HashMap<Integer, Item> itemList = new HashMap<Integer, Item>(); //stores all static items. Randomly generated items that need to be referenced later are stored elsewhere.
+	public static HashMap<Integer, Item> generatableList = new HashMap<Integer, Item>(); //stores all dynamic items (those that are randomly generated and need to be remembered between play sessions)
 	public static HashMap<Integer, ConfigurableEffect> effectList = new HashMap<Integer, ConfigurableEffect>();
 	public static Cloner cloner = new Cloner();
 	

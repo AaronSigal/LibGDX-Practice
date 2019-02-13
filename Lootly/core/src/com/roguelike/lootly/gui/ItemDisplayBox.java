@@ -1,6 +1,5 @@
 package com.roguelike.lootly.gui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.roguelike.lootly.Utils;
 import com.roguelike.lootly.item.Item;
 
 public class ItemDisplayBox extends VerticalGroup {
@@ -15,7 +15,7 @@ public class ItemDisplayBox extends VerticalGroup {
 	Label nameLabel;
 	Label flavorLabel;
 	Image itemImage;
-	Skin skin = new Skin(Gdx.files.internal("data/gui/skin/LootlyV1/LootlyV1.json"));
+	Skin skin = Utils.getSkin();
 	
 	public ItemDisplayBox(Item item) {
 		this.item = item;
@@ -27,8 +27,6 @@ public class ItemDisplayBox extends VerticalGroup {
 		itemImage.setScale(4f);
 		nameLabel.setFontScale(1f);
 		flavorLabel.setFontScale(0.5f);
-		
-		
 		
 		//****** origin adjustments *******//
 		itemImage.setOrigin(Align.bottom);
