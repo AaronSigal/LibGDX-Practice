@@ -1,6 +1,5 @@
 package com.roguelike.lootly.gui.mainmenu;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,8 +24,6 @@ public class ActorMainMenuFrame extends Actor {
 	//method that draws the actor
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
-		Color color = getColor();
-		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 		batch.draw(getSprite(), getX(), getY(), getOriginX(), getOriginY(),
 			getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
