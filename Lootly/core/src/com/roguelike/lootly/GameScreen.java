@@ -18,9 +18,13 @@ public class GameScreen implements Screen, InputProcessor {
 	private Stage uiStage;//stage that contains all the UI elements
 	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(0))); //TODO: Remove debugging object
 	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(1)));
-	ActorOptionsGear optionsGear;
+	ActorOptionsGear escapeMenuGear;
 	ActorEscapeMenu escapeMenu;
 	InputMultiplexer multiplexer;
+	
+	//Scales
+	final float ESCAPE_MENU_SCALE = 10f;
+	final float ESCAPE_MENU_GEAR_SCALE = 4f;
 	
 
 	
@@ -28,12 +32,15 @@ public class GameScreen implements Screen, InputProcessor {
 		this.game = game;
 		gameStage = new Stage(game.viewport_game);
 		uiStage = new Stage(game.viewport_ui);
+		
+		//Add support for taking input from multiple stages at once
 		multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(gameStage);
 		multiplexer.addProcessor(uiStage);
 		
-		escapeMenu = new ActorEscapeMenu(); escapeMenu.setVisible(false); escapeMenu.setTouchable(Touchable.disabled); escapeMenu.setOrigin(Align.center);
-		optionsGear = new ActorOptionsGear(escapeMenu); optionsGear.setScale(4f);
+		//Enable the escape menu
+		escapeMenu = new ActorEscapeMenu(); escapeMenu.setVisible(false); escapeMenu.setTouchable(Touchable.disabled); escapeMenu.setOrigin(Align.center); escapeMenu.setScale(ESCAPE_MENU_SCALE);
+		escapeMenuGear = new ActorOptionsGear(escapeMenu); escapeMenuGear.setScale(ESCAPE_MENU_GEAR_SCALE); 
 	}
 
 	@Override
@@ -41,26 +48,26 @@ public class GameScreen implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(multiplexer);
 		
 		//Actor instantiation
-		
 		itemBox.setX(Gdx.graphics.getWidth()/2);
 		itemBox.setY(Gdx.graphics.getHeight()/2);
 		itemBoxClone.setX(Gdx.graphics.getWidth()/2 + 300);
 		itemBoxClone.setY(Gdx.graphics.getHeight()/2);
 		
-		optionsGear.setPosition(10, Gdx.graphics.getHeight() - 70);
+		escapeMenuGear.setPosition(10, Gdx.graphics.getHeight() - 70);
+		escapeMenu.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		
 		//Actor staging
 		gameStage.addActor(itemBox);
 		gameStage.addActor(itemBoxClone);
 		uiStage.addActor(escapeMenu);
-		uiStage.addActor(optionsGear);
+		uiStage.addActor(escapeMenuGear);
 	}
 
 	@Override
 	public void render(float delta) {
 		game.batch.setProjectionMatrix(game.viewport_game.getCamera().combined);
 		
-		Gdx.gl.glClearColor(1f, 0, 0.2f, 1);
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		uiStage.act(delta);                  
