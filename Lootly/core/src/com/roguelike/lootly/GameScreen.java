@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
-import com.roguelike.lootly.gui.ActorEscapeMenu;
-import com.roguelike.lootly.gui.ActorOptionsGear;
+import com.roguelike.lootly.gui.EscapeMenu;
+import com.roguelike.lootly.gui.OptionsGear;
 import com.roguelike.lootly.gui.ItemDisplayBox;
 
 public class GameScreen implements Screen, InputProcessor {
@@ -18,8 +18,8 @@ public class GameScreen implements Screen, InputProcessor {
 	private Stage uiStage;//stage that contains all the UI elements
 	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(0))); //TODO: Remove debugging object
 	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(1)));
-	ActorOptionsGear escapeMenuGear;
-	ActorEscapeMenu escapeMenu;
+	OptionsGear escapeMenuGear;
+	EscapeMenu escapeMenu;
 	InputMultiplexer multiplexer;
 	
 	//Scales
@@ -39,8 +39,8 @@ public class GameScreen implements Screen, InputProcessor {
 		multiplexer.addProcessor(uiStage);
 		
 		//Enable the escape menu
-		escapeMenu = new ActorEscapeMenu(); escapeMenu.setVisible(false); escapeMenu.setTouchable(Touchable.disabled); escapeMenu.setOrigin(Align.center); escapeMenu.setScale(ESCAPE_MENU_SCALE);
-		escapeMenuGear = new ActorOptionsGear(escapeMenu); escapeMenuGear.setScale(ESCAPE_MENU_GEAR_SCALE); 
+		escapeMenu = new EscapeMenu(); escapeMenu.setVisible(false);; escapeMenu.setTouchable(Touchable.disabled); escapeMenu.setOrigin(Align.center); escapeMenu.setScale(ESCAPE_MENU_SCALE);
+		escapeMenuGear = new OptionsGear(escapeMenu); escapeMenuGear.setScale(ESCAPE_MENU_GEAR_SCALE); 
 	}
 
 	@Override

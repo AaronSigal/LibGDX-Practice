@@ -25,9 +25,9 @@
 	
 	
 	<!-- Consumables:
-		Consumable declerations are more complex than base item declerations. There's many more fields to manage, and more attributes to configure. The good news is that 
+		Consumable decelerations are more complex than base item decelerations. There's many more fields to manage, and more attributes to configure. The good news is that 
 		most of the time, these consumables *won't* be written by a person. They will be the product of a random generator. Still though, it may be useful to understand the
-		structure of the consumable xml decleration. By this point, a pattern should emerge: all int-values are delcared as attributes in the <item> tag, and all more complex
+		structure of the consumable xml deceleration. By this point, a pattern should emerge: all int-values are declared as attributes in the <item> tag, and all more complex
 		values are declared in their own tag within the <item>.
 	-->
 	<item_set format="1">

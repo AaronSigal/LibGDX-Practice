@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.roguelike.lootly.character.Classes;
-import com.roguelike.lootly.gui.mainmenu.ActorClassSphere;
-import com.roguelike.lootly.gui.mainmenu.ActorMainMenuFrame;
+import com.roguelike.lootly.gui.mainmenu.ClassSphere;
+import com.roguelike.lootly.gui.mainmenu.MainMenuFrame;
 
 public class MainMenuScreen implements Screen, InputProcessor {	
 	final Lootly game;
@@ -24,8 +24,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	private Texture background;
 	private Texture titleTexture;
 	private Sprite titleSprite;
-	ActorMainMenuFrame menuFrame; //the image the spheres for class selection are superimposed upon
-	ActorClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
+	MainMenuFrame menuFrame; //the image the spheres for class selection are superimposed upon
+	ClassSphere[] classSpheres;//array to hold all the spheres for class selection on the main menu
 	TextButton playButton;
 	BitmapFont font = Utils.getFont(36);
 	Classes playerClass;
@@ -74,7 +74,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		//Actor instantiation
 		
 		//******************************** menu frame ****************************
-		menuFrame = new ActorMainMenuFrame();                                  //*
+		menuFrame = new MainMenuFrame();                                  //*
 		menuFrame.setScale(MAIN_MENU_SCALE);	                                   //*
 		menuFrame.setOrigin(menuFrame.getWidth()/2, menuFrame.getHeight()/2);  //*
 		menuFrame.spritePos(Gdx.graphics.getWidth()/2 - menuFrame.getWidth()/2,/**/ 
@@ -207,10 +207,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	
 	//initializes all the class spheres. TODO: add support for loading class unlocks from a save files
 	public void initSpheres() {
-		classSpheres = new ActorClassSphere[11];
+		classSpheres = new ClassSphere[11];
 		
 		for (int i = 0; i < classSpheres.length; i++) {
-			classSpheres[i] = new ActorClassSphere(Classes.values()[i]);
+			classSpheres[i] = new ClassSphere(Classes.values()[i]);
 			classSpheres[i].setOrigin(classSpheres[i].getWidth()/2, classSpheres[i].getHeight()/2);
 			
 			//by default, disable all the hybrid classes and the "final" class. This should eventually be replaced with a proper save file. TODO: replace with save functionality

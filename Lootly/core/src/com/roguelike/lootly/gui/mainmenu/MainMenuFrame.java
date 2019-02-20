@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class ActorMainMenuFrame extends Actor {
+public class MainMenuFrame extends Actor {
 	//Textures
 	final Texture menuFrame = new Texture("data/gui/main_menu_no_ball_alt.png");
 		
@@ -13,7 +13,7 @@ public class ActorMainMenuFrame extends Actor {
 	private Sprite sprite;
 	
 	// constructor
-	public ActorMainMenuFrame() {
+	public MainMenuFrame() {
 		// texture/sprite for the actor
 		setSprite(new Sprite(menuFrame));
 		

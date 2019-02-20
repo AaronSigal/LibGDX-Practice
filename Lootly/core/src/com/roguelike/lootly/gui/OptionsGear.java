@@ -8,9 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-public class ActorOptionsGear extends Actor {
+public class OptionsGear extends Actor {
 	
-	ActorEscapeMenu pair; //The actor that gets called to the front of the GUI when this one is pressed
+	EscapeMenu pair; //The actor that gets called to the front of the GUI when this one is pressed
 	
 	//Textures
 	private final Texture gear = new Texture("data/gui/gear.png");
@@ -19,7 +19,7 @@ public class ActorOptionsGear extends Actor {
 	private Sprite sprite = new Sprite(gear);
 	
 	//Constructor
-	public ActorOptionsGear(final ActorEscapeMenu pair) {	
+	public OptionsGear(final EscapeMenu pair) {	
 		this.pair = pair;
 		
 		//set the bounds of the sprite to enable hit detection

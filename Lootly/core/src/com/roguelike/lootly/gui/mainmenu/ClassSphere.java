@@ -15,7 +15,7 @@ import com.roguelike.lootly.Utils;
 import com.roguelike.lootly.character.CharacterClassManager;
 import com.roguelike.lootly.character.Classes;
 
-public class ActorClassSphere extends Actor {
+public class ClassSphere extends Actor {
 	
 		//default character class.
 		Classes playerClass = Classes.values()[0];
@@ -40,7 +40,7 @@ public class ActorClassSphere extends Actor {
 		
 		
 		// constructor
-		public ActorClassSphere(final Classes playerClass) {
+		public ClassSphere(final Classes playerClass) {
 			
 			if (playerClass != null) {
 				this.playerClass = playerClass;
@@ -73,10 +73,10 @@ public class ActorClassSphere extends Actor {
 						 for (Actor actor : actors) {
 							 
 							 //if the current actor being iterated over is an ActorClassSphere
-							 if (actor instanceof ActorClassSphere) {
-								 if (((ActorClassSphere) actor).isEnabled() && !fixed)
+							 if (actor instanceof ClassSphere) {
+								 if (((ClassSphere) actor).isEnabled() && !fixed)
 								 //System.out.println("Clearing other selections");
-								 ((ActorClassSphere) actor).setClicked(false);
+								 ((ClassSphere) actor).setClicked(false);
 							 }
 						 }
 						 setClicked(true); 
