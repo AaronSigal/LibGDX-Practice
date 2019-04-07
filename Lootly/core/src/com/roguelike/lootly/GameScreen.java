@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -22,8 +24,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.roguelike.lootly.character.Classes;
 import com.roguelike.lootly.gameworld.Character;
+import com.roguelike.lootly.gameworld.MyOrthoMap;
 import com.roguelike.lootly.gameworld.Projectile;
+import com.roguelike.lootly.gameworld.WorldMap;
 import com.roguelike.lootly.gui.ItemDisplayBox;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
@@ -46,6 +52,8 @@ public class GameScreen implements Screen, InputProcessor {
     private int fireDelay = 0;
     private final int MAXFIRE = 2;
     
+    private ArrayList<Projectile> prjctl;
+    
     public final float PIXELS_TO_METERS = 100f;//scale of movement speed
     
     public final short PLAYER_ENTITY = 1;
@@ -66,7 +74,7 @@ public class GameScreen implements Screen, InputProcessor {
 		player = new Character(this, Classes.CRUSADER);
 		player2 = new Character(this, Classes.ROGUE);
 		player2.setToEnemy();//testing class to see how enemies work
-		proj = new Projectile[MAXFIRE];
+		prjctl = new ArrayList<Projectile>();
 		createComplexColisions();//makes collisions do more than just displacement
 	}
 
@@ -74,8 +82,10 @@ public class GameScreen implements Screen, InputProcessor {
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
         
+		//Tile Map instantaition
 		tiledMap = new TmxMapLoader().load("maps/Atempt2.tmx");//load in map and create rendered version
-		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		WorldMap.loadWorld(tiledMap);
+		tiledMapRenderer = new MyOrthoMap(tiledMap);
 		
 		//Actor instantiation
 		itemBox.setX(Gdx.graphics.getWidth()/2);
@@ -96,20 +106,16 @@ public class GameScreen implements Screen, InputProcessor {
 		//moves player sprite according to wasd and arrow keys
 		fire = player.getMotionInput();//returns true if mouse is pressed
 		
-		//////////////////////////////Terrible attempt at recursive firing
-		if(fire) {//TODO: make recursive firing easier and less data consuming
-			if(fireDelay != 0){
-				fireDelay--;
-			}
-			else {
-				if(firecount == MAXFIRE - 1)
-					firecount = -1;
-				firecount++;
-				proj[firecount] = new Projectile(this,player);
-				fireDelay = 20;
-			}
+		//////////////////////////Fire projectile at most every 20 renders
+		if(fireDelay != 0){//if shot recently fired skip firing
+			fireDelay--;
 		}
-		///////////////////////////
+		else {
+			if(fire)
+				prjctl.add( new Projectile(this,player) );
+			fireDelay = 20;
+		}
+		//////////////////////////
 		
 		//update world 60 times per second
 		world.step(1f/60f, 6, 2);
@@ -120,9 +126,6 @@ public class GameScreen implements Screen, InputProcessor {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		//Draws Map to Screen
-		tiledMapRenderer.setView((OrthographicCamera) game.camera);//sets the location to draw the map to the location of the camera
-		tiledMapRenderer.render();//draw map
 		
 		//Acts and draws scene
 		stage.act(delta);
@@ -133,22 +136,31 @@ public class GameScreen implements Screen, InputProcessor {
 		if(player2 != null)
 			player2.posSpriteToWorld();
 		
-		for(int i = firecount;i!=-1;i--)
-			proj[firecount].posSpriteToWorld();
+		for(int i = 0; i < prjctl.size(); i++) {
+			prjctl.get(i).posSpriteToWorld();
+			if(!prjctl.get(i).getDuration()) {
+				prjctl.remove(prjctl.get(i));
+				i--;
+			}
+		}
 		///////////////////////////////
 		
-		game.batch.begin();
+		//clear then populate Arraylist of sprites to load under layers
 		
-		for(int i = firecount;i!=-1;i--) 
-			drawSprite(proj[firecount].getSprite());//do so only if sprite exists
+		//clear Arraylist
+		((MyOrthoMap) tiledMapRenderer).clearSprites();
 		
-		drawSprite(player.getSprite());
-		
+		//populate Arraylist
+		for(Projectile p: prjctl) 
+			((MyOrthoMap) tiledMapRenderer).addSprite(p.getSprite());
+		((MyOrthoMap) tiledMapRenderer).addSprite(player.getSprite());
 		if(player2 != null)
-			drawSprite(player2.getSprite());
+			((MyOrthoMap) tiledMapRenderer).addSprite(player2.getSprite());
 		
-		
-		game.batch.end();
+		//Draws Map to Screen
+		tiledMapRenderer.setView((OrthographicCamera) game.camera);//sets the location to draw the map to the location of the camera
+		tiledMapRenderer.render();//draw map
+				
 		
 		
 	}
@@ -257,13 +269,4 @@ public class GameScreen implements Screen, InputProcessor {
 	        }
 	    });
 	}
-	
-	private void drawSprite(Sprite sprite) {
-		game.batch.draw(sprite,    sprite.getX(), sprite.getY(),
-						sprite.getOriginX(),sprite.getOriginY(),
-						sprite.getWidth(),   sprite.getHeight(),
-						sprite.getScaleX(),  sprite.getScaleY(),sprite.getRotation());
-	}
-	
-
 }

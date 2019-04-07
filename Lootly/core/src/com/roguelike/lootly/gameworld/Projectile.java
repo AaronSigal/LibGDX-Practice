@@ -17,13 +17,13 @@ public class Projectile {
     Body body;
     Character player;
     final float SCALE = 3f;
-    float duration;
+    int duration;
     
     public Projectile(GameScreen screen, Character player) {
     	this.screen = screen;
     	this.player = player;
     	makeProjectile();
-    	duration = 1f;
+    	duration = 50;
     }
     
     private void makeProjectile(){
