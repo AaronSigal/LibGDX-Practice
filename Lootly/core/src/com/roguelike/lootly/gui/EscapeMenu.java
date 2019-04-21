@@ -13,8 +13,8 @@ public class EscapeMenu extends Group {
 	final Texture escapeMenu = new Texture("data/gui/escape_menu_no_options.png");
 	final Texture option1 = new Texture("data/gui/word/back.png");
 	final Texture option2 = new Texture("data/gui/word/main_menu.png");
-	final Texture option3 = new Texture("data/gui/");
-	final Texture option4 = new Texture("data/gui/");
+	//final Texture option3 = new Texture("data/gui/");
+	//final Texture option4 = new Texture("data/gui/");
 	VerticalGroup textContainer;
 	Image background;
 	
