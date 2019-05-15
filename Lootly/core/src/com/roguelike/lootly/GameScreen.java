@@ -5,19 +5,23 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 import com.roguelike.lootly.gui.EscapeMenu;
 import com.roguelike.lootly.gui.OptionsGear;
+import com.roguelike.lootly.gui.ToggleButton;
 import com.roguelike.lootly.gui.ItemDisplayBox;
+import com.roguelike.lootly.gui.MenuStrategy;
 
 public class GameScreen implements Screen, InputProcessor {
 	final Lootly game;
 	private Stage gameStage;//stage that contains all the game elements
 	private Stage uiStage;//stage that contains all the UI elements
 	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(0))); //TODO: Remove debugging object
-	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(1)));
+	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.cloner.deepClone(Lootly.itemList.get(1))); //TODO: Remove debugging object
+	ToggleButton tb = new ToggleButton();
 	OptionsGear escapeMenuGear;
 	EscapeMenu escapeMenu;
 	InputMultiplexer multiplexer;
@@ -39,8 +43,9 @@ public class GameScreen implements Screen, InputProcessor {
 		multiplexer.addProcessor(uiStage);
 		
 		//Enable the escape menu
-		escapeMenu = new EscapeMenu(); escapeMenu.setVisible(false);; escapeMenu.setTouchable(Touchable.disabled); escapeMenu.setOrigin(Align.center); escapeMenu.setScale(ESCAPE_MENU_SCALE);
+		escapeMenu = new EscapeMenu(); escapeMenu.setVisible(false); escapeMenu.setTouchable(Touchable.disabled); escapeMenu.setOrigin(Align.center); escapeMenu.setScale(ESCAPE_MENU_SCALE);
 		escapeMenuGear = new OptionsGear(escapeMenu); escapeMenuGear.setScale(ESCAPE_MENU_GEAR_SCALE); 
+		
 	}
 
 	@Override
@@ -59,6 +64,16 @@ public class GameScreen implements Screen, InputProcessor {
 		//Actor staging
 		gameStage.addActor(itemBox);
 		gameStage.addActor(itemBoxClone);
+		
+		gameStage.addActor(new ToggleButton(new Texture("data/gui/word/back.png"), new Texture("data/gui/word/back.png"), new MenuStrategy() {
+
+			@Override
+			public void execute() {
+				// TODO Auto-generated method stub
+				
+			}
+		}));
+		
 		uiStage.addActor(escapeMenu);
 		uiStage.addActor(escapeMenuGear);
 	}
