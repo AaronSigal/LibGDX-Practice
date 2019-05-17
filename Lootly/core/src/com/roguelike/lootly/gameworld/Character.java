@@ -17,13 +17,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.roguelike.lootly.character.CharacterClassManager;
 import com.roguelike.lootly.character.Classes;
 import com.roguelike.lootly.GameScreen;
+import com.roguelike.lootly.gameworld.WorldColisionType;
 
 public class Character {
-	Sprite sprite;
-	GameScreen screen;
-    Body body;
-    Classes classes;
-    final float SCALE = 3f;
+	private Sprite sprite;
+	private GameScreen screen;
+    private Body body;
+    private Classes classes;
+    private final float SCALE = 3f;
     
     public Character(GameScreen screen, Classes character) {
     	this.screen = screen;
@@ -56,8 +57,8 @@ public class Character {
 	    FixtureDef fixtureDef = new FixtureDef();
 	    fixtureDef.shape = shape;//define shape of body
 	    fixtureDef.density = 1f;//define weight of body
-	    fixtureDef.filter.categoryBits = screen.PLAYER_ENTITY;//set collision group
-	    fixtureDef.filter.maskBits = screen.CREEP_PROJECTILE;//set group to collide with
+	    fixtureDef.filter.categoryBits = WorldColisionType.PLAYER_ENTITY.getType();//set collision group
+	    fixtureDef.filter.maskBits = WorldColisionType.CREEP_PROJECTILE.getType();//set group to collide with
 	    
 	    //Fixture is assigned to body
 	    body.createFixture(fixtureDef);
@@ -110,8 +111,8 @@ public class Character {
     	FixtureDef fixtureDef = new FixtureDef();
 	    fixtureDef.shape = shape;
 	    fixtureDef.density = 10f;
-	    fixtureDef.filter.categoryBits = screen.CREEP_ENTITY;
-	    fixtureDef.filter.maskBits = screen.PLAYER_PROJECTILE;
+	    fixtureDef.filter.categoryBits = WorldColisionType.CREEP_ENTITY.getType();//set collision group
+	    fixtureDef.filter.maskBits = WorldColisionType.PLAYER_PROJECTILE.getType();//set group to collide with
 	    
     	body.createFixture(fixtureDef);
     }

@@ -12,12 +12,14 @@ import com.roguelike.lootly.GameScreen;
 import com.roguelike.lootly.Lootly;
 
 public class Projectile {
-	Sprite sprite;
-	GameScreen screen;
-    Body body;
-    Character player;
+	private Sprite sprite;
+	private GameScreen screen;
+    private Body body;
+    private Character player;
+    
     final float SCALE = 3f;
-    int duration;
+    
+    private int duration;
     
     public Projectile(GameScreen screen, Character player) {
     	this.screen = screen;
@@ -28,7 +30,10 @@ public class Projectile {
     
     private void makeProjectile(){
 		sprite = new Sprite(new Texture("character/rogue/rogue_projectile.png"));
-		sprite.setPosition(player.sprite.getX(),player.sprite.getY());
+		
+		Sprite pSprite = player.getSprite();
+		
+		sprite.setPosition(pSprite.getX(),pSprite.getY());
 		sprite.setScale(SCALE);
 		
 		//define body type and location
@@ -50,8 +55,8 @@ public class Projectile {
 	    FixtureDef fixtureDef = new FixtureDef();
 	    fixtureDef.shape = shape;//define shape of body
 	    //fixtureDef.density = .1f;//define weight of body
-	    fixtureDef.filter.categoryBits = screen.PLAYER_PROJECTILE;//set collision group
-	    fixtureDef.filter.maskBits = screen.CREEP_ENTITY;//set group to collide with
+	    fixtureDef.filter.categoryBits = WorldColisionType.PLAYER_PROJECTILE.getType();//set collision group
+	    fixtureDef.filter.maskBits = WorldColisionType.CREEP_ENTITY.getType();//set group to collide with
 	    
 	    //Fixture is assigned to body
 	    body.createFixture(fixtureDef);
@@ -60,10 +65,10 @@ public class Projectile {
 	    //world starts at bottom of screen and travels up
 	    //mouse in starts at middle of screen and travels down
 	    //this complicates mouse to world conversions subsequently involving render height
-	    Vector2 dir = new Vector2( (float)Gdx.input.getX() - (float)player.sprite.getX(),
-	    	Lootly.RENDER_HEIGHT - (float)Gdx.input.getY() - (float)player.sprite.getY());
+	    Vector2 dir = new Vector2( (float)Gdx.input.getX() - (float)pSprite.getX(),
+	    	Lootly.RENDER_HEIGHT - (float)Gdx.input.getY() - (float)pSprite.getY());
 	    
-	    dir.nor().scl(7.0f);//projectile speed
+	    dir.nor().scl(7.0f);//Projectile velocity: input vector is normalized then scaled
 	    
 	    //body.setTransform(sprite.getX()/screen.PIXELS_TO_METERS,sprite.getY()/screen.PIXELS_TO_METERS,dir.angleRad());//set rotation
 	    body.setTransform(body.getPosition().x,body.getPosition().y,dir.angleRad());//set rotation

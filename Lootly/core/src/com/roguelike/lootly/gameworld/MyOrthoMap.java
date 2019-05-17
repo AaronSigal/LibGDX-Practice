@@ -24,6 +24,10 @@ public class MyOrthoMap extends OrthogonalTiledMapRenderer {
         sprites.add(sprite);
     }
     
+    public void removeSprite(Sprite sprite) {
+    	sprites.remove(sprite);
+    }
+    
     public void clearSprites() {
     	sprites.clear();
     }

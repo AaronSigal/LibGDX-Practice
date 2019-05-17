@@ -47,22 +47,12 @@ public class GameScreen implements Screen, InputProcessor {
     Character player2;
     Projectile proj[];
     
-    private int firecount = -1;//set of vars control projectile firerate
     private boolean fire = false;
     private int fireDelay = 0;
-    private final int MAXFIRE = 2;
     
     private ArrayList<Projectile> prjctl;
     
     public final float PIXELS_TO_METERS = 100f;//scale of movement speed
-    
-    public final short PLAYER_ENTITY = 1;
-    public final short PLAYER_PROJECTILE = 2;
-    public final short CREEP_ENTITY = 3;
-    public final short CREEP_PROJECTILE = 4;
-    public final short WORLD_STATIC = 5;
-    public final short WORLD_DESTRUCTABLE = 6;
-    public final short WORLD_INTERACTABLE = 7;
     
 	ItemDisplayBox itemBox = new ItemDisplayBox(Lootly.itemList.get(1)); //TODO: Remove debugging object
 	ItemDisplayBox itemBoxClone = new ItemDisplayBox(Lootly.itemList.get(1).clone()); //TODO: Remove debugging object	
@@ -86,6 +76,10 @@ public class GameScreen implements Screen, InputProcessor {
 		tiledMap = new TmxMapLoader().load("maps/Atempt2.tmx");//load in map and create rendered version
 		WorldMap.loadWorld(tiledMap);
 		tiledMapRenderer = new MyOrthoMap(tiledMap);
+		
+		//load player sprites into world
+		((MyOrthoMap) tiledMapRenderer).addSprite(player.getSprite());
+		((MyOrthoMap) tiledMapRenderer).addSprite(player2.getSprite());
 		
 		//Actor instantiation
 		itemBox.setX(Gdx.graphics.getWidth()/2);
@@ -111,8 +105,11 @@ public class GameScreen implements Screen, InputProcessor {
 			fireDelay--;
 		}
 		else {
-			if(fire)
-				prjctl.add( new Projectile(this,player) );
+			if(fire) {
+				Projectile p = new Projectile(this,player);
+				prjctl.add(p);
+				((MyOrthoMap) tiledMapRenderer).addSprite(p.getSprite());
+			}
 			fireDelay = 20;
 		}
 		//////////////////////////
@@ -137,25 +134,15 @@ public class GameScreen implements Screen, InputProcessor {
 			player2.posSpriteToWorld();
 		
 		for(int i = 0; i < prjctl.size(); i++) {
-			prjctl.get(i).posSpriteToWorld();
-			if(!prjctl.get(i).getDuration()) {
-				prjctl.remove(prjctl.get(i));
+			Projectile p = prjctl.get(i);
+			p.posSpriteToWorld();
+			if(!p.getDuration()) {
+				((MyOrthoMap) tiledMapRenderer).removeSprite(p.getSprite());//remove projectile sprite from display ArrayList
+				prjctl.remove(p);
 				i--;
 			}
 		}
 		///////////////////////////////
-		
-		//clear then populate Arraylist of sprites to load under layers
-		
-		//clear Arraylist
-		((MyOrthoMap) tiledMapRenderer).clearSprites();
-		
-		//populate Arraylist
-		for(Projectile p: prjctl) 
-			((MyOrthoMap) tiledMapRenderer).addSprite(p.getSprite());
-		((MyOrthoMap) tiledMapRenderer).addSprite(player.getSprite());
-		if(player2 != null)
-			((MyOrthoMap) tiledMapRenderer).addSprite(player2.getSprite());
 		
 		//Draws Map to Screen
 		tiledMapRenderer.setView((OrthographicCamera) game.camera);//sets the location to draw the map to the location of the camera

@@ -17,16 +17,14 @@ public class WorldMap {
 				for(int y = 0; y != height; y++) {
 					for(int x = 0; x != width; x++) {
 						cell = ((TiledMapTileLayer) layer).getCell(x,y);
-						if(cell != null)
+						if(cell != null) {
 							id = cell.getTile().getId();
-						else
-							id = 0;
-						System.out.print( id + " ");
+							//check if ID matches objects and load apropriate objects
+							
+						}
 					}
-					System.out.println();
 				}
 			}
-			System.out.println("layer done");
 		}
 	}
 }
