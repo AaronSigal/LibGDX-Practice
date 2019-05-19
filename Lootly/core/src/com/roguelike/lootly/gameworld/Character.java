@@ -1,5 +1,7 @@
 package com.roguelike.lootly.gameworld;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -10,10 +12,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.roguelike.lootly.character.CharacterClassManager;
 import com.roguelike.lootly.character.Classes;
 import com.roguelike.lootly.GameScreen;
@@ -57,8 +61,8 @@ public class Character {
 	    FixtureDef fixtureDef = new FixtureDef();
 	    fixtureDef.shape = shape;//define shape of body
 	    fixtureDef.density = 1f;//define weight of body
-	    fixtureDef.filter.categoryBits = WorldColisionType.PLAYER_ENTITY.getType();//set collision group
-	    fixtureDef.filter.maskBits = WorldColisionType.CREEP_PROJECTILE.getType();//set group to collide with
+	    fixtureDef.filter.categoryBits = WorldColisionType.CATEGORY_PLAYER_ENTITY.getType();//set collision group
+	    fixtureDef.filter.maskBits = WorldColisionType.MASK_PLAYER_ENTITY.getType();//set group to collide with
 	    
 	    //Fixture is assigned to body
 	    body.createFixture(fixtureDef);
@@ -93,26 +97,30 @@ public class Character {
     	if(body1 == body) {
         	//TODO: reduce health by amount listed on projectile
         	//and delete projectile (body at fixtureB)
-    		System.out.println("player hit");
+    		System.out.println("player hit b1");
         	return true;
         }
         if(body2 == body) {
         	//TODO: reduce health by amount listed on projectile
         	//and delete projectile (body at fixtureA)
-    		System.out.println("player hit");
+    		System.out.println("player hit b2");
         	return true;
         }
         return false;
     }
     public void setToEnemy() {//testing class which creates a new fixture of type enemy for the player to colide with
+    	Array<Fixture> fixtures = body.getFixtureList();
+    	System.out.println(fixtures.removeIndex(0));
+    	System.out.println("p2 set to enemy");
+    	
     	PolygonShape shape = new PolygonShape();
 	    shape.setAsBox(sprite.getWidth()/2  / screen.PIXELS_TO_METERS * SCALE / 2, 
 	    			   sprite.getHeight()/2 / screen.PIXELS_TO_METERS * SCALE);
     	FixtureDef fixtureDef = new FixtureDef();
 	    fixtureDef.shape = shape;
 	    fixtureDef.density = 10f;
-	    fixtureDef.filter.categoryBits = WorldColisionType.CREEP_ENTITY.getType();//set collision group
-	    fixtureDef.filter.maskBits = WorldColisionType.PLAYER_PROJECTILE.getType();//set group to collide with
+	    fixtureDef.filter.categoryBits = WorldColisionType.CATEGORY_CREEP_ENTITY.getType();//set collision group
+	    fixtureDef.filter.maskBits = WorldColisionType.MASK_CREEP_ENTITY.getType();//set group to collide with
 	    
     	body.createFixture(fixtureDef);
     }

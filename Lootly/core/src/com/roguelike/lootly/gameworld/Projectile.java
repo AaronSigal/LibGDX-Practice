@@ -31,8 +31,10 @@ public class Projectile {
     private void makeProjectile(){
 		sprite = new Sprite(new Texture("character/rogue/rogue_projectile.png"));
 		
+		//get player sprite location
 		Sprite pSprite = player.getSprite();
 		
+		//set projectile sprite location to player sprite location and scale
 		sprite.setPosition(pSprite.getX(),pSprite.getY());
 		sprite.setScale(SCALE);
 		
@@ -55,8 +57,8 @@ public class Projectile {
 	    FixtureDef fixtureDef = new FixtureDef();
 	    fixtureDef.shape = shape;//define shape of body
 	    //fixtureDef.density = .1f;//define weight of body
-	    fixtureDef.filter.categoryBits = WorldColisionType.PLAYER_PROJECTILE.getType();//set collision group
-	    fixtureDef.filter.maskBits = WorldColisionType.CREEP_ENTITY.getType();//set group to collide with
+	    fixtureDef.filter.categoryBits = WorldColisionType.CATEGORY_PLAYER_PROJECTILE.getType();//set collision group
+	    fixtureDef.filter.maskBits = WorldColisionType.MASK_PLAYER_PROJECTILE.getType();//set group to collide with
 	    
 	    //Fixture is assigned to body
 	    body.createFixture(fixtureDef);
