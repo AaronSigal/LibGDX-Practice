@@ -34,6 +34,29 @@ public class CharacterClassManager {
 		return sprite;
 	}
 	
+	public static Sprite getClassProjectileSprite(Classes characterClass) {
+		Sprite sprite = null;
+		
+		switch (characterClass) {
+		
+			case CRUSADER:
+				sprite = new Sprite(new Texture("character/crusader/crusader_projectile1.png"));
+			break;
+			case ROGUE:
+				sprite = new Sprite(new Texture("character/rogue/rogue_projectile.png"));
+				break;
+			case MAGE:
+				sprite = new Sprite(new Texture("character/crusader/crusader_projectile1.png"));
+				break;
+			default:
+				sprite = new Sprite(new Texture("character/crusader/crusader_idle_down.png"));
+				break;
+		}
+		
+		return sprite;
+	}
+	
+	
 	public static void savePlayerProgress() {
 		//TODO: Implement saving of character progress. Level, Items, stored items, etc
 	}

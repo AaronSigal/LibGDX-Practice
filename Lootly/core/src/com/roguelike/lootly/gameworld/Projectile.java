@@ -10,39 +10,24 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.roguelike.lootly.GameScreen;
 import com.roguelike.lootly.Lootly;
+import com.roguelike.lootly.character.CharacterClassManager;
+import com.roguelike.lootly.character.Classes;
 
-public class Projectile {
-	private Sprite sprite;
-	private GameScreen screen;
-    private Body body;
+public class Projectile extends Entity {
+	
     private Character player;
-    
-    final float SCALE = 3f;
-    
+    private float speed = 7.0f;
     private int duration;
     
     public Projectile(GameScreen screen, Character player) {
     	this.screen = screen;
     	this.player = player;
-    	makeProjectile();
     	duration = 50;
-    }
-    
-    private void makeProjectile(){
-		sprite = new Sprite(new Texture("character/rogue/rogue_projectile.png"));
-		
-		//get player sprite location
-		Sprite pSprite = player.getSprite();
-		
-		//set projectile sprite location to player sprite location and scale
-		sprite.setPosition(pSprite.getX(),pSprite.getY());
-		sprite.setScale(SCALE);
-		
+    	
+		sprite = fetchSprite();
+				
 		//define body type and location
-	    BodyDef bodyDef = new BodyDef();//make body in world
-	    bodyDef.type = BodyDef.BodyType.KinematicBody;//define body
-	    bodyDef.position.set((sprite.getX() + sprite.getWidth() /2) / screen.PIXELS_TO_METERS, 
-	    					 (sprite.getY() + sprite.getHeight()/2) / screen.PIXELS_TO_METERS);//set body position to match sprite adjusted position
+	    BodyDef bodyDef = defineBody(sprite, BodyDef.BodyType.KinematicBody);
 
 	    //place body in world
 	    body = screen.world.createBody(bodyDef);//make body in world
@@ -52,28 +37,25 @@ public class Projectile {
 	    shape.setAsBox(sprite.getWidth()/2  / screen.PIXELS_TO_METERS * SCALE * 2f / 3f, 
 	    			   sprite.getHeight()/2 / screen.PIXELS_TO_METERS * SCALE / 4f);//set poly dimension to sprite adjusted size
 	    
-	    //assign shape as hit-box (FixtureDef)
-	    //Note: more than one FixtureDef can be assigned to any body for more than one hitbox
-	    FixtureDef fixtureDef = new FixtureDef();
-	    fixtureDef.shape = shape;//define shape of body
-	    //fixtureDef.density = .1f;//define weight of body
-	    fixtureDef.filter.categoryBits = WorldColisionType.CATEGORY_PLAYER_PROJECTILE.getType();//set collision group
-	    fixtureDef.filter.maskBits = WorldColisionType.MASK_PLAYER_PROJECTILE.getType();//set group to collide with
+	    //assign shape as FixtureDef
+	    FixtureDef fixtureDef = defineFixture(shape, WorldColisionType.CATEGORY_PLAYER_PROJECTILE, WorldColisionType.MASK_PLAYER_PROJECTILE);
 	    
 	    //Fixture is assigned to body
 	    body.createFixture(fixtureDef);
 	    
-	    //projectile direction
+	    //Calculate Player to Mouse vector
 	    //world starts at bottom of screen and travels up
-	    //mouse in starts at middle of screen and travels down
+	    //mouse starts at middle of screen and travels down
 	    //this complicates mouse to world conversions subsequently involving render height
+		Sprite pSprite = player.getSprite();
 	    Vector2 dir = new Vector2( (float)Gdx.input.getX() - (float)pSprite.getX(),
 	    	Lootly.RENDER_HEIGHT - (float)Gdx.input.getY() - (float)pSprite.getY());
 	    
-	    dir.nor().scl(7.0f);//Projectile velocity: input vector is normalized then scaled
+	    //Calculate velocity vector
+	    dir.nor().scl(speed);//Normalize Player to Mouse vector then scale it
 	    
-	    //body.setTransform(sprite.getX()/screen.PIXELS_TO_METERS,sprite.getY()/screen.PIXELS_TO_METERS,dir.angleRad());//set rotation
-	    body.setTransform(body.getPosition().x,body.getPosition().y,dir.angleRad());//set rotation
+	    //set rotation
+	    body.setTransform(body.getPosition().x,body.getPosition().y,dir.angleRad());
 	    
 	    //rotate body to direction of projection and add velocity in that direction
 		body.setLinearVelocity(dir);
@@ -83,11 +65,19 @@ public class Projectile {
 	    
 	    shape.dispose();
     }
+    @Override
+    protected Sprite fetchSprite(){
+		//get player sprite location
+		Sprite pSprite = player.getSprite();
+		
+		//get player projectile sprite
+		Sprite sprite = CharacterClassManager.getClassProjectileSprite(player.getClasses());
 
-    public void posSpriteToWorld() {
-    	sprite.setPosition( (body.getPosition().x * screen.PIXELS_TO_METERS) - sprite.getWidth()/2 ,
-    						(body.getPosition().y * screen.PIXELS_TO_METERS) -sprite.getHeight()/2 );//set sprite position to box postion
-    	sprite.setRotation((float)Math.toDegrees(body.getAngle()));//set sprite rotation to box position
+		//set projectile sprite location to player sprite location and scale
+		sprite.setPosition(pSprite.getX(),pSprite.getY());
+		sprite.setScale(SCALE);
+		
+		return sprite;
     }
     
     public boolean getDuration() {
@@ -95,9 +85,5 @@ public class Projectile {
     	if(duration>0)
     		return true;
     	return false;
-    }
-    
-    public Sprite getSprite() {
-    	return sprite;
     }
 }

@@ -1,52 +1,31 @@
 package com.roguelike.lootly.gameworld;
 
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.roguelike.lootly.character.CharacterClassManager;
 import com.roguelike.lootly.character.Classes;
 import com.roguelike.lootly.GameScreen;
 import com.roguelike.lootly.gameworld.WorldColisionType;
 
-public class Character {
-	private Sprite sprite;
-	private GameScreen screen;
-    private Body body;
-    private Classes classes;
-    private final float SCALE = 3f;
+public class Character extends Entity{
     
+	private Classes classes;
+	
     public Character(GameScreen screen, Classes character) {
     	this.screen = screen;
     	this.classes = character;
-    	makeCharacter();
-    }
-    private void makeCharacter() {
     	//fetch character sprite and scale it
-	    sprite = CharacterClassManager.getClassSprite(classes);
-	    sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
-	            		   Gdx.graphics.getHeight() / 2);
-	    sprite.setScale(SCALE);
+	    sprite = fetchSprite();
 	    
 	    //define body type and location
-	    BodyDef bodyDef = new BodyDef();//make body in world
-	    bodyDef.type = BodyDef.BodyType.DynamicBody;//define body
-	    bodyDef.position.set((sprite.getX() + sprite.getWidth() /2) / screen.PIXELS_TO_METERS, 
-	    					 (sprite.getY() + sprite.getHeight()/2) / screen.PIXELS_TO_METERS);//set body position to match sprite adjusted position
+	    BodyDef bodyDef = defineBody(sprite, BodyDef.BodyType.DynamicBody);
 
 	    //place body in world
 	    body = screen.world.createBody(bodyDef);//make body in world
@@ -58,11 +37,7 @@ public class Character {
 	    
 	    //assign shape as hit-box (FixtureDef)
 	    //Note: more than one FixtureDef can be assigned to any body for more than one hitbox
-	    FixtureDef fixtureDef = new FixtureDef();
-	    fixtureDef.shape = shape;//define shape of body
-	    fixtureDef.density = 1f;//define weight of body
-	    fixtureDef.filter.categoryBits = WorldColisionType.CATEGORY_PLAYER_ENTITY.getType();//set collision group
-	    fixtureDef.filter.maskBits = WorldColisionType.MASK_PLAYER_ENTITY.getType();//set group to collide with
+	    FixtureDef fixtureDef = defineFixture(shape, WorldColisionType.CATEGORY_PLAYER_ENTITY, WorldColisionType.MASK_PLAYER_ENTITY);
 	    
 	    //Fixture is assigned to body
 	    body.createFixture(fixtureDef);
@@ -71,6 +46,14 @@ public class Character {
 	    body.setFixedRotation(true);
 	    
 	    shape.dispose();
+    }
+    @Override
+    protected Sprite fetchSprite(){
+    	Sprite sprite = CharacterClassManager.getClassSprite(classes);
+	    sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
+	            		   Gdx.graphics.getHeight() / 2);
+	    sprite.setScale(SCALE);
+	    return sprite;
     }
     public boolean getMotionInput(){
 		float inpDirX = 0.0f;
@@ -88,30 +71,22 @@ public class Character {
 			return true;
 		return false;
 	}
-    public void posSpriteToWorld() {
-    	sprite.setPosition( (body.getPosition().x * screen.PIXELS_TO_METERS) - sprite.getWidth()/2 ,
-    						(body.getPosition().y * screen.PIXELS_TO_METERS) -sprite.getHeight()/2 );//set sprite position to box postion
-    	sprite.setRotation((float)Math.toDegrees(body.getAngle()));//set sprite rotation to box position
-    }
     public boolean hit(Body body1, Body body2) {
     	if(body1 == body) {
         	//TODO: reduce health by amount listed on projectile
         	//and delete projectile (body at fixtureB)
-    		System.out.println("player hit b1");
         	return true;
         }
         if(body2 == body) {
         	//TODO: reduce health by amount listed on projectile
         	//and delete projectile (body at fixtureA)
-    		System.out.println("player hit b2");
         	return true;
         }
         return false;
     }
     public void setToEnemy() {//testing class which creates a new fixture of type enemy for the player to colide with
     	Array<Fixture> fixtures = body.getFixtureList();
-    	System.out.println(fixtures.removeIndex(0));
-    	System.out.println("p2 set to enemy");
+    	fixtures.removeIndex(0);
     	
     	PolygonShape shape = new PolygonShape();
 	    shape.setAsBox(sprite.getWidth()/2  / screen.PIXELS_TO_METERS * SCALE / 2, 
@@ -124,13 +99,7 @@ public class Character {
 	    
     	body.createFixture(fixtureDef);
     }
-    public Sprite getSprite() {
-    	return sprite;
-    }
     public Classes getClasses() {
     	return classes;
-    }
-    public Body getBody() {
-    	return body;
     }
 }
