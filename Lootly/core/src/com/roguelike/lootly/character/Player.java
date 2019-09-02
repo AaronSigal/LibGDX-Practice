@@ -1,5 +1,7 @@
 package com.roguelike.lootly.character;
 
+import com.roguelike.lootly.classes.Classes;
+
 public class Player {
 	int HP;
 	int maxHP;

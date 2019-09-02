@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.roguelike.lootly.character.Classes;
+import com.roguelike.lootly.classes.Classes;
 import com.roguelike.lootly.gui.mainmenu.ClassSphere;
 import com.roguelike.lootly.gui.mainmenu.MainMenuFrame;
 
@@ -67,9 +67,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		
 		Gdx.input.setInputProcessor(stage);
 		menuMusic.play();
-		
-		
-		
 		
 		//Actor instantiation
 		

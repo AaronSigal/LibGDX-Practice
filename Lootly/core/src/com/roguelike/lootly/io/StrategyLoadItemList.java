@@ -104,8 +104,6 @@ public class StrategyLoadItemList implements LoadStrategy {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	//From Stackoverflow. //TODO: Rewrite to be original code

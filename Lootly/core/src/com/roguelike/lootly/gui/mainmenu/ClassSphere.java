@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.roguelike.lootly.Utils;
 import com.roguelike.lootly.character.CharacterClassManager;
-import com.roguelike.lootly.character.Classes;
+import com.roguelike.lootly.classes.Classes;
 
 public class ClassSphere extends Actor {
 	

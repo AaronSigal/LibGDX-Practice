@@ -1,4 +1,4 @@
-package com.roguelike.lootly.character;
+package com.roguelike.lootly.classes;
 
 //enum for character classes.
 public enum Classes {
