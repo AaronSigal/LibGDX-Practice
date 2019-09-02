@@ -11,9 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 //Both an Actor and a Context for a MenuStrategy object via the Strategy Design Pattern
 public class ToggleButton extends Actor{
 	
-	Texture currentTexture;
-	Texture idleTexture; //Texture the object displays when left alone
-	Texture hoverTexture; //The texture the object displays when the mouse is left above it
+	Sprite currentSprite;
+	Sprite idleSprite; //Texture the object displays when left alone
+	Sprite hoverSprite; //The texture the object displays when the mouse is left above it
+	MenuStrategy action; //The object that holds the functionality destined for the button to carry out when pressed
 	
 	//Do not use. Doesn't add any dummy textures and can cause NPEs!
 	public ToggleButton() {
@@ -21,16 +22,33 @@ public class ToggleButton extends Actor{
 	}
 	
 	//Standard Constructor
-	public ToggleButton(Texture idle, Texture hover) {
-		idleTexture = idle;
-		hoverTexture = hover;
-		currentTexture = idleTexture; //Set the default texture to the idle texture
+	public ToggleButton(Texture idle, Texture hover, final MenuStrategy action) {
+		idleSprite = new Sprite(idle);
+		hoverSprite = new Sprite(hover);
+		currentSprite = new Sprite(idleSprite); //Set the default texture to the idle texture
+		this.action = action;
 		
 		addListener(new InputListener() {
 			 @Override
+			 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				 
+				 if (action != null) {
+					 action.execute();
+				 } else {
+					 System.out.println("Warning! a Toggle Button doesn't have an action to execute!");
+				 }
+				 
+				 
+				 return true;
+			 }
+			
+			 @Override
 			  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-				   if (hoverTexture != null) {
-					   currentTexture = hoverTexture;
+				 
+				 setBounds(currentSprite.getRegionX(), currentSprite.getRegionY(), currentSprite.getRegionWidth(), currentSprite.getRegionHeight());
+				 
+				   if (hoverSprite != null) {
+					   currentSprite = hoverSprite;
 				   } else {
 					   System.out.println("Error! a Toggle Button doesn't have its textures loaded!");
 				   }
@@ -38,20 +56,22 @@ public class ToggleButton extends Actor{
 			  
 			@Override
 			  public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-				if (hoverTexture != null) {
-					   currentTexture = idleTexture;
+				if (idleSprite != null) {
+					   currentSprite = idleSprite;
 				   } else {
 					   System.out.println("Error! a Toggle Button doesn't have its textures loaded!");
 				   }
 			  }
 		
 		});
+		
 	}
+	
+	
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
-		Color color = getColor();
-		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-		batch.draw(new Sprite(currentTexture), getX(), getY(), getOriginX(), getOriginY(),
+		
+		batch.draw(currentSprite, getX(), getY(), getOriginX(), getOriginY(),
 			getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
 	
