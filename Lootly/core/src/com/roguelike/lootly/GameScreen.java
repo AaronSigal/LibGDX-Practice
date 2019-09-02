@@ -122,12 +122,7 @@ public class GameScreen implements Screen, InputProcessor {
 		//Reset Screen
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		
-		//Acts and draws scene
-		stage.act(delta);
-		stage.draw();
-		
+				
 		///////////////////////////////update sprite positioning with world positioning
 		player.posSpriteToWorld();
 		if(player2 != null)
@@ -149,7 +144,10 @@ public class GameScreen implements Screen, InputProcessor {
 		tiledMapRenderer.render();//draw map
 				
 		
-		
+		//Acts and draws scene
+		stage.act(delta);
+		stage.draw();
+
 	}
 
 	@Override

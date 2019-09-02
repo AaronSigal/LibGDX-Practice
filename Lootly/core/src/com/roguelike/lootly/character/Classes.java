@@ -2,17 +2,17 @@ package com.roguelike.lootly.character;
 
 //enum for character classes.
 public enum Classes {
-	PH5,
+	AMALGUM,
 	WARRIOR,
 	CRUSADER,
 	PRIEST,
-	PH1,
-	ARCHER,
-	PH2,
+	CULTIST,
 	ROGUE,
-	PH3,
+	TRAPPER,
+	ARCHER,
+	ENCHANTRESS,
 	MAGE,
-	PH4;
+	WARLOCK;
 }
 
 
