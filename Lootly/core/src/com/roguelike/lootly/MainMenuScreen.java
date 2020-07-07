@@ -79,7 +79,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 		//************************************************************************
 		
 		initSpheres();
-		
+	
 		
 		//Actor staging
 		stage.addActor(menuFrame);

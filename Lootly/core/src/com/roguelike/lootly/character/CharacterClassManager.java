@@ -7,6 +7,7 @@ import com.roguelike.lootly.classes.Archer;
 import com.roguelike.lootly.classes.Classes;
 import com.roguelike.lootly.classes.Crusader;
 import com.roguelike.lootly.classes.Mage;
+import com.roguelike.lootly.classes.Rogue;
 
 //For handling all the character-class specific functions that will likely need to be called in more than one class, and for more than one reason.
 public class CharacterClassManager {
@@ -27,14 +28,14 @@ public class CharacterClassManager {
 
 	public static Sprite getClassSprite(Classes characterClasses) {
 		switch (characterClasses) {
+			case ROGUE:
+				return Rogue.classSprite;
 			case CRUSADER:
-				return Crusader.getClassSprite();
+				return Crusader.classSprite;
 			case ARCHER:
-				return Archer.getClassSprite();
-			case MAGE:
-				return Mage.getClassSprite();
+				return Archer.classSprite;
 			default:
-				return Mage.getClassSprite();
+				return Mage.classSprite;
 		}
 	}
 }
